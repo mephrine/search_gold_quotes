@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:english_words/english_words.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Find Gold Gold!!!',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -22,10 +21,57 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: RandomWords(),
+      // home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
+
+class RandomWordsState extends State<RandomWords> {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Practice Flutter")
+      ),
+      body: _buildSuggestions(),
+    );
+  }
+
+  // Dart언어에서는 식별자 앞에 _를 붙이면 private이 됨.
+  final _suggestion = <WordPair>[];
+  final _biggerFont = const TextStyle(fontSize: 18.0);
+
+  Widget _buildSuggestions() {
+    return ListView.builder(
+        padding: const EdgeInsets.all(16.0),
+        itemBuilder: (context, index) {
+          if (index.isOdd) return Divider();
+
+          final _splitIndex = index ~/ 2;
+          if (_splitIndex >= _suggestion.length)
+            _suggestion.addAll(generateWordPairs().take(10));
+          return _buildRow(_suggestion[_splitIndex]);
+        });
+  }
+
+  Widget _buildRow(WordPair wordPair) {
+    return ListTile(
+      title: Text(
+        wordPair.asPascalCase,
+        style: _biggerFont,
+      ),
+    );
+  }
+}
+
+class RandomWords extends StatefulWidget {
+  @override
+  State createState() => RandomWordsState();
+}
+
+
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -93,9 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
+            RandomWords(),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
