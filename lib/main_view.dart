@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'package:english_words/english_words.dart';
 
-
-
-
 // StatelessWidget -> 상태가 없다! 즉, 한번 그려진 후 다시 그려지지 않는 위젯
 
 // StatefulWidget -> 상태가 있는 위젯! 상태가 변하면 다시 그려진다!
@@ -18,11 +15,12 @@ import 'package:english_words/english_words.dart';
 // 즉, Material 디자인 앱의 뼈대가 되는 Widget
 // Cupertino에서도 Scaffold가 사용은 가능하나, Cupertino~~로 시작하는 위젯들을 사용하면 될 듯?
 
-bool get isAndroid => foundation.defaultTargetPlatform == foundation.TargetPlatform.android;
+bool get isAndroid =>
+    foundation.defaultTargetPlatform == foundation.TargetPlatform.android;
 
 class MainView extends StatelessWidget {
-
   final String title = "Find Gold Gold!!!";
+
   @override
   Widget build(BuildContext context) {
     if (isAndroid)
@@ -32,9 +30,9 @@ class MainView extends StatelessWidget {
   }
 }
 
-
 class MaterialMain extends StatelessWidget {
   final String title;
+
   const MaterialMain(this.title);
 
   @override
@@ -50,6 +48,7 @@ class MaterialMain extends StatelessWidget {
 
 class CupertinoMain extends StatelessWidget {
   final String title;
+
   const CupertinoMain(this.title);
 
   @override
@@ -57,13 +56,11 @@ class CupertinoMain extends StatelessWidget {
     return CupertinoApp(
       theme: CupertinoThemeData(
           primaryColor: Colors.white,
-          scaffoldBackgroundColor: CupertinoColors.darkBackgroundGray
-      ),
+          scaffoldBackgroundColor: CupertinoColors.darkBackgroundGray),
       home: MainContainer(title: this.title),
     );
   }
 }
-
 
 class NavigationBar extends StatelessWidget with PreferredSizeWidget {
   final String title;
@@ -75,18 +72,38 @@ class NavigationBar extends StatelessWidget with PreferredSizeWidget {
     if (isAndroid)
       return AppBar(title: Text(title));
     else
-      return CupertinoNavigationBar(middle: Text(title));
+      return CupertinoNavigationBar(
+          middle: Text(title),
+          leading: Align(
+            widthFactor: 1.0,
+            alignment: Alignment.center,
+            child: NavigationButton("메뉴"),
+          ));
   }
 
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }
 
+class NavigationButton extends StatelessWidget {
+  final String buttonText;
+
+  const NavigationButton(this.buttonText);
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoButton(
+        padding: EdgeInsets.all(0.0),
+        child: Text(this.buttonText),
+        onPressed: () => {});
+  }
+}
+
 class MainTabBar extends StatelessWidget {
   final String title;
   final Color color;
 
-  const MainTabBar({@required this.title,  @required this.color});
+  const MainTabBar({@required this.title, @required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -94,10 +111,8 @@ class MainTabBar extends StatelessWidget {
   }
 }
 
-
 // class
 class MainContainerState extends State<MainContainer> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,13 +150,12 @@ class MainContainerState extends State<MainContainer> {
 
 class MainContainer extends StatefulWidget {
   final String title;
+
   const MainContainer({@required this.title});
 
   @override
   State createState() => MainContainerState();
 }
-
-
 
 // class MyHomePage extends StatefulWidget {
 //   MyHomePage({Key key, this.title}) : super(key: key);
