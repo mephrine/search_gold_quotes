@@ -18,7 +18,7 @@ import 'package:english_words/english_words.dart';
 bool get isAndroid =>
     foundation.defaultTargetPlatform == foundation.TargetPlatform.android;
 
-class MainView extends StatelessWidget {
+class MainScreen extends StatelessWidget {
   final String title = "Find Gold Gold!!!";
 
   @override
