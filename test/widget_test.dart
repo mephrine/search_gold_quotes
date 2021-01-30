@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:search_gold_quotes/main.dart';
-import 'package:search_gold_quotes/main_view.dart';
-import 'package:search_gold_quotes/splash.dart';
+import 'package:search_gold_quotes/pages/main_view.dart';
+import 'package:search_gold_quotes/pages/splash.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

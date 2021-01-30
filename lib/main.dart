@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:search_gold_quotes/splash.dart';
-import 'main_view.dart';
+import 'package:search_gold_quotes/pages/splash.dart';
+import 'pages/main_view.dart';
 
 void main() => runApp(Main());
 

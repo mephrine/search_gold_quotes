@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' as foundation;
+import 'package:search_gold_quotes/utils.dart';
 import 'package:english_words/english_words.dart';
+import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
 
 // StatelessWidget -> 상태가 없다! 즉, 한번 그려진 후 다시 그려지지 않는 위젯
 
@@ -15,15 +16,13 @@ import 'package:english_words/english_words.dart';
 // 즉, Material 디자인 앱의 뼈대가 되는 Widget
 // Cupertino에서도 Scaffold가 사용은 가능하나, Cupertino~~로 시작하는 위젯들을 사용하면 될 듯?
 
-bool get isAndroid =>
-    foundation.defaultTargetPlatform == foundation.TargetPlatform.android;
 
 class MainScreen extends StatelessWidget {
   final String title = "Find Gold Gold!!!";
 
   @override
   Widget build(BuildContext context) {
-    if (isAndroid)
+    if (Utils.isAndroid)
       return MaterialMain(title);
     else
       return CupertinoMain(title);
@@ -74,7 +73,13 @@ class NavigationBar extends StatelessWidget with PreferredSizeWidget {
     else
       return CupertinoNavigationBar(
           middle: Text(title),
-          leading: Align(
+          leading: CupertinoButton(
+            padding: EdgeInsets.all(0),
+            child: Icon(SFSymbols.menu),
+            color: Colors.black,
+            onPressed: () => {},
+          ),
+          trailing: Align(
             widthFactor: 1.0,
             alignment: Alignment.center,
             child: NavigationButton("메뉴"),
