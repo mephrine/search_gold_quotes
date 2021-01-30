@@ -29,6 +29,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.1
   english_words: ^3.1.0
+  flutter_sfsymbols: ^1.0.0
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +64,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
+    - family: sficonsets
+      fonts:
+        - asset: packages/flutter_sfsymbols/fonts/sficonsets.ttf
   # fonts:
   #   - family: Schyler
   #     fonts:
