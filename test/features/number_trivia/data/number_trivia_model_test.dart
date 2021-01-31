@@ -45,7 +45,7 @@ void main() {
   group("toJson", () {
     test("should return a JSON map containing the proper data.", () async {
       // act
-      final result = NumberTriviaModel.toJson(testNumberTriviaModel);
+      final result = testNumberTriviaModel.toJson();
       // assert
       final expectMap = {
         "text": "Test Text",
