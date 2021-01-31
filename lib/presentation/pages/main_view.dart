@@ -68,7 +68,7 @@ class NavigationBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (isAndroid)
+    if (Utils.isAndroid)
       return AppBar(title: Text(title));
     else
       return CupertinoNavigationBar(
