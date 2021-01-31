@@ -32,7 +32,7 @@ dependencies:
   flutter_sfsymbols: ^1.0.0
   riverpod: ^0.12.2
 
-  #test
+  #practice TDD
   get_it: ^5.0.6
   flutter_bloc: ^6.1.1
   equatable: ^1.2.5
@@ -47,7 +47,9 @@ dev_dependencies:
   integration_test:
     sdk: flutter
 
-# For information on the generic Dart part of this file, see the
+  mockito: ^4.1.4
+
+  # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
