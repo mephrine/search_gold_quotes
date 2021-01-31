@@ -7,7 +7,7 @@ import 'package:search_gold_quotes/features/number_trivia/domain/entities/number
 import '../../../fixtures/fixture_reader.dart';
 
 void main() {
-  final testNumberTriviaModel = NumberTriviaModel(number: 1, text: "Test text");
+  final testNumberTriviaModel = NumberTriviaModel(text: "Test Text", number: 1);
 
   test("should be a subclass of NumberTrivia entity",
         () async {
