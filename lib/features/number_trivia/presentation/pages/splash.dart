@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:search_gold_quotes/presentation/pages/main_view.dart';
+import 'package:search_gold_quotes/features/number_trivia/presentation/pages/main_view.dart';
 import 'package:search_gold_quotes/utils.dart';
 
 class SplashScreen extends StatefulWidget {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:search_gold_quotes/presentation/pages/splash.dart';
-import 'presentation/pages/main_view.dart';
+import 'package:search_gold_quotes/features/number_trivia/presentation/pages/splash.dart';
 
 void main() => runApp(Main());
 
