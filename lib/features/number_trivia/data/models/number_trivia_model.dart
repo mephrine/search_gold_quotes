@@ -3,7 +3,11 @@ import 'package:search_gold_quotes/features/number_trivia/domain/entities/number
 
 class NumberTriviaModel extends NumberTrivia {
   NumberTriviaModel({
-    @required int number,
-    @required String text
-  }): super(number: number, text: text);
+    @required String text,
+    @required int number
+  }): super(text: text, number: number);
+
+  factory NumberTriviaModel.fromJson(Map<String, dynamic> json) {
+    return NumberTriviaModel(text: json['text'], number: json['number']);
+  }
 }
