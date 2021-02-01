@@ -4,7 +4,9 @@ import 'package:mockito/mockito.dart';
 import 'package:search_gold_quotes/core/platform/network_info.dart';
 import 'package:search_gold_quotes/features/number_trivia/data/datasources/number_trivia_local_data_source.dart';
 import 'package:search_gold_quotes/features/number_trivia/data/datasources/number_trivia_remote_data_source.dart';
+import 'package:search_gold_quotes/features/number_trivia/data/models/number_trivia_model.dart';
 import 'package:search_gold_quotes/features/number_trivia/data/repositories/number_trivia_repository_impl.dart';
+import 'package:search_gold_quotes/features/number_trivia/domain/entities/number_trivia.dart';
 
 class MockRemoteDataSource extends Mock implements NumberTriviaRemoteDataSource {}
 
@@ -29,5 +31,20 @@ void main() {
       localDataSource: mockLocalDataSource,
       networkInfo: mockNetworkInfo
     );
+  });
+  
+  group('get Concrete Number Trivia', () {
+    final testNumber = 1;
+    final testNumberTriviaModel = NumberTriviaModel(text: 'Test Text', number: testNumber);
+    final NumberTrivia testNumberTrivia = testNumberTriviaModel;
+
+    test('should check if the device is online', () async {
+        // arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        // act
+        repository.getConcreteNumberTrivia(testNumber);
+        // assert
+        verify(mockNetworkInfo.isConnected);
+     });
   });
 }
