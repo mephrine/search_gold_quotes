@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:mockito/mockito.dart';
@@ -95,6 +96,18 @@ void main() {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
       });
 
+      test('should return last locally cached data when the cached data is present', () async {
+          // arrange
+          when(mockLocalDataSource.getLastNumberTrivia())
+              .thenAnswer((_) async => testNumberTriviaModel);
+          // act
+          final result = await repository.getConcreteNumberTrivia(testNumber);
+
+          // assert
+          verifyZeroInteractions(mockRemoteDataSource);
+          verify(mockLocalDataSource.getLastNumberTrivia());
+          expect(result, equals(Right(testNumberTrivia)));
+       });
 
     });
   });
