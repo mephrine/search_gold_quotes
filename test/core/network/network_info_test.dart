@@ -16,16 +16,18 @@ void main() {
   });
 
   group('isConnected', () {
-    test('should forward the call to DataConnectionChecker.hasConnection', () async {
-        // arrange
-        when(mockDataConnectionChecker.hasConnection)
-            .thenAnswer((_) async => true);
-        // act
-        final result = await networkInfo.isConnected;
+    test(
+        'should forward the call to DataConnectionChecker.hasConnection', () async {
+      // arrange
+      final testHasConnection = Future.value(true);
+      when(mockDataConnectionChecker.hasConnection)
+          .thenAnswer((_) => testHasConnection);
+      // act
+      final result = networkInfo.isConnected;
 
-        // assert
-        verify(mockDataConnectionChecker.hasConnection);
-        expect(result, true);
-     });
+      // assert
+      verify(mockDataConnectionChecker.hasConnection);
+      expect(result, testHasConnection);
+    });
   });
 }
