@@ -71,7 +71,7 @@ void main() {
         await repository.getConcreteNumberTrivia(testNumber);
         // assert
         verify(mockRemoteDataSource.getConcreteNumberTrivia(testNumber));
-        verify(mockLocalDataSource.getLastNumberTrivia());
+        verify(mockLocalDataSource.cacheNumberTrivia(testNumberTriviaModel));
       });
     });
 
