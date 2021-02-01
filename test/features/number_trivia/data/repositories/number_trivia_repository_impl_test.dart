@@ -57,7 +57,7 @@ void main() {
           when(mockRemoteDataSource.getConcreteNumberTrivia(any))
               .thenAnswer((_) async => testNumberTriviaModel);
           // act
-          final result = repository.getConcreteNumberTrivia(testNumber);
+          final result = await repository.getConcreteNumberTrivia(testNumber);
           // assert
           verify(mockRemoteDataSource.getConcreteNumberTrivia(testNumber));
           expect(result, equals(Right(testNumberTrivia)));
