@@ -11,11 +11,6 @@ abstract class Failure extends Equatable {
   }
 }
 
-class ServerFailure extends Failure {
-  ServerFailure(List properties) : super(properties);
-}
+class ServerFailure extends Failure {}
 
-class CacheFailure extends Failure {
-  CacheFailure(List properties) : super(properties);
-
-}
+class CacheFailure extends Failure {}
