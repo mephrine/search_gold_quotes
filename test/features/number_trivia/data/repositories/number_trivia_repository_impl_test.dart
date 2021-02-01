@@ -35,6 +35,24 @@ void main() {
       networkInfo: mockNetworkInfo
     );
   });
+
+  void runTestsOnline(Function body) {
+    group('device is online', () {
+      setUp(() {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      });
+      body();
+    });
+  }
+
+  void runTestsOffline(Function body) {
+    group('device is offline', () {
+      setUp(() {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+      });
+      body();
+    });
+  }
   
   group('get Concrete Number Trivia', () {
     final testNumber = 1;
@@ -50,11 +68,7 @@ void main() {
         verify(mockNetworkInfo.isConnected);
      });
 
-    group('device is online', () {
-      setUp(() {
-        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      });
-
+    runTestsOnline(() {
       test('should return remote data when the call to remote data source is successful', () async {
           // arrange
           when(mockRemoteDataSource.getConcreteNumberTrivia(any))
@@ -91,11 +105,7 @@ void main() {
       });
     });
 
-    group('device is offline', () {
-      setUp(() {
-        when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
-      });
-
+    runTestsOffline(() {
       test('should return last locally cached data when the cached data is present', () async {
           // arrange
           when(mockLocalDataSource.getLastNumberTrivia())
@@ -121,7 +131,6 @@ void main() {
         verify(mockLocalDataSource.getLastNumberTrivia());
         expect(result, equals(Left(CacheFailure())));
       });
-
     });
   });
 }
