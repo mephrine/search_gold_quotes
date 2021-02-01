@@ -150,7 +150,7 @@ void main() {
     runTestsOnline(() {
       test('should return remote data when the call to remote data source is successful', () async {
         // arrange
-        when(mockRemoteDataSource.getConcreteNumberTrivia(any))
+        when(mockRemoteDataSource.getRandomNumberTrivia())
             .thenAnswer((_) async => testNumberTriviaModel);
         // act
         final result = await repository.getRandomNumberTrivia();
@@ -161,7 +161,7 @@ void main() {
 
       test('should cache data locally when the call to remote data source is successful', () async {
         // arrange
-        when(mockRemoteDataSource.getConcreteNumberTrivia(any))
+        when(mockRemoteDataSource.getRandomNumberTrivia())
             .thenAnswer((_) async => testNumberTriviaModel);
         // act
         await repository.getRandomNumberTrivia();
@@ -172,7 +172,7 @@ void main() {
 
       test('should return server failure when the call to remote data source is unsuccessful', () async {
         // arrange
-        when(mockRemoteDataSource.getConcreteNumberTrivia(any))
+        when(mockRemoteDataSource.getRandomNumberTrivia())
             .thenThrow(ServerException());
         // act
         final result = await repository.getRandomNumberTrivia();
