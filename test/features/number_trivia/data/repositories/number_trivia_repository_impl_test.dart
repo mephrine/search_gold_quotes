@@ -46,5 +46,28 @@ void main() {
         // assert
         verify(mockNetworkInfo.isConnected);
      });
+
+    group('device is online', () {
+      setUp(() {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      });
+
+      test('should return remote data when the call to remote data source is success', () async {
+          // arrange
+          when(mockRemoteDataSource.getConcreteNumberTrivia(any))
+              .thenAnswer((_) async => testNumberTriviaModel);
+          // act
+          final result = repository.getConcreteNumberTrivia(testNumber);
+          // assert
+          verify(mockRemoteDataSource.getConcreteNumberTrivia(testNumber));
+          expect(result, equals(Right(testNumberTrivia)));
+       });
+    });
+
+    group('device is offline', () {
+      setUp(() {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+      });
+    });
   });
 }
