@@ -52,7 +52,7 @@ void main() {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       });
 
-      test('should return remote data when the call to remote data source is success', () async {
+      test('should return remote data when the call to remote data source is successful', () async {
           // arrange
           when(mockRemoteDataSource.getConcreteNumberTrivia(any))
               .thenAnswer((_) async => testNumberTriviaModel);
@@ -62,12 +62,25 @@ void main() {
           verify(mockRemoteDataSource.getConcreteNumberTrivia(testNumber));
           expect(result, equals(Right(testNumberTrivia)));
        });
+
+      test('should cache data locally when the call to remote data source is successful', () async {
+        // arrange
+        when(mockRemoteDataSource.getConcreteNumberTrivia(any))
+            .thenAnswer((_) async => testNumberTriviaModel);
+        // act
+        await repository.getConcreteNumberTrivia(testNumber);
+        // assert
+        verify(mockRemoteDataSource.getConcreteNumberTrivia(testNumber));
+        verify(mockLocalDataSource.getLastNumberTrivia());
+      });
     });
 
     group('device is offline', () {
       setUp(() {
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
       });
+
+
     });
   });
 }
