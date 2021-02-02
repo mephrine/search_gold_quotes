@@ -20,17 +20,16 @@ void main() {
   });
 
   group('getLastNumberTrivia', () {
-    final testNumberTriviaModel = NumberTriviaModel.fromJson(json.decode(fixture('trivia.json')));
+    final testNumberTriviaModel = NumberTriviaModel.fromJson(json.decode(fixture('trivia_cached.json')));
     test('should return number trivia from SharedPreferences when there is one in the cache', () async {
         // arrange
         when(mockSharedPreferences.getString(any))
-            .thenReturn(fixture('trivia.json'));
+            .thenReturn(fixture('trivia_cached.json'));
         // act
         final result = await dataSource.getLastNumberTrivia();
         // assert
-        verify(mockSharedPreferences.get("CACHED_NUMBER_TRIVIA"));
+        verify(mockSharedPreferences.getString('CACHED_NUMBER_TRIVIA'));
         expect(result, equals(testNumberTriviaModel));
-
      });
   });
 }
