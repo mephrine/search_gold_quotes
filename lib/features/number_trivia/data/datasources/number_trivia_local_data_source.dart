@@ -20,10 +20,9 @@ class NumberTriviaLocalDataSourceImpl implements NumberTriviaLocalDataSource {
   NumberTriviaLocalDataSourceImpl({@required this.preferences});
 
   @override
-  Future<void> cacheNumberTrivia(NumberTriviaModel triviaToCache) {
+  Future<void> cacheNumberTrivia(NumberTriviaModel triviaToCache) async {
     final jsonString = json.encode(triviaToCache).toString();
-    preferences.setString(CACHED_NUMBER_TRIVIA, jsonString);
-    return null;
+    return await preferences.setString(CACHED_NUMBER_TRIVIA, jsonString);
   }
 
   @override

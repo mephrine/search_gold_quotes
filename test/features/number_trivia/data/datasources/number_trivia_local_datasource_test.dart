@@ -53,6 +53,14 @@ void main() {
         final jsonString = json.encode(testNumberTriviaModel).toString();
         verify(mockSharedPreferences.setString(CACHED_NUMBER_TRIVIA, jsonString));
       });
+
+      test('should call SharePreferences to cache the data ', () async {
+        // act
+        dataSource.cacheNumberTrivia(testNumberTriviaModel);
+        // assert
+        final jsonString = json.encode(testNumberTriviaModel).toString();
+        verify(mockSharedPreferences.setString(CACHED_NUMBER_TRIVIA, jsonString));
+      });
     });
 
 
