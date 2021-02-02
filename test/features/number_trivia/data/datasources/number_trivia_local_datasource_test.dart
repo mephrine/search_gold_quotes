@@ -30,7 +30,7 @@ void main() {
         // act
         final result = await dataSource.getLastNumberTrivia();
         // assert
-        verify(mockSharedPreferences.getString('CACHED_NUMBER_TRIVIA'));
+        verify(mockSharedPreferences.getString(CACHED_NUMBER_TRIVIA));
         expect(result, equals(testNumberTriviaModel));
      });
 
@@ -43,5 +43,20 @@ void main() {
       // assert
       expect(() => call(), throwsA(isInstanceOf<CacheException>()));
     });
+
+    group('cacheNumberTrivia', () {
+      final testNumberTriviaModel = NumberTriviaModel(text: "Test Text", number: 1);
+      test('should call SharePreferences to cache the data ', () async {
+        // act
+        dataSource.cacheNumberTrivia(testNumberTriviaModel);
+        // assert
+        final jsonString = json.encode(testNumberTriviaModel).toString();
+        verify(mockSharedPreferences.setString(CACHED_NUMBER_TRIVIA, jsonString));
+
+
+      });
+    });
+
+
   });
 }
