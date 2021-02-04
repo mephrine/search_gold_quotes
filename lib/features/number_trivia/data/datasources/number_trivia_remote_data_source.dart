@@ -4,3 +4,16 @@ abstract class NumberTriviaRemoteDataSource {
   Future<NumberTriviaModel> getConcreteNumberTrivia(int number);
   Future<NumberTriviaModel> getRandomNumberTrivia();
 }
+
+class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
+  @override
+  Future<NumberTriviaModel> getConcreteNumberTrivia(int number) {
+    return null;
+  }
+
+  @override
+  Future<NumberTriviaModel> getRandomNumberTrivia() {
+    return null;
+  }
+
+}
