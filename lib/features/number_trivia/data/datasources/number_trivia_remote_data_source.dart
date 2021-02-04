@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart';
 import 'package:search_gold_quotes/features/number_trivia/data/models/number_trivia_model.dart';
 
 abstract class NumberTriviaRemoteDataSource {
@@ -6,6 +8,11 @@ abstract class NumberTriviaRemoteDataSource {
 }
 
 class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
+  Client httpClient;
+
+
+  NumberTriviaRemoteDataSourceImpl({@required this.httpClient});
+
   @override
   Future<NumberTriviaModel> getConcreteNumberTrivia(int number) {
     return null;
