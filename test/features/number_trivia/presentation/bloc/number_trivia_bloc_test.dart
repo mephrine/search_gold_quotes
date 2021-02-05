@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:mockito/mockito.dart';
 import 'package:search_gold_quotes/core/presentation/utils/input_converter.dart';
+import 'package:search_gold_quotes/features/number_trivia/domain/entities/number_trivia.dart';
 import 'package:search_gold_quotes/features/number_trivia/domain/usecases/get_concrete_number_trivia.dart';
 import 'package:search_gold_quotes/features/number_trivia/domain/usecases/get_random_number_trivia.dart';
 import 'package:search_gold_quotes/features/number_trivia/presentation/number_trivia/number_trivia_bloc.dart';
@@ -30,4 +31,19 @@ void main() {
     // assert
     expect(numberTriviaBloc.initialState, equals(Empty()));
    });
+
+  group('GetTriviaForConcreteNumber', () {
+    final testNumberString = '1';
+    final testParsedNumber = 1;
+    final numberTrivia = NumberTrivia(number: 1, text: 'TEST TEXT');
+    test('should call the inputConverter to validate and convert the string to an unsigned integer.', () async {
+        // arrange
+        when(mockInputConverter.stringToUnsignedInteger(any))
+            .thenReturn(Right(testParsedNumber));
+        // act
+        numberTriviaBloc.add(GetTriviaForConcreteNumber(testNumberString));
+        // assert
+        verify(mockInputConverter.stringToUnsignedInteger(testNumberString));
+     });
+  });
 }
