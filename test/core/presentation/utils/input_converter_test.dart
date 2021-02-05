@@ -26,5 +26,14 @@ void main() {
       // assert
       expect(result, Left(InvalidInputFailure()));
     });
+
+    test('should return a failure when the string is a negative integer', () async {
+      // arrange
+      final string = '-123';
+      // act
+      final result = inputConverter.stringToUnsignedInteger(string);
+      // assert
+      expect(result, Left(InvalidInputFailure()));
+    });
   });
 }
