@@ -42,6 +42,7 @@ void main() {
             .thenReturn(Right(testParsedNumber));
         // act
         numberTriviaBloc.add(GetTriviaForConcreteNumber(testNumberString));
+        await untilCalled(mockInputConverter.stringToUnsignedInteger(any));
         // assert
         verify(mockInputConverter.stringToUnsignedInteger(testNumberString));
      });
