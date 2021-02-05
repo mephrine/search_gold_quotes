@@ -8,6 +8,8 @@ part 'number_trivia_event.dart';
 part 'number_trivia_state.dart';
 
 class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
+  NumberTriviaBloc(NumberTriviaState initialState) : super(initialState);
+
   @override
   NumberTriviaState get initialState => InitialNumberTriviaState();
 

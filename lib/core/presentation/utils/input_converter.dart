@@ -3,7 +3,7 @@ import 'package:search_gold_quotes/core/error/failures.dart';
 
 class InputConverter {
   Either<Failure, int> stringToUnsignedInteger(String string) {
-
+    return Right(int.parse(string));
   }
 }
 
