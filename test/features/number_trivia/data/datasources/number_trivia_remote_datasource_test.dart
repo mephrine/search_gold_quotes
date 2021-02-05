@@ -26,7 +26,8 @@ void main() {
 
   group('GetConcreteNumberTrivia', () {
     final testNumber = 1;
-    final numberTriviaModel = fixture('trivia.json');
+    final numberTriviaModel = NumberTriviaModel(text: "Test Text", number: 1);
+
     test('''should perform a GET request on a URL with number
     being the endpoint and with application/json header''',
             () {
@@ -37,6 +38,17 @@ void main() {
           dataSource.getConcreteNumberTrivia(testNumber);
           // assert
           verify(mockHttpClient.get('http://numbersapi.com/$testNumber', headers: {'Content-Type': 'application/json'}));
+        });
+
+    test('should return NumberTrivia when the reponse code is 200 (success)',
+            () async {
+          // arrange
+          when(mockHttpClient.get(any, headers: anyNamed('headers')))
+              .thenAnswer((_) async => Response(fixture('trivia.json'), 200));
+          // act
+          final result = await dataSource.getConcreteNumberTrivia(testNumber);
+          // assert
+          expect(result, equals(numberTriviaModel));
         });
   });
 }
