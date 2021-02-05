@@ -17,5 +17,14 @@ void main() {
         // assert
         expect(result, Right(123));
      });
+
+    test('should return a failure when the string is not an integer', () async {
+      // arrange
+      final string = 'abc';
+      // act
+      final result = inputConverter.stringToUnsignedInteger(string);
+      // assert
+      expect(result, Left(InvalidInputFailure()));
+    });
   });
 }
