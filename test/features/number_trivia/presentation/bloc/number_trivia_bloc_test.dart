@@ -26,7 +26,8 @@ void main() {
         inputConverter: mockInputConverter);
   });
 
-  group('', () {
-
-  });
+  test('initialState should be Empty ', () async {
+    // assert
+    expect(numberTriviaBloc.initialState, equals(Empty()));
+   });
 }

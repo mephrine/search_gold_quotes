@@ -24,7 +24,7 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
         assert(random != null),
         assert(inputConverter != null),
         getConcreteNumberTrivia = concrete,
-        getRandomNumberTrivia = random, super(Empty());
+        getRandomNumberTrivia = random, super(null);
 
   @override
   NumberTriviaState get initialState => Empty();

@@ -2,9 +2,14 @@ part of 'number_trivia_bloc.dart';
 
 
 @immutable
-abstract class NumberTriviaState {}
+abstract class NumberTriviaState extends Equatable {
 
-class InitialNumberTriviaState extends NumberTriviaState {}
+}
+
+class InitialNumberTriviaState extends NumberTriviaState {
+  @override
+  List<Object> get props => const <dynamic>[];
+}
 
 class Empty extends InitialNumberTriviaState {}
 
