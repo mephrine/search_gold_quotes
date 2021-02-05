@@ -31,8 +31,16 @@ class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
   }
 
   @override
-  Future<NumberTriviaModel> getRandomNumberTrivia() {
-    return null;
-  }
+  Future<NumberTriviaModel> getRandomNumberTrivia() async {
+    final response = await httpClient.get(
+      'http://numbersapi.com/random',
+      headers: {'Content-Type': 'application/json'},
+    );
 
+    if (response.statusCode == 200) {
+      return NumberTriviaModel.fromJson(json.decode(response.body));
+    } else {
+      throw ServerException();
+    }
+  }
 }
