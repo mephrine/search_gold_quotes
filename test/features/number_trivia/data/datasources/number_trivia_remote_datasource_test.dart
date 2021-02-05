@@ -50,5 +50,16 @@ void main() {
           // assert
           expect(result, equals(numberTriviaModel));
         });
+
+    test('should throw a ServerException when the response code is 404 or other',
+            () async {
+          // arrange
+          when(mockHttpClient.get(any, headers: anyNamed('headers')))
+              .thenAnswer((_) async => Response("Server Exception Message", 404));
+          // act
+          final call = dataSource.getConcreteNumberTrivia;
+          // assert
+          expect(() => call(testNumber), throwsA(isInstanceOf<ServerException>()));
+        });
   });
 }
