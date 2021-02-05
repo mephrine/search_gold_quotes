@@ -15,7 +15,10 @@ class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
 
   @override
   Future<NumberTriviaModel> getConcreteNumberTrivia(int number) {
-    return null;
+    httpClient.get(
+      'http://numbersapi.com/$number',
+      headers: {'Content-Type': 'application/json'},
+    );
   }
 
   @override
