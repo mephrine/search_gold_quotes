@@ -31,6 +31,8 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
 
   @override
   Stream<NumberTriviaState> mapEventToState(NumberTriviaEvent event) async* {
-    // TODO: Add your event logic
+    if (event is GetTriviaForConcreteNumber) {
+      inputConverter.stringToUnsignedInteger(event.numberString);
+    }
   }
 }
