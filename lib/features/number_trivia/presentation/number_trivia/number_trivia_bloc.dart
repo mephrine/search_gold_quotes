@@ -13,7 +13,8 @@ part 'number_trivia_state.dart';
 
 const String SERVER_FAILURE_MESSAGE = 'Server Failure';
 const String CACHE_FAILURE_MESSAGE = 'Cache Failure';
-const String INVALID_INPUT_FAILURE_MESSAGE = 'Invalid Input - The number must be a positive integer or zero';
+const String INVALID_INPUT_FAILURE_MESSAGE =
+    'Invalid Input - The number must be a positive integer or zero';
 
 class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
   final GetConcreteNumberTrivia getConcreteNumberTrivia;
@@ -28,7 +29,8 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
         assert(random != null),
         assert(inputConverter != null),
         getConcreteNumberTrivia = concrete,
-        getRandomNumberTrivia = random, super(null);
+        getRandomNumberTrivia = random,
+        super(Empty());
 
   @override
   NumberTriviaState get initialState => Empty();
@@ -36,8 +38,13 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
   @override
   Stream<NumberTriviaState> mapEventToState(NumberTriviaEvent event) async* {
     if (event is GetTriviaForConcreteNumber) {
-      inputConverter.stringToUnsignedInteger(event.numberString);
-
+      final inputEither =
+          inputConverter.stringToUnsignedInteger(event.numberString);
+      yield* inputEither.fold((failure) async* {
+        yield Error(message: INVALID_INPUT_FAILURE_MESSAGE);
+      }, (integer) async* {
+        yield null;
+      });
     }
   }
 }

@@ -56,15 +56,15 @@ void main() {
       // arrange
       when(mockInputConverter.stringToUnsignedInteger(any))
           .thenReturn(Left(InvalidInputFailure()));
+
       // act
       numberTriviaBloc.add(GetTriviaForConcreteNumber(testNumberString));
+
+      // assert later. is Stream
       final expected = [
-        Empty(),
         Error(message: INVALID_INPUT_FAILURE_MESSAGE)
       ];
-
-      // assert
-      expectLater(numberTriviaBloc.state, emitsInOrder(expected));
+      expectLater(numberTriviaBloc, emitsInOrder(expected));
     });
   });
 }
