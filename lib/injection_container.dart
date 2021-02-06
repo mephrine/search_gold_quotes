@@ -12,47 +12,48 @@ import 'package:search_gold_quotes/features/number_trivia/presentation/number_tr
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-final di = GetIt.instance;
+// Service Locator
+final sl = GetIt.instance;
 
-void init() async {
+Future<void> init() async {
   //! Featurs - NumberTrivia
 
   // Bloc
-  di.registerFactory(() =>
+  sl.registerFactory(() =>
       NumberTriviaBloc(
-        concrete: di(),
-        random: di(),
-        inputConverter: di(),
+        concrete: sl(),
+        random: sl(),
+        inputConverter: sl(),
       ));
 
   // Use cases
-  di.registerLazySingleton(() => GetConcreteNumberTrivia(di()));
-  di.registerLazySingleton(() => GetRandomNumberTrivia(di()));
+  sl.registerLazySingleton(() => GetConcreteNumberTrivia(sl()));
+  sl.registerLazySingleton(() => GetRandomNumberTrivia(sl()));
 
   // Repository
-  di.registerLazySingleton<NumberTriviaRepository>(
+  sl.registerLazySingleton<NumberTriviaRepository>(
           () =>
           NumberTriviaRepositoryImpl(
-            remoteDataSource: di(),
-            localDataSource: di(),
-            networkInfo: di(),
+            remoteDataSource: sl(),
+            localDataSource: sl(),
+            networkInfo: sl(),
           ));
 
   // Data Sources
-  di.registerLazySingleton<NumberTriviaRemoteDataSource>(() =>
-      NumberTriviaRemoteDataSourceImpl(httpClient: di(),));
-  di.registerLazySingleton<NumberTriviaLocalDataSource>(() =>
-      NumberTriviaLocalDataSourceImpl(preferences: di(),));
+  sl.registerLazySingleton<NumberTriviaRemoteDataSource>(() =>
+      NumberTriviaRemoteDataSourceImpl(httpClient: sl(),));
+  sl.registerLazySingleton<NumberTriviaLocalDataSource>(() =>
+      NumberTriviaLocalDataSourceImpl(preferences: sl(),));
 
   //! Core
-  di.registerLazySingleton(() => InputConverter());
-  di.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(di()));
+  sl.registerLazySingleton(() => InputConverter());
+  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
 
   //! External
   final sharePreferences = await SharedPreferences.getInstance();
-  di.registerLazySingleton(() => sharePreferences);
-  di.registerLazySingleton(() => http.Client());
-  di.registerLazySingleton(() => DataConnectionChecker());
+  sl.registerLazySingleton(() => sharePreferences);
+  sl.registerLazySingleton(() => http.Client());
+  sl.registerLazySingleton(() => DataConnectionChecker());
 }
 
 void initFeatures() {}
