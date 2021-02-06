@@ -18,12 +18,12 @@ class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
 
   @override
   Future<NumberTriviaModel> getConcreteNumberTrivia(int number)
-    => _getTriviaFromUrl('http://numbersapi.com/$number');
+    => _getTriviaFromUrl('http://numbersapi.com/$number?json');
   
 
   @override
   Future<NumberTriviaModel> getRandomNumberTrivia()
-    => _getTriviaFromUrl('http://numbersapi.com/random');
+    => _getTriviaFromUrl('http://numbersapi.com/random/trivia?json');
 
 
   Future<NumberTriviaModel> _getTriviaFromUrl(String url) async {

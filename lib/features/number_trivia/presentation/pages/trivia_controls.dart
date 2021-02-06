@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:search_gold_quotes/features/number_trivia/presentation/number_trivia/number_trivia_bloc.dart';
 
-class _TriviaControls extends StatefulWidget {
+class TriviaControls extends StatefulWidget {
   @override
   _TriviaControlsState createState() => _TriviaControlsState();
 }
 
-class _TriviaControlsState extends State<_TriviaControls> {
+class _TriviaControlsState extends State<TriviaControls> {
   final controller = TextEditingController();
   String inputNumberString;
 

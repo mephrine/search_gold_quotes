@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:search_gold_quotes/features/number_trivia/data/models/number_trivia_model.dart';
 import 'package:search_gold_quotes/features/number_trivia/domain/entities/number_trivia.dart';
 import 'package:search_gold_quotes/features/number_trivia/presentation/number_trivia/number_trivia_bloc.dart';
+import 'package:search_gold_quotes/features/number_trivia/presentation/pages/trivia_controls.dart';
 import 'package:search_gold_quotes/features/number_trivia/presentation/pages/trivia_display.dart';
 import 'package:search_gold_quotes/injection_container.dart';
 
@@ -48,6 +49,7 @@ class NumberTriviaPage extends StatelessWidget {
                   }
                 }),
                 SizedBox(height: 20),
+                TriviaControls(),
                 //bottom half
               ],
             ),

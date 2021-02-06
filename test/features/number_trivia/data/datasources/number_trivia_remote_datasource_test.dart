@@ -46,7 +46,7 @@ void main() {
           // act
           dataSource.getConcreteNumberTrivia(testNumber);
           // assert
-          verify(mockHttpClient.get('http://numbersapi.com/$testNumber', headers: {'Content-Type': 'application/json'}));
+          verify(mockHttpClient.get('http://numbersapi.com/$testNumber?json', headers: {'Content-Type': 'application/json'}));
         });
 
     test('should return NumberTrivia when the reponse code is 200 (success)',
@@ -81,7 +81,7 @@ void main() {
           // act
           dataSource.getRandomNumberTrivia();
           // assert
-          verify(mockHttpClient.get('http://numbersapi.com/random', headers: {'Content-Type': 'application/json'}));
+          verify(mockHttpClient.get('http://numbersapi.com/random/trivia?json', headers: {'Content-Type': 'application/json'}));
         });
 
     test('should return NumberTrivia when the response code is 200 (success)',
