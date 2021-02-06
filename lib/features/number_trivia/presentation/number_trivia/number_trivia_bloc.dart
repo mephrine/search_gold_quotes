@@ -23,9 +23,10 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
   final GetRandomNumberTrivia getRandomNumberTrivia;
   final InputConverter inputConverter;
 
-  NumberTriviaBloc({@required GetConcreteNumberTrivia concrete,
-    @required GetRandomNumberTrivia random,
-    @required this.inputConverter})
+  NumberTriviaBloc(
+      {@required GetConcreteNumberTrivia concrete,
+      @required GetRandomNumberTrivia random,
+      @required this.inputConverter})
       : assert(concrete != null),
         assert(random != null),
         assert(inputConverter != null),
@@ -40,20 +41,30 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
   Stream<NumberTriviaState> mapEventToState(NumberTriviaEvent event) async* {
     if (event is GetTriviaForConcreteNumber) {
       final inputEither =
-      inputConverter.stringToUnsignedInteger(event.numberString);
+          inputConverter.stringToUnsignedInteger(event.numberString);
       yield* inputEither.fold((failure) async* {
         yield Error(message: INVALID_INPUT_FAILURE_MESSAGE);
       }, (integer) async* {
         yield Loading();
-        final failureOrTrivia = await getConcreteNumberTrivia(
-            Params(number: integer));
-        // yield* failureOrTrivia.fold((failure) async* {
-        //   yield Error(message: failure is ServerFailure ? SERVER_FAILURE_MESSAGE :
-        //       CACHE_FAILURE_MESSAGE);
-        // }, (numberTrivia) async* {
-        //   yield Loaded(trivia: numberTrivia);
-        // });
+        final failureOrTrivia =
+            await getConcreteNumberTrivia(Params(number: integer));
+        yield failureOrTrivia.fold(
+            (failure) =>
+                Error(message: _mapFailureToMessage(failure)),
+            (numberTrivia) =>
+                Loaded(trivia: numberTrivia));
       });
+    }
+  }
+
+  String _mapFailureToMessage(Failure failure) {
+    switch(failure.runtimeType) {
+      case ServerFailure:
+        return SERVER_FAILURE_MESSAGE;
+      case CacheFailure:
+        return CACHE_FAILURE_MESSAGE;
+      default:
+        return 'Unexpected Error';
     }
   }
 }
