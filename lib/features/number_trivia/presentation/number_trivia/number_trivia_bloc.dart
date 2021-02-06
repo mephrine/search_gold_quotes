@@ -55,6 +55,16 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
                 Loaded(trivia: numberTrivia));
       });
     }
+    else if (event is GetTriviaForRandomNumber) {
+      yield Loading();
+      final failureOrTrivia =
+      await getRandomNumberTrivia(NoParams());
+      yield failureOrTrivia.fold(
+              (failure) =>
+              Error(message: _mapFailureToMessage(failure)),
+              (numberTrivia) =>
+              Loaded(trivia: numberTrivia));
+    }
   }
 
   String _mapFailureToMessage(Failure failure) {
