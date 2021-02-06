@@ -17,7 +17,9 @@ class NumberTriviaPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Number Trivia'),
       ),
-      body: buildBody(context),
+      body: SingleChildScrollView(
+        child: buildBody(context),
+      ),
     );
   }
 
@@ -40,45 +42,17 @@ class NumberTriviaPage extends StatelessWidget {
                   } else if (state is Loading) {
                     return LoadingWidget();
                   } else if (state is Loaded) {
-                    return TriviaDisplay(
-                        numberTrivia: state.trivia
-                    );
+                    return TriviaDisplay(numberTrivia: state.trivia);
                   } else if (state is Error) {
                     return MessageDisplay(message: state.message);
                   }
                 }),
                 SizedBox(height: 20),
                 //bottom half
-                Column(
-                  children: [
-                    Placeholder(
-                      fallbackHeight: 40,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                            child: Placeholder(
-                          fallbackHeight: 30,
-                        )),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                            child: Placeholder(
-                          fallbackHeight: 30,
-                        )),
-                      ],
-                    )
-                  ],
-                ),
               ],
             ),
           ),
         ));
   }
 }
-
 
