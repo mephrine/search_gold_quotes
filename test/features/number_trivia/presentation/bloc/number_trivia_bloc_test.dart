@@ -41,16 +41,17 @@ void main() {
     final testParsedNumber = 1;
     final numberTrivia = NumberTrivia(number: 1, text: 'TEST TEXT');
 
-    void _setUpMockInputConverterSuccess() {
+    void setUpMockInputConverterSuccess() =>
       when(mockInputConverter.stringToUnsignedInteger(any))
           .thenReturn(Right(testParsedNumber));
-    }
 
     test(
         'should call the inputConverter to validate and convert the string to an unsigned integer.',
         () async {
       // arrange
-          _setUpMockInputConverterSuccess();
+          setUpMockInputConverterSuccess();
+          when(mockGetConcreteNumberTrivia(any))
+              .thenAnswer((_) async => Right(numberTrivia));
       // act
       numberTriviaBloc.add(GetTriviaForConcreteNumber(testNumberString));
       await untilCalled(mockInputConverter.stringToUnsignedInteger(any));
@@ -73,7 +74,7 @@ void main() {
 
     test('should get data from the concrete use case', () async {
       // arrange
-      _setUpMockInputConverterSuccess();
+      setUpMockInputConverterSuccess();
       when(mockGetConcreteNumberTrivia(any))
           .thenAnswer((_) async => Right(numberTrivia));
       // act
@@ -87,7 +88,7 @@ void main() {
     test('should emit [Loading, Loaded] when data is gotten successfully',
         () async {
       // arrange
-          _setUpMockInputConverterSuccess();
+          setUpMockInputConverterSuccess();
       when(mockGetConcreteNumberTrivia(any))
           .thenAnswer((_) async => Right(numberTrivia));
       // act
@@ -103,7 +104,7 @@ void main() {
     test('should emit [Loading, Error] when getting data fails',
             () async {
           // arrange
-          _setUpMockInputConverterSuccess();
+          setUpMockInputConverterSuccess();
           when(mockGetConcreteNumberTrivia(any))
               .thenAnswer((_) async => Left(ServerFailure()));
           // act
@@ -119,7 +120,7 @@ void main() {
     test('should emit [Loading, Error] with a proper message for the error when getting data fails',
             () async {
           // arrange
-          _setUpMockInputConverterSuccess();
+          setUpMockInputConverterSuccess();
           when(mockGetConcreteNumberTrivia(any))
               .thenAnswer((_) async => Left(ServerFailure()));
           // act
@@ -134,4 +135,65 @@ void main() {
   });
 
 
+
+  group('GetTriviaForRandomNumber', () {
+    final numberTrivia = NumberTrivia(number: 1, text: 'TEST TEXT');
+
+    test('should get data from the random use case', () async {
+      // arrange
+      when(mockGetRandomNumberTrivia(any))
+          .thenAnswer((_) async => Right(numberTrivia));
+      // act
+      numberTriviaBloc.add(GetTriviaForRandomNumber());
+      await untilCalled(mockGetRandomNumberTrivia(any));
+
+      // assert
+      verify(mockGetRandomNumberTrivia(NoParams()));
+    });
+
+    test('should emit [Loading, Loaded] when data is gotten successfully',
+            () async {
+          // arrange
+          when(mockGetRandomNumberTrivia(any))
+              .thenAnswer((_) async => Right(numberTrivia));
+          // act
+          numberTriviaBloc.add(GetTriviaForRandomNumber());
+          // assert
+          final expected = [
+            Loading(),
+            Loaded(trivia: numberTrivia)
+          ];
+          expectLater(numberTriviaBloc, emitsInOrder(expected));
+        });
+
+    test('should emit [Loading, Error] when getting data fails',
+            () async {
+          // arrange
+          when(mockGetRandomNumberTrivia(any))
+              .thenAnswer((_) async => Left(ServerFailure()));
+          // act
+          numberTriviaBloc.add(GetTriviaForRandomNumber());
+          // assert
+          final expected = [
+            Loading(),
+            Error(message: SERVER_FAILURE_MESSAGE)
+          ];
+          expectLater(numberTriviaBloc, emitsInOrder(expected));
+        });
+
+    test('should emit [Loading, Error] with a proper message for the error when getting data fails',
+            () async {
+          // arrange
+          when(mockGetRandomNumberTrivia(any))
+              .thenAnswer((_) async => Left(ServerFailure()));
+          // act
+          numberTriviaBloc.add(GetTriviaForRandomNumber());
+          // assert
+          final expected = [
+            Loading(),
+            Error(message: CACHE_FAILURE_MESSAGE)
+          ];
+          expectLater(numberTriviaBloc, emitsInOrder(expected));
+        });
+  });
 }
