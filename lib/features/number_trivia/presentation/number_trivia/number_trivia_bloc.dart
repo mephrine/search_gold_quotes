@@ -48,24 +48,17 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
         yield Loading();
         final failureOrTrivia =
             await getConcreteNumberTrivia(Params(number: integer));
-        yield failureOrTrivia.fold(
-            (failure) =>
-                Error(message: _mapFailureToMessage(failure)),
-            (numberTrivia) =>
-                Loaded(trivia: numberTrivia));
+        yield* _eitherLoadedOrErrorState(failureOrTrivia);
       });
     }
     else if (event is GetTriviaForRandomNumber) {
       yield Loading();
       final failureOrTrivia =
       await getRandomNumberTrivia(NoParams());
-      yield failureOrTrivia.fold(
-              (failure) =>
-              Error(message: _mapFailureToMessage(failure)),
-              (numberTrivia) =>
-              Loaded(trivia: numberTrivia));
+      yield* _eitherLoadedOrErrorState(failureOrTrivia);
     }
   }
+  // yield* -> Call Stream Function
 
   String _mapFailureToMessage(Failure failure) {
     switch(failure.runtimeType) {
@@ -76,5 +69,14 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
       default:
         return 'Unexpected Error';
     }
+  }
+
+  Stream<NumberTriviaState> _eitherLoadedOrErrorState(
+      Either<Failure, NumberTrivia> failureOrTrivia) async* {
+    yield failureOrTrivia.fold(
+            (failure) =>
+            Error(message: _mapFailureToMessage(failure)),
+            (numberTrivia) =>
+            Loaded(trivia: numberTrivia));
   }
 }

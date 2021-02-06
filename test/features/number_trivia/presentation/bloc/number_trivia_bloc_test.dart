@@ -50,6 +50,10 @@ void main() {
         () async {
       // arrange
           setUpMockInputConverterSuccess();
+
+          // _eitherLoadedOrErrorState 부분을 추가한 이후,
+          // verify는 확인이 되었으나,  numberTriviaBloc.add(GetTriviaForConcreteNumber(testNumberString));
+          // 해당 부분에서 에러가 발생... 단일 테스트를 돌리면 성공하나 다른 테스트와 같이 돌리면 에러.
           when(mockGetConcreteNumberTrivia(any))
               .thenAnswer((_) async => Right(numberTrivia));
       // act
