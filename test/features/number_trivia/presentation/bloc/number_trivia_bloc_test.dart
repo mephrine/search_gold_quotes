@@ -16,17 +16,17 @@ class MockInputConverter extends Mock implements InputConverter {}
 
 void main() {
   NumberTriviaBloc numberTriviaBloc;
-  MockGetConcreteNumberTrivia mockGetTriviaForConcreteNumber;
-  MockGetRandomNumberTrivia mockGetTriviaForRandomNumber;
+  MockGetConcreteNumberTrivia mockGetConcreteNumberTrivia;
+  MockGetRandomNumberTrivia mockGetRandomNumberTrivia;
   MockInputConverter mockInputConverter;
 
   setUp(() {
-    mockGetTriviaForConcreteNumber = MockGetConcreteNumberTrivia();
-    mockGetTriviaForRandomNumber = MockGetRandomNumberTrivia();
+    mockGetConcreteNumberTrivia = MockGetConcreteNumberTrivia();
+    mockGetRandomNumberTrivia = MockGetRandomNumberTrivia();
     mockInputConverter = MockInputConverter();
     numberTriviaBloc = NumberTriviaBloc(
-        concrete: mockGetTriviaForConcreteNumber,
-        random: mockGetTriviaForRandomNumber,
+        concrete: mockGetConcreteNumberTrivia,
+        random: mockGetRandomNumberTrivia,
         inputConverter: mockInputConverter);
   });
 
@@ -66,5 +66,19 @@ void main() {
       ];
       expectLater(numberTriviaBloc, emitsInOrder(expected));
     });
+
+    test('should get data from the concrete use case', () async {
+        // arrange
+      when(mockInputConverter.stringToUnsignedInteger(any))
+          .thenReturn(Right(testParsedNumber));
+      when(mockGetConcreteNumberTrivia(any))
+          .thenAnswer((_) async => Right(numberTrivia));
+        // act
+      numberTriviaBloc.add(GetTriviaForConcreteNumber(testNumberString));
+      await untilCalled(mockGetConcreteNumberTrivia(any));
+
+        // assert
+      verify(mockGetConcreteNumberTrivia(Params(number: testParsedNumber)));
+     });
   });
 }

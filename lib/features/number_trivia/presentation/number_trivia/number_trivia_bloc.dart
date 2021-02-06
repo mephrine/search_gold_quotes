@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:search_gold_quotes/core/error/failures.dart';
 import 'package:search_gold_quotes/core/presentation/utils/input_converter.dart';
 import 'package:search_gold_quotes/features/number_trivia/domain/entities/number_trivia.dart';
 import 'package:search_gold_quotes/features/number_trivia/domain/usecases/get_concrete_number_trivia.dart';
@@ -21,10 +23,9 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
   final GetRandomNumberTrivia getRandomNumberTrivia;
   final InputConverter inputConverter;
 
-  NumberTriviaBloc(
-      {@required GetConcreteNumberTrivia concrete,
-      @required GetRandomNumberTrivia random,
-      @required this.inputConverter})
+  NumberTriviaBloc({@required GetConcreteNumberTrivia concrete,
+    @required GetRandomNumberTrivia random,
+    @required this.inputConverter})
       : assert(concrete != null),
         assert(random != null),
         assert(inputConverter != null),
@@ -39,11 +40,19 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
   Stream<NumberTriviaState> mapEventToState(NumberTriviaEvent event) async* {
     if (event is GetTriviaForConcreteNumber) {
       final inputEither =
-          inputConverter.stringToUnsignedInteger(event.numberString);
+      inputConverter.stringToUnsignedInteger(event.numberString);
       yield* inputEither.fold((failure) async* {
         yield Error(message: INVALID_INPUT_FAILURE_MESSAGE);
       }, (integer) async* {
-        yield null;
+        yield Loading();
+        final failureOrTrivia = await getConcreteNumberTrivia(
+            Params(number: integer));
+        // yield* failureOrTrivia.fold((failure) async* {
+        //   yield Error(message: failure is ServerFailure ? SERVER_FAILURE_MESSAGE :
+        //       CACHE_FAILURE_MESSAGE);
+        // }, (numberTrivia) async* {
+        //   yield Loaded(trivia: numberTrivia);
+        // });
       });
     }
   }
