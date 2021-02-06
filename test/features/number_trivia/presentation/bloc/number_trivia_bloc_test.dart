@@ -61,24 +61,39 @@ void main() {
       numberTriviaBloc.add(GetTriviaForConcreteNumber(testNumberString));
 
       // assert later. is Stream
-      final expected = [
-        Error(message: INVALID_INPUT_FAILURE_MESSAGE)
-      ];
+      final expected = [Error(message: INVALID_INPUT_FAILURE_MESSAGE)];
       expectLater(numberTriviaBloc, emitsInOrder(expected));
     });
 
     test('should get data from the concrete use case', () async {
-        // arrange
+      // arrange
       when(mockInputConverter.stringToUnsignedInteger(any))
           .thenReturn(Right(testParsedNumber));
       when(mockGetConcreteNumberTrivia(any))
           .thenAnswer((_) async => Right(numberTrivia));
-        // act
+      // act
       numberTriviaBloc.add(GetTriviaForConcreteNumber(testNumberString));
       await untilCalled(mockGetConcreteNumberTrivia(any));
 
-        // assert
+      // assert
       verify(mockGetConcreteNumberTrivia(Params(number: testParsedNumber)));
-     });
+    });
+
+    test('should emit [Loading, Loaded] when data is gotten successfully',
+        () async {
+      // arrange
+      when(mockInputConverter.stringToUnsignedInteger(any))
+          .thenReturn(Right(testParsedNumber));
+      when(mockGetConcreteNumberTrivia(any))
+          .thenAnswer((_) async => Right(numberTrivia));
+      // act
+      numberTriviaBloc.add(GetTriviaForConcreteNumber(testNumberString));
+      // assert
+      final expected = [
+        Loading(),
+        Loaded(trivia: numberTrivia)
+      ];
+          expectLater(numberTriviaBloc, expected);
+    });
   });
 }
