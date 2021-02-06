@@ -3,7 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:search_gold_quotes/features/number_trivia/data/models/number_trivia_model.dart';
 import 'package:search_gold_quotes/features/number_trivia/domain/entities/number_trivia.dart';
 import 'package:search_gold_quotes/features/number_trivia/presentation/number_trivia/number_trivia_bloc.dart';
+import 'package:search_gold_quotes/features/number_trivia/presentation/pages/trivia_display.dart';
 import 'package:search_gold_quotes/injection_container.dart';
+
+import 'loading_widget.dart';
+import 'message_display.dart';
 
 class NumberTriviaPage extends StatelessWidget {
   // This widget is the root of your application.
@@ -77,73 +81,4 @@ class NumberTriviaPage extends StatelessWidget {
   }
 }
 
-class MessageDisplay extends StatelessWidget {
-  final String message;
 
-  MessageDisplay({@required this.message});
-
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Container(
-      height: size.height / 3,
-      child: Center(
-        child: SingleChildScrollView(
-          child: Text(
-            message,
-            style: TextStyle(fontSize: 25),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class LoadingWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Container(
-      height: size.height / 3,
-      child: Center(
-        child: SingleChildScrollView(
-          child: CircularProgressIndicator(),
-        ),
-      ),
-    );
-  }
-}
-
-class TriviaDisplay extends StatelessWidget {
-  final NumberTrivia numberTrivia;
-
-  TriviaDisplay({@required this.numberTrivia});
-
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Container(
-      height: size.height / 3,
-      child: Column(
-        children: [
-          Text(
-            numberTrivia.number.toString(),
-            style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
-          ),
-          Expanded(
-            child: Center(
-              child: SingleChildScrollView(
-                child: Text(
-                  numberTrivia.text,
-                  style: TextStyle(fontSize: 25),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
