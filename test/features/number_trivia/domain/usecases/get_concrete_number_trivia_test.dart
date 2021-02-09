@@ -22,17 +22,16 @@ void main() {
   final testNumberTrivia = NumberTrivia(number: 1, text: "test");
   
   test("should get trivia for the number from the repository", () async {
-    // arrange
+    // arrange == given
     when(mockNumberTriviaRepository.getConcreteNumberTrivia(any))
         .thenAnswer((_) async => Right(testNumberTrivia));
 
-    // act
+    // act == when
     final result = await usecase(Params(number: testNumber));
 
-    // assert
+    // assert == then
     expect(result, Right(testNumberTrivia));
     verify(mockNumberTriviaRepository.getConcreteNumberTrivia(testNumber));
     verifyNoMoreInteractions(mockNumberTriviaRepository);
-
   });
 }
