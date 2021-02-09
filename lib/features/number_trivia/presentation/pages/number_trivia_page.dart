@@ -5,7 +5,7 @@ import 'package:search_gold_quotes/features/number_trivia/domain/entities/number
 import 'package:search_gold_quotes/features/number_trivia/presentation/number_trivia/number_trivia_bloc.dart';
 import 'package:search_gold_quotes/features/number_trivia/presentation/widgets/trivia_controls.dart';
 import 'package:search_gold_quotes/features/number_trivia/presentation/widgets/trivia_display.dart';
-import 'package:search_gold_quotes/injection_container.dart';
+import 'package:search_gold_quotes/core/di/injection_container.dart';
 
 import '../widgets/loading_widget.dart';
 import '../widgets/message_display.dart';

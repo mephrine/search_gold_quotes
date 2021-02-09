@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart' as foundation;
 
-class Utils {
+class DeviceUtils {
 static bool get isAndroid =>
     foundation.defaultTargetPlatform == foundation.TargetPlatform.android;
 }

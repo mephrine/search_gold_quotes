@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:search_gold_quotes/utils.dart';
+import 'package:search_gold_quotes/core/platform/device_utils.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:search_gold_quotes/core/platform/device_utils.dart' as device;
 
 // StatelessWidget -> 상태가 없다! 즉, 한번 그려진 후 다시 그려지지 않는 위젯
 
@@ -22,7 +23,7 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (Utils.isAndroid)
+    if (device.DeviceUtils.isAndroid)
       return MaterialMain(title);
     else
       return CupertinoMain(title);
@@ -68,7 +69,7 @@ class NavigationBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (Utils.isAndroid)
+    if (device.DeviceUtils.isAndroid)
       return AppBar(title: Text(title));
     else
       return CupertinoNavigationBar(

@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:search_gold_quotes/features/number_trivia/presentation/pages/main_view.dart';
-import 'package:search_gold_quotes/utils.dart';
+import 'package:search_gold_quotes/features/launch/presentation/pages/main_view.dart';
+import 'package:search_gold_quotes/core/platform/device_utils.dart' as device;
 
 class SplashScreen extends StatefulWidget {
   @override
   SplashView createState() {
-    if (Utils.isAndroid) {
+    if (device.DeviceUtils.isAndroid) {
       return SplashView();
     }
     return SplashView();
