@@ -15,8 +15,8 @@ void main() {
 
 
     group('', () {
-      final gold = Gold()
-      final homeInfo = HomeData(famousQuotes: 'Gold is God', referenceSiteName: "https://www.naver.com", goldList: );
+      final gold = Gold(date: '2021-02-10', day: '오늘', price: '100000');
+      final homeInfo = HomeData(famousQuotes: 'Gold is God', referenceSiteName: "https://www.naver.com", goldList: [gold]);
 
     });
   });
