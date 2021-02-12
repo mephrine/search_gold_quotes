@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:search_gold_quotes/features/launch/presentation/pages/splash.dart';
-import 'features/number_trivia/presentation/pages/number_trivia_page.dart';
+import 'package:search_gold_quotes/app/launch/presentation/pages/splash.dart';
+import 'app/number_trivia/presentation/pages/number_trivia_page.dart';
 import 'core/di/injection_container.dart' as di;
 
 void main() async {

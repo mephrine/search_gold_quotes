@@ -5,11 +5,11 @@ import 'package:mockito/mockito.dart';
 import 'package:search_gold_quotes/core/error/exceptions.dart';
 import 'package:search_gold_quotes/core/error/failures.dart';
 import 'package:search_gold_quotes/core/platform/network_info.dart';
-import 'package:search_gold_quotes/features/number_trivia/data/datasources/number_trivia_local_data_source.dart';
-import 'package:search_gold_quotes/features/number_trivia/data/datasources/number_trivia_remote_data_source.dart';
-import 'package:search_gold_quotes/features/number_trivia/data/models/number_trivia_model.dart';
-import 'package:search_gold_quotes/features/number_trivia/data/repositories/number_trivia_repository_impl.dart';
-import 'package:search_gold_quotes/features/number_trivia/domain/entities/number_trivia.dart';
+import 'package:search_gold_quotes/app/number_trivia/data/datasources/number_trivia_local_data_source.dart';
+import 'package:search_gold_quotes/app/number_trivia/data/datasources/number_trivia_remote_data_source.dart';
+import 'package:search_gold_quotes/app/number_trivia/data/models/number_trivia_model.dart';
+import 'package:search_gold_quotes/app/number_trivia/data/repositories/number_trivia_repository_impl.dart';
+import 'package:search_gold_quotes/app/number_trivia/domain/entities/number_trivia.dart';
 
 class MockRemoteDataSource extends Mock implements NumberTriviaRemoteDataSource {}
 
