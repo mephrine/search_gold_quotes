@@ -51,6 +51,14 @@ dependencies:
   fluttertoast: ^7.1.6
   fl_chart: ^0.12.2
   flutter_picker: ^1.1.5
+  convex_bottom_bar: ^2.6.0
+  animated_text_kit: ^3.1.0
+  shimmer: ^1.1.2
+  flutter_screenutil: ^4.0.3+1
+  lottie: ^0.7.0+1
+  pull_to_refresh: ^1.6.4
+
+
 
   ### Routes
   auto_route: ^0.6.9
@@ -103,10 +111,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  fonts:
-    - family: sficonsets
-      fonts:
-        - asset: packages/flutter_sfsymbols/fonts/sficonsets.ttf
+#  fonts:
+#    - family: sficonsets
+#      fonts:
+#        - asset: packages/flutter_sfsymbols/fonts/sficonsets.ttf
   # fonts:
   #   - family: Schyler
   #     fonts:
