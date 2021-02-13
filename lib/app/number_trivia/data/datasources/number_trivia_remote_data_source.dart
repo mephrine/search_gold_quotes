@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:search_gold_quotes/core/error/exceptions.dart';
 import 'package:search_gold_quotes/app/number_trivia/data/models/number_trivia_model.dart';
+import 'package:search_gold_quotes/core/error/exceptions.dart';
 
 abstract class NumberTriviaRemoteDataSource {
   Future<NumberTriviaModel> getConcreteNumberTrivia(int number);

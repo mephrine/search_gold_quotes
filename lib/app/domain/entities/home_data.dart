@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'home_gold.dart';
 import 'package:meta/meta.dart';
+
+import 'home_gold.dart';
 
 class HomeData extends Equatable {
   String famousQuotes;

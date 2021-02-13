@@ -1,10 +1,8 @@
 import 'dart:convert';
 
-import 'package:dartz/dartz.dart';
 import 'package:flutter/widgets.dart';
-import 'package:search_gold_quotes/core/error/exceptions.dart';
-import 'package:search_gold_quotes/core/error/failures.dart';
 import 'package:search_gold_quotes/app/number_trivia/data/models/number_trivia_model.dart';
+import 'package:search_gold_quotes/core/error/exceptions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class NumberTriviaLocalDataSource {

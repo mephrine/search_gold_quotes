@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:search_gold_quotes/core/platform/device_utils.dart';
-import 'package:english_words/english_words.dart';
-import 'package:flutter_sfsymbols/flutter_sfsymbols.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:search_gold_quotes/core/platform/device_utils.dart' as device;
 
 // StatelessWidget -> 상태가 없다! 즉, 한번 그려진 후 다시 그려지지 않는 위젯
@@ -23,7 +21,7 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (device.DeviceUtils.isAndroid)
+    if (device.isAndroid)
       return MaterialMain(title);
     else
       return CupertinoMain(title);
@@ -69,14 +67,14 @@ class NavigationBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (device.DeviceUtils.isAndroid)
+    if (device.isAndroid)
       return AppBar(title: Text(title));
     else
       return CupertinoNavigationBar(
           middle: Text(title),
           leading: CupertinoButton(
             padding: EdgeInsets.all(0),
-            child: Icon(SFSymbols.menu),
+            child: FaIcon(FontAwesomeIcons.bars),
             color: Colors.black,
             onPressed: () => {},
           ),
@@ -128,7 +126,7 @@ class MainContainerState extends State<MainContainer> {
   }
 
 // Dart언어에서는 식별자 앞에 _를 붙이면 private이 됨.
-  final _suggestion = <WordPair>[];
+  final _suggestion = <String>[];
   final _biggerFont = const TextStyle(fontSize: 18.0);
 
   Widget _buildSuggestions() {
@@ -139,15 +137,15 @@ class MainContainerState extends State<MainContainer> {
 
           final _splitIndex = index ~/ 2;
           if (_splitIndex >= _suggestion.length)
-            _suggestion.addAll(generateWordPairs().take(10));
+            _suggestion.addAll(['Test test test'].take(10));
           return _buildRow(_suggestion[_splitIndex]);
         });
   }
 
-  Widget _buildRow(WordPair wordPair) {
+  Widget _buildRow(String word) {
     return ListTile(
       title: Text(
-        wordPair.asPascalCase,
+        word,
         style: _biggerFont,
       ),
     );

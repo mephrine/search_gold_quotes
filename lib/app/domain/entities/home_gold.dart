@@ -1,5 +1,5 @@
-import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+
 import 'jewelry.dart';
 
 class HomeGold extends Jewelry {

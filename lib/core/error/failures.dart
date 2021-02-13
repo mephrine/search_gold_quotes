@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:search_gold_quotes/core/error/exceptions.dart';
 
 abstract class Failure extends Equatable {
   List<dynamic> properties = const<dynamic>[];

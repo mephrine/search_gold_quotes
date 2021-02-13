@@ -1,12 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
-import 'package:search_gold_quotes/core/error/exceptions.dart';
-import 'package:search_gold_quotes/core/error/failures.dart';
-import 'package:search_gold_quotes/core/platform/network_info.dart';
 import 'package:search_gold_quotes/app/number_trivia/data/datasources/number_trivia_local_data_source.dart';
 import 'package:search_gold_quotes/app/number_trivia/data/datasources/number_trivia_remote_data_source.dart';
 import 'package:search_gold_quotes/app/number_trivia/domain/entities/number_trivia.dart';
 import 'package:search_gold_quotes/app/number_trivia/domain/repositories/number_trivia_repository.dart';
+import 'package:search_gold_quotes/core/error/exceptions.dart';
+import 'package:search_gold_quotes/core/error/failures.dart';
+import 'package:search_gold_quotes/core/platform/network_info.dart';
 
 
 typedef Future<NumberTrivia> _ConcreteOrRandomChooser();
