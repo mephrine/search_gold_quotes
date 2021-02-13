@@ -1,19 +1,16 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart';
+import 'package:dio/dio.dart';
 import 'package:mockito/mockito.dart';
 import 'package:search_gold_quotes/core/error/exceptions.dart';
-import 'package:search_gold_quotes/app/number_trivia/data/datasources/number_trivia_local_data_source.dart';
 import 'package:search_gold_quotes/app/number_trivia/data/datasources/number_trivia_remote_data_source.dart';
 import 'package:search_gold_quotes/app/number_trivia/data/models/number_trivia_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
 
-class MockHttpClient extends Mock implements Client {}
+class MockHttpClient extends Mock implements Dio {}
 
 void main() {
   NumberTriviaRemoteDataSourceImpl dataSource;
@@ -25,13 +22,13 @@ void main() {
   });
 
   void setUpMockHttpClientSuccess200() {
-    when(mockHttpClient.get(any, headers: anyNamed('headers')))
-        .thenAnswer((_) async => Response(fixture('trivia.json'), 200));
+    when(mockHttpClient.get(any))
+        .thenAnswer((_) async => Response(data: fixture('trivia.json'), statusCode: 200));
   }
 
   void setUpMockHttpClientFailure404() {
-    when(mockHttpClient.get(any, headers: anyNamed('headers')))
-        .thenAnswer((_) async => Response("Server Exception Message", 404));
+    when(mockHttpClient.get(any))
+        .thenAnswer((_) async => Response(statusMessage: "Server Exception Message", statusCode: 404));
   }
 
   group('GetConcreteNumberTrivia', () {
@@ -46,7 +43,7 @@ void main() {
           // act
           dataSource.getConcreteNumberTrivia(testNumber);
           // assert
-          verify(mockHttpClient.get('http://numbersapi.com/$testNumber?json', headers: {'Content-Type': 'application/json'}));
+          verify(mockHttpClient.get('http://numbersapi.com/$testNumber?json'));
         });
 
     test('should return NumberTrivia when the reponse code is 200 (success)',
@@ -81,7 +78,7 @@ void main() {
           // act
           dataSource.getRandomNumberTrivia();
           // assert
-          verify(mockHttpClient.get('http://numbersapi.com/random/trivia?json', headers: {'Content-Type': 'application/json'}));
+          verify(mockHttpClient.get('http://numbersapi.com/random/trivia?json'));
         });
 
     test('should return NumberTrivia when the response code is 200 (success)',

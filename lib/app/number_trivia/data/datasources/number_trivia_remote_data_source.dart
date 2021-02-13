@@ -1,7 +1,7 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart';
 import 'package:search_gold_quotes/core/error/exceptions.dart';
 import 'package:search_gold_quotes/app/number_trivia/data/models/number_trivia_model.dart';
 
@@ -11,7 +11,7 @@ abstract class NumberTriviaRemoteDataSource {
 }
 
 class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
-  Client httpClient;
+  Dio httpClient;
 
 
   NumberTriviaRemoteDataSourceImpl({@required this.httpClient});
@@ -27,13 +27,10 @@ class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
 
 
   Future<NumberTriviaModel> _getTriviaFromUrl(String url) async {
-    final response = await httpClient.get(
-      url,
-      headers: {'Content-Type': 'application/json'},
-    );
+    final response = await httpClient.get(url);
 
     if (response.statusCode == 200) {
-      return NumberTriviaModel.fromJson(json.decode(response.body));
+      return NumberTriviaModel.fromJson(json.decode(response.data));
     } else {
       throw ServerException();
     }
