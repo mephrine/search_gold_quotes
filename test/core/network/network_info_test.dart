@@ -23,25 +23,25 @@ void main() {
       when(mockDataConnectionChecker.checkConnectivity())
           .thenAnswer((_) => testHasConnection);
       // act
-      final result = networkInfo.isConnected;
+      final result = await networkInfo.isConnected;
 
       // assert
       verify(mockDataConnectionChecker.checkConnectivity());
-      expect(result, Future.value(true));
+      expect(result, true);
     });
 
     test(
-        'should forward the call to Connectivity.checkConnectivity in cellular wifi', () async {
+        'should forward the call to Connectivity.checkConnectivity none', () async {
       // arrange
-      final testHasConnection = Future.value(ConnectivityResult.wifi);
+      final testHasConnection = Future.value(ConnectivityResult.none);
       when(mockDataConnectionChecker.checkConnectivity())
           .thenAnswer((_) => testHasConnection);
       // act
-      final result = networkInfo.isConnected;
+      final result = await networkInfo.isConnected;
 
       // assert
       verify(mockDataConnectionChecker.checkConnectivity());
-      expect(result, Future.value(true));
+      expect(result, false);
     });
   });
 }
