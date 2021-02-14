@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:search_gold_quotes/core/presentation/routes/coordinator.gr.dart';
 
 import 'app/number_trivia/presentation/pages/number_trivia_page.dart';
 import 'core/di/injection_container.dart' as di;
@@ -20,6 +21,7 @@ class Main extends StatelessWidget {
           primaryColor: Colors.blue.shade800,
           accentColor: Colors.blue.shade600),
       home: NumberTriviaPage(),
+      onGenerateRoute: Coordinator(),
     );
   }
 }

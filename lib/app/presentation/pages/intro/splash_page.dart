@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/main_page.dart';
 import 'package:search_gold_quotes/core/platform/device_utils.dart' as device;
+import 'package:search_gold_quotes/core/presentation/routes/coordinator.gr.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -18,16 +20,12 @@ class SplashView extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    new Future.delayed(
-        const Duration(seconds: 2),
-            () => Navigator.pushReplacement(context, CupertinoPageRoute<void>(builder: (BuildContext context) => MainPage()))
-      // () => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => MainPage()))
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     var centerText = Text("스플래시 화면");
+    _push(context);
 
     return  CupertinoApp(
       home: Scaffold(
@@ -46,16 +44,12 @@ class SplashMaterial extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    new Future.delayed(
-        const Duration(seconds: 2),
-            () => Navigator.pushReplacement(context, CupertinoPageRoute<void>(builder: (BuildContext context) => MainPage()))
-      // () => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => MainPage()))
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     var centerText = Text("스플래시 화면");
+    _push(context);
 
     return  CupertinoApp(
       home: SplashContainer(centerText),
@@ -79,4 +73,9 @@ class SplashContainer extends StatelessWidget {
         )
     );
   }
+}
+
+
+void _push(BuildContext context) async {
+  Timer(Duration(seconds: 2), () => ExtendedNavigator.of(context).replace(Routes.mainPage));
 }
