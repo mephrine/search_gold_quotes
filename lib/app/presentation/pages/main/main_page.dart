@@ -16,7 +16,7 @@ import 'package:search_gold_quotes/core/platform/device_utils.dart' as device;
 // Cupertino에서도 Scaffold가 사용은 가능하나, Cupertino~~로 시작하는 위젯들을 사용하면 될 듯?
 
 
-class MainScreen extends StatelessWidget {
+class MainPage extends StatelessWidget {
   final String title = "Find Gold Gold!!!";
 
   @override

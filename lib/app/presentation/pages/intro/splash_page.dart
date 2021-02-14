@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/main_page.dart';
 import 'package:search_gold_quotes/core/platform/device_utils.dart' as device;
 
-class SplashScreen extends StatefulWidget {
+class SplashPage extends StatefulWidget {
   @override
   SplashView createState() {
     if (device.isAndroid) {
@@ -14,14 +14,14 @@ class SplashScreen extends StatefulWidget {
   }
 }
 
-class SplashView extends State<SplashScreen> {
+class SplashView extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
     new Future.delayed(
         const Duration(seconds: 2),
-            () => Navigator.pushReplacement(context, CupertinoPageRoute<void>(builder: (BuildContext context) => MainScreen()))
-      // () => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => MainScreen()))
+            () => Navigator.pushReplacement(context, CupertinoPageRoute<void>(builder: (BuildContext context) => MainPage()))
+      // () => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => MainPage()))
     );
   }
 
@@ -42,14 +42,14 @@ class SplashView extends State<SplashScreen> {
   }
 }
 
-class SplashMaterial extends State<SplashScreen> {
+class SplashMaterial extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
     new Future.delayed(
         const Duration(seconds: 2),
-            () => Navigator.pushReplacement(context, CupertinoPageRoute<void>(builder: (BuildContext context) => MainScreen()))
-      // () => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => MainScreen()))
+            () => Navigator.pushReplacement(context, CupertinoPageRoute<void>(builder: (BuildContext context) => MainPage()))
+      // () => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => MainPage()))
     );
   }
 
