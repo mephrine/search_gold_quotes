@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:search_gold_quotes/app/domain/entities/version_info.dart';
 import 'package:meta/meta.dart';
 
@@ -13,5 +15,12 @@ class VersionInfoModel extends VersionInfo {
         latestVersion: json["latestVersion"],
         forceUpdate: json["forceUpdate"]
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "latestVersion": latestVersion,
+      "forceUpdate": forceUpdate
+    };
   }
 }

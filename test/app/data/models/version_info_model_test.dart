@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:search_gold_quotes/app/data/models/version_info_model.dart';
 import 'package:search_gold_quotes/app/domain/entities/version_info.dart';
 
@@ -20,7 +18,7 @@ void main() {
   });
 
   group('fromJSON', () {
-    test('should return a valid model json latestVersion is string', () async {
+    test('should return a valid model json forceUpdate is string', () async {
       // arrange
       final jsonMap = json.decode(fixture('version_info.json'));
       // act
@@ -28,5 +26,19 @@ void main() {
       // assert
       expect(result, versionInfoModel);
     });
+  });
+
+  group('toJSON', () {
+      test('should return a Json Map containing the proper data', () async {
+          // arrange
+        Map<String, dynamic> expectMap = {
+          "latestVersion": "1.0.0",
+          "forceUpdate": "Y"
+        };
+        // act
+        final result = versionInfoModel.toJson();
+          // assert
+        expect(result, expectMap);
+       });
   });
 }
