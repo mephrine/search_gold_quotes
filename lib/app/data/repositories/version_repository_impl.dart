@@ -8,14 +8,13 @@ import 'package:search_gold_quotes/core/error/failures.dart';
 class VersionRepositoryImpl extends VersionRepository {
   VersionRemoteDataSource remoteDataSource;
 
-
   VersionRepositoryImpl({
     @required this.remoteDataSource
   });
 
   @override
-  Future<Either<Failure, VersionInfo>> getVersionInfo() {
-    return null;
+  Future<Either<Failure, VersionInfo>> getVersionInfo() async {
+    return Right(await remoteDataSource.getVersionInfo());
   }
 
 }
