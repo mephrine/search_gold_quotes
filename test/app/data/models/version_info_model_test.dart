@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:search_gold_quotes/app/data/models/version_info_model.dart';
 import 'package:search_gold_quotes/app/domain/entities/version_info.dart';
+import 'package:search_gold_quotes/core/error/exceptions.dart';
 
 import '../../../fixtures/fixture_reader.dart';
 
@@ -25,6 +26,17 @@ void main() {
       final result = VersionInfoModel.fromJson(jsonMap);
       // assert
       expect(result, versionInfoModel);
+    });
+
+    test('should return null when the json key is invalid', () async {
+      // arrange
+      final jsonMap = json.decode(fixture('trivia.json'));
+      // act
+      final resultLatestVersion = VersionInfoModel.fromJson(jsonMap).latestVersion;
+      final resultForceUpdate = VersionInfoModel.fromJson(jsonMap).forceUpdate;
+      // assert
+      expect(resultLatestVersion, null);
+      expect(resultForceUpdate, null);
     });
   });
 

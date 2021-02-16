@@ -48,6 +48,18 @@ void main() {
       expect(result, versionInfoModel);
     });
 
+    test('should return version info when the response code is 200 and invalid json', () async {
+      // arrange
+      when(mockHttpClient.get(any)).thenAnswer((realInvocation) async =>
+          Response(statusCode: 200, data: fixture('trivia.json')));
+      // act
+      final result = await remoteDataSource.getVersionInfo();
+
+      // assert
+      verify(mockHttpClient.get(any));
+      expect(result, isNot(versionInfoModel));
+    });
+
     test('should return Failure when the response code is 500', () async {
         // arrange
       when(mockHttpClient.get(any))
