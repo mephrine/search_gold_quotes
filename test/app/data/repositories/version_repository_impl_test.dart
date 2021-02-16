@@ -30,6 +30,13 @@ void main() {
           .thenAnswer((_) async => true);
     });
 
+    test('should check if the device is online', () async {
+        // act
+      repository.getVersionInfo();
+        // assert
+      verify(networkInfo.isConnected);
+     });
+
     test('should return versionInfo when the call to version info datasource is successful', () async {
       // arrange
       when(remoteDataSource.getVersionInfo())
@@ -38,6 +45,7 @@ void main() {
       final result = await repository.getVersionInfo();
 
       // assert
+      verify(remoteDataSource.getVersionInfo());
       expect(result, Right(versionInfoModel));
     });
 
