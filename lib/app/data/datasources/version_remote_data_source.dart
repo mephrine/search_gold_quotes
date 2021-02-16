@@ -5,6 +5,7 @@ import 'package:meta/meta.dart';
 import 'package:dio/dio.dart';
 import 'package:search_gold_quotes/app/data/models/version_info_model.dart';
 import 'package:dartz/dartz.dart';
+import 'package:search_gold_quotes/core/error/exceptions.dart';
 import 'package:search_gold_quotes/core/platform/device_utils.dart' as DeviceUtils;
 
 abstract class VersionRemoteDataSource {
@@ -22,7 +23,11 @@ class VersionRemoteDataSourceImpl extends VersionRemoteDataSource {
   @override
   Future<VersionInfoModel> getVersionInfo() async {
     final response = await httpClient.get(url);
-    return VersionInfoModel.fromJson(json.decode(response.data));
+    if (response.statusCode == 200) {
+      return VersionInfoModel.fromJson(json.decode(response.data));
+    } else {
+      throw ServerException();
+    }
   }
 
 }
