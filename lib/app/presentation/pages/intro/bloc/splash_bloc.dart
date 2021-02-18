@@ -5,6 +5,9 @@ import 'package:bloc/bloc.dart';
 import 'bloc.dart';
 
 class SplashBloc extends Bloc<SplashEvent, SplashState> {
+
+  SplashBloc() : super(null);
+
   @override
   SplashState get initialState => SplashInitial();
 
@@ -14,4 +17,6 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
   ) async* {
     // TODO: implement mapEventToState
   }
+
+
 }
