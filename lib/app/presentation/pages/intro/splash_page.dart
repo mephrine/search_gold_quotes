@@ -21,18 +21,35 @@ class SplashView extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return  CupertinoApp(
+    return CupertinoApp(
       home: Scaffold(
-          body: Container(
-            child: new Center(
-              child: Lottie.asset('assets/gold.json'),
-            ),
-          )
+        body: Center(
+          child: Column(
+            children: <Widget>[
+              Lottie.asset(
+                'assets/gold.json',
+                // width: 200,
+                // height: 200,
+                // fit: BoxFit.fill
+                // controller: _controller,
+                // onLoaded: (composition) {
+                //   // Configure the AnimationController with the duration of the
+                //   // Lottie file and start the animation.
+                //   _controller
+                //     ..duration = composition.duration
+                //     ..forward();
+                // },
+              ),
+              Image.asset('images/logo.png')
+            ],
+          ),
+        ),
       ),
     );
   }
 }
 
 void _push(BuildContext context) async {
-  Timer(Duration(seconds: 2), () => ExtendedNavigator.of(context).replace(Routes.mainPage));
+  Timer(Duration(seconds: 2),
+      () => ExtendedNavigator.of(context).replace(Routes.mainPage));
 }
