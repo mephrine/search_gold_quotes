@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:search_gold_quotes/app/presentation/pages/intro/splash_page.dart';
-import 'package:search_gold_quotes/core/presentation/routes/router.dart';
 
 import 'core/di/injection_container.dart' as di;
 import 'core/presentation/routes/router.gr.dart';

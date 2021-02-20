@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:search_gold_quotes/app/presentation/pages/intro/bloc/bloc.dart';
@@ -37,12 +38,18 @@ class _SplashView extends State<SplashView> {
   Widget build(BuildContext context) {
     return BlocConsumer<SplashBloc, SplashState>(builder: (context, state) {
       return CupertinoPageScaffold(
-        child: Center(
-          child: Column(
-            children: [LottieGoldImageWidget(), LogoImageWidget()],
+        child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                LottieGoldImageWidget(),
+                LogoImageWidget()
+              ],
+            ),
           ),
-        ),
-      );
+        );
     }, listener: (context, state) {
       if (state is Loaded) {
         _push(2);
@@ -86,9 +93,8 @@ class LottieGoldImageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Lottie.asset(
       'assets/gold.json',
-      // width: 200,
-      // height: 200,
-      // fit: BoxFit.fill
+        height: 200,
+
       // controller: _controller,
       // onLoaded: (composition) {
       // Configure the AnimationController with the duration of the
@@ -104,7 +110,11 @@ class LottieGoldImageWidget extends StatelessWidget {
 class LogoImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Image.asset('images/logo.png');
+    return Image.asset(
+        'images/logo.png',
+      width: 50,
+      height: 25,
+    );
   }
 }
 
