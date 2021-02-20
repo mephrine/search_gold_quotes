@@ -29,7 +29,7 @@ Future<void> init() async {
   );
 
   // Use cases
-  container.registerLazySingleton(() => GetVersionInfo());
+  container.registerLazySingleton(() => GetVersionInfo(repository: container()));
 
   // Repository
   container.registerLazySingleton<VersionRepository>(() =>
