@@ -9,7 +9,9 @@ import 'package:mockito/mockito.dart';
 import 'package:search_gold_quotes/app/data/models/version_info_model.dart';
 import 'package:search_gold_quotes/app/domain/entities/version_info.dart';
 import 'package:search_gold_quotes/app/domain/usecases/get_version_info.dart';
+import 'package:search_gold_quotes/app/number_trivia/domain/usecases/get_random_number_trivia.dart';
 import 'package:search_gold_quotes/app/presentation/pages/intro/bloc/bloc.dart';
+import 'package:search_gold_quotes/core/error/failures.dart';
 
 import '../../../../../fixtures/fixture_reader.dart';
 
@@ -28,9 +30,58 @@ void main() {
     expect(splashBloc.initialState, Empty());
   });
 
-  group('GetVersionInfoForUpdate Usecase', () {
+  tearDown(() {
+    mockGetVersionInfo = null;
+    splashBloc = null;
+  });
+
+  group('GetVersionInfoForUpdate', () {
+    // Input값 체크 및 호출 성공, 실패 케이스, usecase성공, usecase 실패, 성공한 경우의 상태 변화, 실패한 경우의 상태 변화
     final versionInfoModel = VersionInfo(latestVersion: '1.0.0', forceUpdate: 'Y');
-    test('should return GetVersionInfo when splash page is loaded', () async {
+    test('should get data from the get version info usecase', () async {
+      // arrange
+      when(mockGetVersionInfo(any))
+          .thenAnswer((_) async => Right(versionInfoModel));
+
+      // act
+      splashBloc.add(GetVersionInfoForUpdate());
+      await untilCalled(mockGetVersionInfo(any));
+
+      // assert
+      verify(mockGetVersionInfo(NoParams()));
+    });
+
+    test('should get error when getting data fail', () async {
+      // arrange
+      when(mockGetVersionInfo(any))
+          .thenAnswer((_) async => Left(ServerFailure()));
+
+      // act
+      splashBloc.add(GetVersionInfoForUpdate());
+      await untilCalled(mockGetVersionInfo(any));
+
+      // assert
+      verify(mockGetVersionInfo(NoParams()));
+    });
+
+    test('should emit [Loading, Error] when getting data fail', () async {
+        // arrange
+        when(mockGetVersionInfo(any))
+        .thenAnswer((_) async => Left(ServerFailure()));
+
+        // act
+        splashBloc.add(GetVersionInfoForUpdate());
+
+        // assert
+        final expected = [
+          Loading(),
+          Error(message: SERVER_FAILURE_MESSAGE)
+        ];
+
+        expectLater(splashBloc, emitsInOrder(expected));
+     });
+
+    test('should emit [Loading, Loaded] when getting data success', () async {
       // arrange
       when(mockGetVersionInfo(any))
           .thenAnswer((_) async => Right(versionInfoModel));
@@ -39,8 +90,12 @@ void main() {
       splashBloc.add(GetVersionInfoForUpdate());
 
       // assert
-      expect(splashBloc.state, Loading());
+      final expected = [
+        Loading(),
+        Loaded(versionInfo: versionInfoModel)
+      ];
 
+      expectLater(splashBloc, emitsInOrder(expected));
     });
   });
 }

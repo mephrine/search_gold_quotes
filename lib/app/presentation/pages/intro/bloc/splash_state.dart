@@ -1,10 +1,16 @@
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:search_gold_quotes/app/domain/entities/version_info.dart';
 
 @immutable
-abstract class SplashState {}
+abstract class SplashState extends Equatable {}
 
-class SplashInitial extends SplashState {}
+class SplashInitial extends SplashState {
+  @override
+  // TODO: implement props
+  List<Object> get props => const <dynamic>[];
+
+}
 
 class Empty extends SplashInitial {}
 
