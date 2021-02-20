@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:connectivity/connectivity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -58,6 +60,19 @@ void main() {
       // assert
       verify(mockHttpClient.get(any));
       expect(result, isNot(versionInfoModel));
+    });
+
+    test('should return Parse Exception the response code is 200 and data is null', () async {
+      // arrange
+      when(mockHttpClient.get(any)).thenAnswer((realInvocation) async =>
+          Response(statusCode: 200, data: null));
+
+      // act
+      final call = remoteDataSource.getVersionInfo;
+
+      // assert
+      expect(() => call(), throwsA(isInstanceOf<ParseException>()));
+      verify(mockHttpClient.get(any));
     });
 
     test('should return Failure when the response code is 500', () async {

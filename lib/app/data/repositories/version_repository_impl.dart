@@ -25,6 +25,8 @@ class VersionRepositoryImpl extends VersionRepository {
         return Right(result);
       } on ServerException {
         return Left(ServerFailure());
+      } on ParseException {
+        return Left(ParseFailure());
       }
     }
     return Left(ServerFailure());

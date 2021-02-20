@@ -61,6 +61,19 @@ void main() {
       verify(remoteDataSource.getVersionInfo());
       expect(result, equals(Left(ServerFailure())));
     });
+
+    test('should return error message when the call to version info datasource is parsing failure', () async {
+      // arrange
+      when(remoteDataSource.getVersionInfo())
+          .thenThrow(ParseException());
+
+      // act
+      final result = await repository.getVersionInfo();
+
+      // assert
+      verify(remoteDataSource.getVersionInfo());
+      expect(result, equals(Left(ParseFailure())));
+    });
   });
 
   group('getVersionInfo is offline', () {

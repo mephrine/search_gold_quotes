@@ -1,12 +1,9 @@
 import 'dart:convert';
 
-import 'package:connectivity/connectivity.dart';
-import 'package:meta/meta.dart';
 import 'package:dio/dio.dart';
+import 'package:meta/meta.dart';
 import 'package:search_gold_quotes/app/data/models/version_info_model.dart';
-import 'package:dartz/dartz.dart';
 import 'package:search_gold_quotes/core/error/exceptions.dart';
-import 'package:search_gold_quotes/core/platform/device_utils.dart' as DeviceUtils;
 
 abstract class VersionRemoteDataSource {
   Future<VersionInfoModel> getVersionInfo();
@@ -24,7 +21,12 @@ class VersionRemoteDataSourceImpl extends VersionRemoteDataSource {
   Future<VersionInfoModel> getVersionInfo() async {
     final response = await httpClient.get(url);
     if (response.statusCode == 200) {
-      return VersionInfoModel.fromJson(json.decode(response.data));
+      try {
+        return VersionInfoModel.fromJson(json.decode(response.data));
+      } catch (exception) {
+        print('parseException : ' + exception.toString());
+        throw ParseException();
+      }
     } else {
       throw ServerException();
     }
