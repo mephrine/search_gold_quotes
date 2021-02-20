@@ -61,7 +61,7 @@ dependencies:
   package_info: ^0.4.3+4
 
   ### Routes
-  auto_route: ^0.6.9
+  auto_route: ^1.0.0-beta.10
 
   ### Others
   youtube_player_flutter: ^7.0.0+7
@@ -70,7 +70,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  auto_route_generator: ^0.6.10
+  auto_route_generator: ^1.0.0-beta.10
   build_runner:
 
   integration_test:
