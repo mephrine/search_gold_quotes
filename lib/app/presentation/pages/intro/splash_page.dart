@@ -17,9 +17,7 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (_) => container<SplashBloc>(),
-        child: SplashView()
-    );
+        create: (_) => container<SplashBloc>(), child: SplashView());
   }
 }
 
@@ -39,12 +37,12 @@ class _SplashView extends State<SplashView> {
   Widget build(BuildContext context) {
     return BlocConsumer<SplashBloc, SplashState>(builder: (context, state) {
       return CupertinoPageScaffold(
-          child: Center(
-            child: Column(
-              children: [LottieGoldImageWidget(), LogoImageWidget()],
-            ),
+        child: Center(
+          child: Column(
+            children: [LottieGoldImageWidget(), LogoImageWidget()],
           ),
-        );
+        ),
+      );
     }, listener: (context, state) {
       if (state is Loaded) {
         _push(2);
@@ -73,10 +71,13 @@ class _SplashView extends State<SplashView> {
     );
   }
 
-
   void _push(int delaySeconds) async {
-    Timer(Duration(seconds: delaySeconds),
-            () => context.router.replace(MainPage()));
+    Timer(
+        Duration(seconds: delaySeconds),
+        () => context.router.pushAndRemoveUntil(MainPage(),
+            predicate: (routes) {
+             return false;
+            }, onFailure: (routes) {}));
   }
 }
 
