@@ -48,16 +48,18 @@ dependencies:
   shared_preferences: ^0.5.12+4
 
   ### UI
-  fluttertoast: ^7.1.6
-  fl_chart: ^0.12.2
+  fluttertoast: ^7.1.8
+  fl_chart: ^0.12.3
   flutter_picker: ^1.1.5
-  convex_bottom_bar: ^2.6.0
-  animated_text_kit: ^3.1.0
+  convex_bottom_bar: ^2.7.1
+  tab_indicator_styler: ^1.0.0
+  animated_text_kit: ^3.1.2
   shimmer: ^1.1.2
-  flutter_screenutil: ^4.0.3+1
+  flutter_screenutil: ^4.0.3+2
   lottie: ^0.7.0+1
   pull_to_refresh: ^1.6.4
 
+  ### Platform
   package_info: ^0.4.3+4
 
   ### Routes
