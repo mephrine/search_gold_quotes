@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/history/history_view.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/home/home_view.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/video/video_view.dart';
@@ -80,7 +79,7 @@ class MainView extends StatefulWidget {
 class _MainView extends State<MainView> with SingleTickerProviderStateMixin {
   TabController _tabController;
   String _navigationTitle;
-  final _tabTitleList = ['시세', '히스토리', '영상'];
+  final _tabTitleList = ['홈', '히스토리', '영상'];
   final _pages = [
     HomeView(),
     HistoryView(),
