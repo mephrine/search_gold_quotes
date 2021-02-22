@@ -1,7 +1,6 @@
-import 'dart:convert';
 
-import 'package:search_gold_quotes/app/domain/entities/version_info.dart';
 import 'package:meta/meta.dart';
+import 'package:search_gold_quotes/app/domain/entities/version_info.dart';
 
 class VersionInfoModel extends VersionInfo {
   VersionInfoModel({

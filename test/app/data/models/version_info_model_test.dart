@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:search_gold_quotes/app/data/models/version_info_model.dart';
 import 'package:search_gold_quotes/app/domain/entities/version_info.dart';
-import 'package:search_gold_quotes/core/error/exceptions.dart';
 
 import '../../../fixtures/fixture_reader.dart';
 

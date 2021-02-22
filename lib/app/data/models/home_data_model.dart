@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 import 'package:search_gold_quotes/app/domain/entities/home_data.dart';
-import 'package:search_gold_quotes/app/domain/entities/home_gold.dart';
+
 import 'gold_model.dart';
 
 class HomeDataModel extends HomeData {
