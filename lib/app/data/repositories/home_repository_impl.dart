@@ -31,7 +31,11 @@ class HomeRepositoryImpl extends HomeRepository {
         return Left(ParseFailure());
       }
     } else {
-      return Left(ServerFailure());
+      try {
+        return Right(await localDataSource.getLastHomeData());
+      } on CacheException {
+        return Left(CacheFailure());
+      }
     }
   }
 }

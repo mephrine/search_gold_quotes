@@ -34,13 +34,15 @@ void main() {
     homeRepository = HomeRepositoryImpl(networkInfo: networkInfo, remoteDataSource: remoteDataSource, localDataSource: localDataSource);
   });
 
+  final goldList = [
+    GoldModel(jewelryType: 'G', goldDate: '2021-02-10', goldPurity: '100', goldPriceType: 'W', goldPrice: '100000'),
+    GoldModel(jewelryType: 'G', goldDate: '2021-02-09', goldPurity: '70', goldPriceType: 'W', goldPrice: '90000'),
+    GoldModel(jewelryType: 'G', goldDate: '2021-02-08', goldPurity: '100', goldPriceType: 'W', goldPrice: '95000'),
+  ];
+  final homeDataModel = HomeDataModel(famousQuotes: 'Gold is God', referenceSiteName: 'https://www.naver.com', goldList: goldList);
+
   group('network is connected', () {
-    final goldList = [
-      GoldModel(jewelryType: 'G', goldDate: '2021-02-10', goldPurity: '100', goldPriceType: 'W', goldPrice: '100000'),
-      GoldModel(jewelryType: 'G', goldDate: '2021-02-09', goldPurity: '70', goldPriceType: 'W', goldPrice: '90000'),
-      GoldModel(jewelryType: 'G', goldDate: '2021-02-08', goldPurity: '100', goldPriceType: 'W', goldPrice: '95000'),
-    ];
-    final homeDataModel = HomeDataModel(famousQuotes: 'Gold is God', referenceSiteName: 'https://www.naver.com', goldList: goldList);
+
 
     setUp(() {
       when(networkInfo.isConnected)
@@ -92,29 +94,33 @@ void main() {
 
   });
 
-  group('network is connected', () {
+  group('network is disconnected', () {
     setUp((){
       when(networkInfo.isConnected)
           .thenAnswer((_) async => false);
     });
 
-    test('should return ServerFailure when network is disconnected', () async {
-        // act
+    test('should return local cache when the call to main data repository is failure', () async {
+      // arrange
+      when(localDataSource.getLastHomeData())
+          .thenAnswer((_) async => homeDataModel);
+      // act
       final result = await homeRepository.getHomeData();
 
-        // assert
-      expect(result, Left(ServerFailure()));
-     });
+      // assert
+      verify(localDataSource.getLastHomeData());
+      expect(result, Right(homeDataModel));
+    });
 
-    test('should get local cache when server failure', () async {
+    test('should return local cache when the call to main data repository is failure', () async {
       // arrange
-      when(remoteDataSource.getHomeData())
-          .thenThrow((_) => ServerException());
+      when(localDataSource.getLastHomeData())
+          .thenThrow(CacheException());
       // act
-      final call = await homeRepository.getHomeData();
+      final result = await homeRepository.getHomeData();
 
       // assert
-      expect(() => call, throwsA(isInstanceOf<ServerException>()));
+      expect(result, Left(CacheFailure()));
     });
   });
 }
