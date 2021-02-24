@@ -66,6 +66,7 @@ void main() {
       final result = await remoteDataSource.getHomeData();
 
       // assert
+      verify(localDataSource.cacheHomeData(any));
       expect(result, homeDataModel);
     });
 
@@ -81,7 +82,7 @@ void main() {
       expect(result, Left(ServerFailure()));
     });
     
-    test('should return ParseException when the call to main data repositoiry data is null', () async {
+    test('should return ParseException when the call to main data repository data is null', () async {
         // arrange
         when(remoteDataSource.getHomeData())
             .thenThrow(ParseException());

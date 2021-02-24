@@ -24,7 +24,9 @@ class HomeRepositoryImpl extends HomeRepository {
     bool isConnected = await networkInfo.isConnected;
     if (isConnected) {
       try {
-        return Right(await remoteDataSource.getHomeData());
+        final homeDataModel = await remoteDataSource.getHomeData();
+        localDataSource.cacheHomeData(homeDataModel);
+        return Right(homeDataModel);
       } on ServerException {
         return Left(ServerFailure());
       } on ParseException {
