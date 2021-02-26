@@ -8,21 +8,12 @@ part 'history_event.dart';
 part 'history_state.dart';
 
 class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
-  final GetHomeData getHomeData;
-
-  HistoryBloc({
-    @required GetHomeData homeData
-  }): assert(null != homeData),
-  getHomeData = homeData,
-  super(Empty());
+  HistoryBloc(HistoryState initialState) : super(initialState);
 
   @override
   HistoryState get initialState => Empty();
 
   @override
   Stream<HistoryState> mapEventToState(HistoryEvent event) async* {
-    if (event is GetHomeData) {
-
-    }
   }
 }
