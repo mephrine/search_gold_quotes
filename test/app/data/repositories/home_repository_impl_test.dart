@@ -60,7 +60,7 @@ void main() {
     test('should return a model when network is connected', () async {
       // arrange
       when(remoteDataSource.getHomeData())
-        .thenAnswer((_) async => HomeDataModel.fromJSON(json.decode(fixture('home_data.json'))));
+        .thenAnswer((_) async => HomeDataModel.fromJson(json.decode(fixture('home_data.json'))));
 
       // act
       final result = await remoteDataSource.getHomeData();

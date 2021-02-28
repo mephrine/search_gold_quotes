@@ -26,7 +26,7 @@ class GoldModel extends HomeGold {
     return '과거';
   }
 
-  factory GoldModel.fromJSON(Map<String, dynamic> jsonMap) {
+  factory GoldModel.fromJson(Map<String, dynamic> jsonMap) {
     return GoldModel(
         jewelryType: jsonMap['jewelryType'],
         goldDate: jsonMap['goldDate'],
@@ -35,7 +35,7 @@ class GoldModel extends HomeGold {
         goldPrice: jsonMap['goldPrice']);
   }
 
-  Map<String, dynamic> toJSON() {
+  Map<String, dynamic> toJson() {
     return {
       "jewelryType": jewelryType,
       "goldDate": date,

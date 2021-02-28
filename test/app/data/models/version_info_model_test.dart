@@ -17,7 +17,7 @@ void main() {
     expect(versionInfoModel, isA<VersionInfo>());
   });
 
-  group('fromJSON', () {
+  group('fromJson', () {
     test('should return a valid model json forceUpdate is string', () async {
       // arrange
       final jsonMap = json.decode(fixture('version_info.json'));
@@ -39,7 +39,7 @@ void main() {
     });
   });
 
-  group('toJSON', () {
+  group('toJson', () {
       test('should return a Json Map containing the proper data', () async {
           // arrange
         Map<String, dynamic> expectMap = {

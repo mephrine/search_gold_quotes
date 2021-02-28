@@ -14,7 +14,7 @@ class GetHomeInfo extends UseCase<HomeData, NoParams> {
   });
 
   @override
-  Future<Either<Failure, HomeData>> call(NoParams params) {
-    return homeRepository.getHomeData();
+  Future<Either<Failure, HomeData>> call(NoParams params) async {
+    return await homeRepository.getHomeData();
   }
 }

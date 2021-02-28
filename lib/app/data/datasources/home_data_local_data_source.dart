@@ -22,7 +22,7 @@ class HomeDataLocalDataSourceImpl extends HomeDataLocalDataSource {
   Future<HomeDataModel> getLastHomeData() {
     final jsonString = sharedPreferences.getString(CACHED_MAIN_DATA);
     if(jsonString != null) {
-      return Future.value(HomeDataModel.fromJSON(json.decode(jsonString)));
+      return Future.value(HomeDataModel.fromJson(json.decode(jsonString)));
     }
     throw CacheException();
   }

@@ -14,7 +14,7 @@ class GetVersionInfo extends UseCase<VersionInfo, NoParams>  {
   });
 
   @override
-  Future<Either<Failure, VersionInfo>> call(NoParams parms) {
-    return repository.getVersionInfo();
+  Future<Either<Failure, VersionInfo>> call(NoParams parms) async {
+    return await repository.getVersionInfo();
   }
 }

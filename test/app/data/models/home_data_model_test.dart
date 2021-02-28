@@ -29,7 +29,7 @@ void main() {
       // arrange
       final Map<String, dynamic> jsonMap = json.decode(fixture('home_data.json'));
       // act
-      final result = HomeDataModel.fromJSON(jsonMap);
+      final result = HomeDataModel.fromJson(jsonMap);
       // assert
       expect(result, homeDataModel);
     });
@@ -66,7 +66,7 @@ void main() {
           ]
         };
           // act
-        final result = homeDataModel.toJSON();
+        final result = homeDataModel.toJson();
           // assert
         expect(result, jsonMap);
        });

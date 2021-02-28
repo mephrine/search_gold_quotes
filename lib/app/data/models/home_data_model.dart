@@ -14,24 +14,24 @@ class HomeDataModel extends HomeData {
   );
 
   // List<HomeGold> toHomeGoldList(List<GoldModel> goldModelList) {
-  //   List<GoldModel> _goldList = List<GoldModel>.from(goldModelList.map((item) => GoldModel.fromJSON(item)));
+  //   List<GoldModel> _goldList = List<GoldModel>.from(goldModelList.map((item) => GoldModel.fromJson(item)));
   //   return goldModelList.map((item) => HomeGold(date: item.date, day: null, price: item.price));
   // }
 
-  factory HomeDataModel.fromJSON(Map<String, dynamic> jsonMap) {
+  factory HomeDataModel.fromJson(Map<String, dynamic> jsonMap) {
     Iterable iterator = jsonMap['goldList'];
-    List<GoldModel> _goldList = List<GoldModel>.from(iterator.map((item) => GoldModel.fromJSON(item)));
+    List<GoldModel> _goldList = List<GoldModel>.from(iterator.map((item) => GoldModel.fromJson(item)));
     return HomeDataModel(
         famousQuotes: jsonMap['famousQuotes'],
         referenceSiteName: jsonMap['referenceSiteName'],
         goldList: _goldList);
   }
 
-  Map<String, dynamic> toJSON() {
+  Map<String, dynamic> toJson() {
     return {
       "famousQuotes": famousQuotes,
       "referenceSiteName": referenceSiteName,
-      "goldList": (goldList as List<GoldModel>).map((item) => item.toJSON())
+      "goldList": (goldList as List<GoldModel>).map((item) => item.toJson())
     };
   }
 }
