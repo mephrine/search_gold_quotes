@@ -7,9 +7,9 @@ import 'package:search_gold_quotes/app/domain/entities/video_items.dart';
 import '../../../fixtures/fixture_reader.dart';
 
 void main() {
-  VideoItemListModel videoList;
+  VideoListModel videoList;
   setUp(() {
-    videoList = VideoItemListModel(itemList: [
+    videoList = VideoListModel(itemList: [
       VideoItemModel(title: 'Video1', subTitle: 'SubTitle1', linkURL: 'https://www.naver.com', imagePath: 'https://lottiefiles.com/10203-gold'),
       VideoItemModel(title: 'Video2', subTitle: 'SubTitle2', linkURL: 'https://www.daum.net', imagePath: 'https://lottiefiles.com/10204-gold'),
       VideoItemModel(title: 'Video3', subTitle: 'SubTitle3', linkURL: 'https://www.nate.com', imagePath: 'https://lottiefiles.com/10205-gold')
@@ -31,7 +31,7 @@ void main() {
       // arrange
       final jsonMap = json.decode(fixture('video.json'));
       // act
-      final result = VideoItemListModel.fromJson(jsonMap);
+      final result = VideoListModel.fromJson(jsonMap);
       // assert
       expect(result, videoList);
     });

@@ -1,15 +1,15 @@
 import 'package:search_gold_quotes/app/domain/entities/video_items.dart';
 import 'package:meta/meta.dart';
 
-class VideoItemListModel extends VideoList {
+class VideoListModel extends VideoList {
 
-  factory VideoItemListModel.fromJson(Map<String, dynamic> jsonMap) {
+  factory VideoListModel.fromJson(Map<String, dynamic> jsonMap) {
     Iterable iterable = jsonMap['videoList'];
     final videoList = List<VideoItemModel>.from(iterable.map((jsonMap) => VideoItemModel.fromJson(jsonMap)));
-    return VideoItemListModel(itemList: videoList);
+    return VideoListModel(itemList: videoList);
   }
 
-  VideoItemListModel({@required List<VideoItemModel> itemList}): super(itemList: itemList);
+  VideoListModel({@required List<VideoItemModel> itemList}): super(itemList: itemList);
 }
 
 
