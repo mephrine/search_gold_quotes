@@ -1,11 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
-import 'package:search_gold_quotes/app/domain/entities/video_item.dart';
+import 'package:search_gold_quotes/app/domain/entities/video_items.dart';
 import 'package:search_gold_quotes/app/domain/repositories/video_repository.dart';
+import 'package:search_gold_quotes/app/number_trivia/domain/usecases/get_random_number_trivia.dart';
 import 'package:search_gold_quotes/core/error/failures.dart';
 import 'package:search_gold_quotes/core/usecases/usecase.dart';
 
-class GetVideoList extends UseCase<VideoItem, Failure> {
+class GetVideoList extends UseCase<VideoList, NoParams> {
   final VideoRepository repository;
 
   GetVideoList({
@@ -13,8 +14,8 @@ class GetVideoList extends UseCase<VideoItem, Failure> {
   });
 
   @override
-  Future<Either<Failure, VideoItem>> call(Failure parms) {
-    return null;
+  Future<Either<Failure, VideoList>> call(NoParams parms) async {
+    return await repository.getVideoList();
   }
 
 }
