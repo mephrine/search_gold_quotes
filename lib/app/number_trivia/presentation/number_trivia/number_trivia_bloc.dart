@@ -10,14 +10,10 @@ import 'package:search_gold_quotes/app/number_trivia/domain/usecases/get_random_
 import 'package:search_gold_quotes/core/error/failures.dart';
 import 'package:search_gold_quotes/core/presentation/utils/input_converter.dart';
 import 'package:search_gold_quotes/core/usecases/NoParams.dart';
+import 'package:search_gold_quotes/core/values/strings.dart';
 
 part 'number_trivia_event.dart';
 part 'number_trivia_state.dart';
-
-const String SERVER_FAILURE_MESSAGE = 'Server Failure';
-const String CACHE_FAILURE_MESSAGE = 'Cache Failure';
-const String INVALID_INPUT_FAILURE_MESSAGE =
-    'Invalid Input - The number must be a positive integer or zero';
 
 class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
   final GetConcreteNumberTrivia getConcreteNumberTrivia;

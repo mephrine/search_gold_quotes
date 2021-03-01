@@ -4,9 +4,11 @@ import 'package:mockito/mockito.dart';
 import 'package:search_gold_quotes/app/domain/entities/home_data.dart';
 import 'package:search_gold_quotes/app/domain/entities/home_gold.dart';
 import 'package:search_gold_quotes/app/domain/usecases/get_home_data.dart';
+import 'package:search_gold_quotes/app/presentation/pages/intro/bloc/bloc.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/home/home/home_bloc.dart';
 import 'package:search_gold_quotes/core/error/failures.dart';
 import 'package:search_gold_quotes/core/usecases/NoParams.dart';
+import 'package:search_gold_quotes/core/values/strings.dart';
 
 class MockGetHomeInfoUsecase extends Mock implements GetHomeInfo {}
 
@@ -63,7 +65,8 @@ void main() {
 
       // assert
       final expected = [
-        Loading()
+        Loading(),
+        Error(message: SERVER_FAILURE_MESSAGE)
       ];
       expectLater(bloc, emitsInOrder(expected));
     });

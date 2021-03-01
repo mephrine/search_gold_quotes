@@ -22,5 +22,9 @@ class Loaded extends InitialHomeState {
 }
 
 class Error extends InitialHomeState {
+  final String message;
 
+  Error({
+    @required this.message
+  });
 }

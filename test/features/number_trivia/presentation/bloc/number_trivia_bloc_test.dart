@@ -8,6 +8,7 @@ import 'package:search_gold_quotes/app/number_trivia/presentation/number_trivia/
 import 'package:search_gold_quotes/core/error/failures.dart';
 import 'package:search_gold_quotes/core/presentation/utils/input_converter.dart';
 import 'package:search_gold_quotes/core/usecases/NoParams.dart';
+import 'package:search_gold_quotes/core/values/strings.dart';
 
 class MockGetConcreteNumberTrivia extends Mock
     implements GetConcreteNumberTrivia {}
