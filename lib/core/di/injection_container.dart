@@ -15,6 +15,7 @@ import 'package:search_gold_quotes/app/number_trivia/presentation/number_trivia/
 import 'package:search_gold_quotes/app/presentation/pages/intro/bloc/bloc.dart';
 import 'package:search_gold_quotes/core/platform/network_info.dart';
 import 'package:search_gold_quotes/core/presentation/utils/input_converter.dart';
+import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Service Locator
@@ -81,6 +82,8 @@ Future<void> init() async {
   //! Core
   container.registerLazySingleton(() => InputConverter());
   container.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(container()));
+  container.registerLazySingleton(() => ThemeNotifier(preferences: container()));
+
 }
 
 void initFeatures() {}
