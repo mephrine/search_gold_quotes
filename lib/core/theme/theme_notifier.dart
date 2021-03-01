@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
@@ -26,28 +27,30 @@ class ThemeNotifier with ChangeNotifier {
   static const String KEY_THEME_MODE = 'themeMode';
   final SharedPreferences preferences;
 
-  final darkTheme = ThemeData(
-    primarySwatch: Colors.grey,
+  final darkTheme = CupertinoThemeData(
+    primaryContrastingColor: Colors.grey,
     primaryColor: Colors.black,
     brightness: Brightness.dark,
-    backgroundColor: const Color(0xFF212121),
-    accentColor: Colors.white,
-    accentIconTheme: IconThemeData(color: Colors.black),
-    dividerColor: Colors.black12,
+    scaffoldBackgroundColor: const Color(0xFF212121),
+    barBackgroundColor : Colors.white,
+    textTheme: CupertinoTextThemeData(
+      primaryColor: Colors.white
+    ),
   );
 
-  final lightTheme = ThemeData(
-    primarySwatch: Colors.grey,
+  final lightTheme = CupertinoThemeData(
+    primaryContrastingColor: Colors.grey,
     primaryColor: Colors.white,
     brightness: Brightness.light,
-    backgroundColor: const Color(0xFFE5E5E5),
-    accentColor: Colors.black,
-    accentIconTheme: IconThemeData(color: Colors.white),
-    dividerColor: Colors.white54,
+    scaffoldBackgroundColor: const Color(0xFFE5E5E5),
+    barBackgroundColor: Colors.black,
+    textTheme: CupertinoTextThemeData(
+        primaryColor: Colors.black
+    ),
   );
 
-  ThemeData _themeData;
-  ThemeData getTheme() => _themeData;
+  CupertinoThemeData _themeData;
+  CupertinoThemeData getTheme() => _themeData;
 
   ThemeNotifier({
     @required this.preferences
