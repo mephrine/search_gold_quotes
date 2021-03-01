@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:search_gold_quotes/app/data/models/version_info_model.dart';
 import 'package:search_gold_quotes/app/domain/entities/version_info.dart';
-import 'package:search_gold_quotes/core/error/exceptions.dart';
 
 import '../../../fixtures/fixture_reader.dart';
 
@@ -18,7 +17,7 @@ void main() {
     expect(versionInfoModel, isA<VersionInfo>());
   });
 
-  group('fromJSON', () {
+  group('fromJson', () {
     test('should return a valid model json forceUpdate is string', () async {
       // arrange
       final jsonMap = json.decode(fixture('version_info.json'));
@@ -40,7 +39,7 @@ void main() {
     });
   });
 
-  group('toJSON', () {
+  group('toJson', () {
       test('should return a Json Map containing the proper data', () async {
           // arrange
         Map<String, dynamic> expectMap = {

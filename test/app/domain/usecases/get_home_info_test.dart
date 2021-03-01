@@ -5,7 +5,7 @@ import 'package:search_gold_quotes/app/domain/entities/home_data.dart';
 import 'package:search_gold_quotes/app/domain/entities/home_gold.dart';
 import 'package:search_gold_quotes/app/domain/repositories/home_repository.dart';
 import 'package:search_gold_quotes/app/domain/usecases/get_home_data.dart';
-import 'package:search_gold_quotes/app/number_trivia/domain/usecases/get_random_number_trivia.dart';
+import 'package:search_gold_quotes/core/usecases/no_params.dart';
 
 class MockHomeRepository extends Mock implements HomeRepository {}
 

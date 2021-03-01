@@ -4,13 +4,13 @@ import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 import 'package:search_gold_quotes/app/data/models/version_info_model.dart';
 import 'package:search_gold_quotes/core/error/exceptions.dart';
+import 'package:search_gold_quotes/core/values/strings.dart';
 
 abstract class VersionRemoteDataSource {
   Future<VersionInfoModel> getVersionInfo();
 }
 
 class VersionRemoteDataSourceImpl extends VersionRemoteDataSource {
-  final url = "https://www.naver.com";
   final Dio httpClient;
 
   VersionRemoteDataSourceImpl({
@@ -19,7 +19,7 @@ class VersionRemoteDataSourceImpl extends VersionRemoteDataSource {
 
   @override
   Future<VersionInfoModel> getVersionInfo() async {
-    final response = await httpClient.get(url);
+    final response = await httpClient.get(apiURL);
     if (response.statusCode == 200) {
       try {
         return VersionInfoModel.fromJson(json.decode(response.data));
