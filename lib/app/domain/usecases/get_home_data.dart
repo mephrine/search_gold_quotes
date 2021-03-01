@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 import 'package:search_gold_quotes/app/domain/entities/home_data.dart';
 import 'package:search_gold_quotes/app/domain/repositories/home_repository.dart';
 import 'package:search_gold_quotes/core/error/failures.dart';
-import 'package:search_gold_quotes/core/usecases/NoParams.dart';
+import 'package:search_gold_quotes/core/usecases/no_params.dart';
 import 'package:search_gold_quotes/core/usecases/usecase.dart';
 
 class GetHomeInfo extends UseCase<HomeData, NoParams> {

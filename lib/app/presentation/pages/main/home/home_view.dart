@@ -66,8 +66,16 @@ class _HomeLoadedWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
         children: [
-          Text(homeData.famousQuotes),
-          Text(homeData.referenceSiteName),
+          Text(
+              homeData.famousQuotes,
+            style: TextStyle(
+
+            ),
+          ),
+          Text(homeData.referenceSiteName,
+            style: TextStyle(
+
+            )),
           LineChart(
             LineChartData(
               // read about it in the below section

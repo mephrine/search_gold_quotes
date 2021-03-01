@@ -4,7 +4,7 @@ import 'package:mockito/mockito.dart';
 import 'package:search_gold_quotes/app/domain/entities/version_info.dart';
 import 'package:search_gold_quotes/app/domain/repositories/version_repository.dart';
 import 'package:search_gold_quotes/app/domain/usecases/get_version_info.dart';
-import 'package:search_gold_quotes/core/usecases/NoParams.dart';
+import 'package:search_gold_quotes/core/usecases/no_params.dart';
 
 
 class MockVersionRepository extends Mock implements VersionRepository {}

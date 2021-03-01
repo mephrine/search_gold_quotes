@@ -4,7 +4,7 @@ import 'package:mockito/mockito.dart';
 import 'package:search_gold_quotes/app/number_trivia/domain/entities/number_trivia.dart';
 import 'package:search_gold_quotes/app/number_trivia/domain/repositories/number_trivia_repository.dart';
 import 'package:search_gold_quotes/app/number_trivia/domain/usecases/get_random_number_trivia.dart';
-import 'package:search_gold_quotes/core/usecases/NoParams.dart';
+import 'package:search_gold_quotes/core/usecases/no_params.dart';
 
 class MockNumberTriviaRepository extends Mock implements NumberTriviaRepository {
 
