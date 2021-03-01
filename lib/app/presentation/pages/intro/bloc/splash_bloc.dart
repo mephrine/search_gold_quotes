@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:search_gold_quotes/app/domain/usecases/get_version_info.dart';
 import 'package:search_gold_quotes/app/number_trivia/domain/usecases/get_random_number_trivia.dart';
+import 'package:search_gold_quotes/core/usecases/NoParams.dart';
 
 import 'bloc.dart';
 

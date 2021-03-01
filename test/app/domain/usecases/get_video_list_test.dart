@@ -6,6 +6,7 @@ import 'package:search_gold_quotes/app/domain/repositories/video_repository.dart
 import 'package:search_gold_quotes/app/domain/usecases/get_video_list.dart';
 import 'package:search_gold_quotes/app/number_trivia/domain/usecases/get_random_number_trivia.dart';
 import 'package:search_gold_quotes/core/error/failures.dart';
+import 'package:search_gold_quotes/core/usecases/NoParams.dart';
 
 class MockVideoRepository extends Mock implements VideoRepository {}
 

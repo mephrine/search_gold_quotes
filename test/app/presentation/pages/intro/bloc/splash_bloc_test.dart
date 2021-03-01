@@ -10,6 +10,7 @@ import 'package:search_gold_quotes/app/domain/usecases/get_version_info.dart';
 import 'package:search_gold_quotes/app/number_trivia/domain/usecases/get_random_number_trivia.dart';
 import 'package:search_gold_quotes/app/presentation/pages/intro/bloc/bloc.dart';
 import 'package:search_gold_quotes/core/error/failures.dart';
+import 'package:search_gold_quotes/core/usecases/NoParams.dart';
 
 class MockGetVersionInfo extends Mock implements GetVersionInfo {}
 
