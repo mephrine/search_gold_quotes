@@ -5,7 +5,6 @@ abstract class HomeState extends Equatable {}
 
 class InitialHomeState extends HomeState {
   @override
-  // TODO: implement props
   List<Object> get props => const <dynamic>[];
 
 }
@@ -15,7 +14,11 @@ class Empty extends InitialHomeState {}
 class Loading extends InitialHomeState {}
 
 class Loaded extends InitialHomeState {
+  final HomeData homeData;
 
+  Loaded({
+    @required this.homeData
+  });
 }
 
 class Error extends InitialHomeState {

@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:search_gold_quotes/app/number_trivia/presentation/widgets/loading_widget.dart';
@@ -26,6 +27,7 @@ class _HomeContainer extends State<HomeContainer> {
   @override
   void initState() {
     super.initState();
+    _dispatchHomeData(context);
   }
 
   @override
@@ -42,6 +44,13 @@ class _HomeContainer extends State<HomeContainer> {
       }
     }
     );
+  }
+
+  void _dispatchHomeData() {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      BlocProvider.of<HomeBloc>(context, listen: false)
+          .add(GetHomeData());
+    });
   }
 }
 
