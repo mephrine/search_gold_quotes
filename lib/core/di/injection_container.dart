@@ -1,9 +1,14 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:search_gold_quotes/app/data/datasources/home_data_local_data_source.dart';
+import 'package:search_gold_quotes/app/data/datasources/home_data_remote_data_source.dart';
 import 'package:search_gold_quotes/app/data/datasources/version_remote_data_source.dart';
+import 'package:search_gold_quotes/app/data/repositories/home_repository_impl.dart';
 import 'package:search_gold_quotes/app/data/repositories/version_repository_impl.dart';
+import 'package:search_gold_quotes/app/domain/repositories/home_repository.dart';
 import 'package:search_gold_quotes/app/domain/repositories/version_repository.dart';
+import 'package:search_gold_quotes/app/domain/usecases/get_home_data.dart';
 import 'package:search_gold_quotes/app/domain/usecases/get_version_info.dart';
 import 'package:search_gold_quotes/app/number_trivia/data/datasources/number_trivia_local_data_source.dart';
 import 'package:search_gold_quotes/app/number_trivia/data/datasources/number_trivia_remote_data_source.dart';
@@ -13,6 +18,7 @@ import 'package:search_gold_quotes/app/number_trivia/domain/usecases/get_concret
 import 'package:search_gold_quotes/app/number_trivia/domain/usecases/get_random_number_trivia.dart';
 import 'package:search_gold_quotes/app/number_trivia/presentation/number_trivia/number_trivia_bloc.dart';
 import 'package:search_gold_quotes/app/presentation/pages/intro/bloc/bloc.dart';
+import 'package:search_gold_quotes/app/presentation/pages/main/home/home/home_bloc.dart';
 import 'package:search_gold_quotes/core/platform/network_info.dart';
 import 'package:search_gold_quotes/core/presentation/utils/input_converter.dart';
 import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
@@ -29,17 +35,31 @@ Future<void> init() async {
     SplashBloc(versionInfo: container())
   );
 
+  container.registerFactory(() =>
+    HomeBloc(homeInfo: container())
+  );
+
   // Use cases
   container.registerLazySingleton(() => GetVersionInfo(repository: container()));
+  container.registerLazySingleton(() => GetHomeInfo(homeRepository: container()));
 
   // Repository
   container.registerLazySingleton<VersionRepository>(() =>
     VersionRepositoryImpl(remoteDataSource: container(), networkInfo: container())
   );
+  container.registerLazySingleton<HomeRepository>(() =>
+      HomeRepositoryImpl(remoteDataSource: container(), networkInfo: container())
+  );
 
   // DataSource
   container.registerLazySingleton<VersionRemoteDataSource>(() =>
       VersionRemoteDataSourceImpl(httpClient: container())
+  );
+  container.registerLazySingleton<HomeDataRemoteDataSource>(() =>
+      HomeDataRemoteDataSourceImpl(httpClient: container())
+  );
+  container.registerLazySingleton<HomeDataLocalDataSource>(() =>
+    HomeDataLocalDataSourceImpl(sharedPreferences: container())
   );
 
   //! Featurs - NumberTrivia

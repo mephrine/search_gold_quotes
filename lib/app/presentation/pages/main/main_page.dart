@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/history/history_view.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/home/home_view.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/video/video_view.dart';
+import 'package:search_gold_quotes/core/di/injection_container.dart';
 import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
 import 'package:search_gold_quotes/core/values/colors.dart';
 
@@ -24,12 +25,17 @@ import 'package:search_gold_quotes/core/values/colors.dart';
 class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-      return Consumer<ThemeNotifier>(
-        builder: (context, theme, child) => CupertinoApp(
-          theme: theme.getTheme(),
-          home: MainView(),
-        ),
-      );
+    return ChangeNotifierProvider(
+      create: (_) => container<ThemeNotifier>(),
+      child: Consumer<ThemeNotifier>(
+          builder: (context, ThemeNotifier theme, child) {
+            return CupertinoApp(
+              theme: theme.getTheme(),
+              home: MainView(),
+            );
+          }
+      ),
+    );
   }
 }
 

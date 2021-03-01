@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
@@ -17,7 +18,6 @@ class HomeView extends StatelessWidget {
     );
   }
 }
-
 
 class HomeContainer extends StatefulWidget {
   @override
@@ -43,14 +43,12 @@ class _HomeContainer extends State<HomeContainer> {
       } else if (state is Error) {
         return MessageDisplay(message: state.message);
       }
-    }
-    );
+    });
   }
 
   void _dispatchHomeData() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      BlocProvider.of<HomeBloc>(context, listen: false)
-          .add(GetHomeData());
+      BlocProvider.of<HomeBloc>(context, listen: false).add(GetHomeData());
     });
   }
 }
@@ -58,30 +56,44 @@ class _HomeContainer extends State<HomeContainer> {
 class _HomeLoadedWidget extends StatelessWidget {
   final HomeData homeData;
 
-  _HomeLoadedWidget({
-    @required this.homeData
+  _HomeLoadedWidget({@required this.homeData});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: [
+      FamousQuotesAnimationWidget(
+          famousQuotes: homeData.famousQuotes
+      ),
+      Text(
+          homeData.referenceSiteName,
+          style: TextStyle(fontSize: 14)
+      ),
+      LineChart(
+        LineChartData(
+            // read about it in the below section
+            ),
+      ),
+    ]);
+  }
+}
+
+class FamousQuotesAnimationWidget extends StatelessWidget {
+  final String famousQuotes;
+
+  FamousQuotesAnimationWidget({
+    @required this.famousQuotes
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        children: [
-          Text(
-              homeData.famousQuotes,
-            style: TextStyle(
-
-            ),
-          ),
-          Text(homeData.referenceSiteName,
-            style: TextStyle(
-
-            )),
-          LineChart(
-            LineChartData(
-              // read about it in the below section
-            ),
-          ),
-        ]
+    return TypewriterAnimatedTextKit(
+      speed: Duration(milliseconds: 2000),
+      repeatForever: true,
+      text: [famousQuotes],
+      textStyle: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
+      pause: Duration(milliseconds: 1000),
+      displayFullTextOnTap: false,
+      stopPauseOnTap: false,
     );
   }
 }
