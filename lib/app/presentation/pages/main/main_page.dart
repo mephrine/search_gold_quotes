@@ -1,9 +1,11 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/history/history_view.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/home/home_view.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/video/video_view.dart';
+import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
 import 'package:search_gold_quotes/core/values/colors.dart';
 
 // StatelessWidget -> 상태가 없다! 즉, 한번 그려진 후 다시 그려지지 않는 위젯
@@ -22,11 +24,11 @@ import 'package:search_gold_quotes/core/values/colors.dart';
 class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-      return CupertinoApp(
-        theme: CupertinoThemeData(
-            primaryColor: primaryColor,
-            scaffoldBackgroundColor: backgroundColor),
-        home: MainView(),
+      return Consumer<ThemeNotifier>(
+        builder: (context, theme, child) => CupertinoApp(
+          theme: theme.getTheme(),
+          home: MainView(),
+        ),
       );
   }
 }
