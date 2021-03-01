@@ -1,5 +1,5 @@
-import 'package:search_gold_quotes/app/domain/entities/video_items.dart';
 import 'package:meta/meta.dart';
+import 'package:search_gold_quotes/app/domain/entities/video_items.dart';
 
 class VideoListModel extends VideoList {
 

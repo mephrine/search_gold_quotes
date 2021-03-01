@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:equatable/equatable.dart';
 import 'package:search_gold_quotes/app/number_trivia/domain/entities/number_trivia.dart';
 import 'package:search_gold_quotes/app/number_trivia/domain/repositories/number_trivia_repository.dart';
 import 'package:search_gold_quotes/core/error/failures.dart';

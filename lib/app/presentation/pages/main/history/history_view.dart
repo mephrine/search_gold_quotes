@@ -1,4 +1,3 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/widgets.dart';
 
 class HistoryView extends StatelessWidget {

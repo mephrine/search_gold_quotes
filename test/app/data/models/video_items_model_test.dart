@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:search_gold_quotes/app/data/models/video_items_model.dart';
-import 'package:search_gold_quotes/app/domain/entities/video_items.dart';
 
 import '../../../fixtures/fixture_reader.dart';
 
