@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:search_gold_quotes/app/domain/entities/home_data.dart';
 import 'package:search_gold_quotes/app/number_trivia/presentation/widgets/loading_widget.dart';
 import 'package:search_gold_quotes/app/number_trivia/presentation/widgets/message_display.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/home/home/home_bloc.dart';
@@ -27,19 +28,19 @@ class _HomeContainer extends State<HomeContainer> {
   @override
   void initState() {
     super.initState();
-    _dispatchHomeData(context);
+    _dispatchHomeData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(builder: (bloc, state) {
-      if (state == Empty) {
+    return BlocBuilder<HomeBloc, HomeState>(builder: (bloc, state) {
+      if (state is Empty) {
         return Container();
-      } else if (state == Loading) {
+      } else if (state is Loading) {
         return LoadingWidget();
-      } else if (state == Loaded) {
-        return _HomeLoadedWidget();
-      } else if (state == Error) {
+      } else if (state is Loaded) {
+        return _HomeLoadedWidget(homeData: state.homeData);
+      } else if (state is Error) {
         return MessageDisplay(message: state.message);
       }
     }
@@ -55,12 +56,18 @@ class _HomeContainer extends State<HomeContainer> {
 }
 
 class _HomeLoadedWidget extends StatelessWidget {
+  final HomeData homeData;
+
+  _HomeLoadedWidget({
+    @required this.homeData
+  });
+
   @override
   Widget build(BuildContext context) {
     return Column(
         children: [
-          Text("Gold is God"),
-          Text("Ref."),
+          Text(homeData.famousQuotes),
+          Text(homeData.referenceSiteName),
           LineChart(
             LineChartData(
               // read about it in the below section
