@@ -1,8 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+enum AppTheme {
+  system, light, dark
+}
+
+extension Theme on AppTheme {
+  String value() {
+    switch(this) {
+      case AppTheme.system:
+        return 'system';
+      case AppTheme.light:
+        return 'light';
+      case AppTheme.dark:
+        return 'dark';
+      default:
+        return 'light';
+    }
+  }
+}
+
 class ThemeNotifier with ChangeNotifier {
+  static const String KEY_THEME_MODE = 'themeMode';
   final SharedPreferences preferences;
 
   final darkTheme = ThemeData(
@@ -31,28 +52,60 @@ class ThemeNotifier with ChangeNotifier {
   ThemeNotifier({
     @required this.preferences
   }) {
-    preferences.get('themeMode').then((value) {
-      print('value read from storage: ' + value.toString());
-      var themeMode = value ?? 'light';
-      if (themeMode == 'light') {
-        _themeData = lightTheme;
-      } else {
-        print('setting dark theme');
-        _themeData = darkTheme;
-      }
-      notifyListeners();
-    });
+    AppTheme themeMode = getThemeMode();
+    if (themeMode == AppTheme.system) {
+      themeMode = _getSystemAppTheme();
+    }
+
+    if (themeMode == AppTheme.light) {
+      print('setting light theme');
+      _themeData = lightTheme;
+    } else {
+      print('setting dark theme');
+      _themeData = darkTheme;
+    }
+    notifyListeners();
+  }
+
+  AppTheme _getSystemAppTheme() {
+    try {
+      var brightness = SchedulerBinding.instance.window.platformBrightness;
+      return brightness == Brightness.light ? AppTheme.light : AppTheme.dark;
+    } catch(nullPointException) {
+      return AppTheme.light;
+    }
+  }
+
+  AppTheme getThemeMode() {
+    String themeMode = preferences.get(KEY_THEME_MODE);
+    if (null == themeMode) {
+      return AppTheme.system;
+    }
+
+    if (themeMode == AppTheme.light.value()) {
+      return AppTheme.light;
+    } else if (themeMode == AppTheme.dark.value()) {
+      return AppTheme.dark;
+    }
+
+    return AppTheme.system;
   }
 
   void setDarkMode() async {
     _themeData = darkTheme;
-    preferences.setString('themeMode', 'dark');
+    preferences.setString(KEY_THEME_MODE, AppTheme.dark.value());
     notifyListeners();
   }
 
   void setLightMode() async {
     _themeData = lightTheme;
-    preferences.setString('themeMode', 'light');
+    preferences.setString(KEY_THEME_MODE, AppTheme.light.value());
+    notifyListeners();
+  }
+
+  void setSystemMode() async {
+    _themeData =  _getSystemAppTheme() == AppTheme.light ? lightTheme : darkTheme;
+    preferences.setString(KEY_THEME_MODE, AppTheme.system.value());
     notifyListeners();
   }
 }
