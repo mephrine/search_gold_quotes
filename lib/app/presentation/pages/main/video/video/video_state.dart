@@ -12,6 +12,18 @@ class Empty extends InitialVideoState {}
 
 class Loading extends InitialVideoState {}
 
-class Loaded extends InitialVideoState {}
+class Loaded extends InitialVideoState {
+  final VideoList videoList;
 
-class Error extends InitialVideoState {}
+  Loaded({
+    @required this.videoList
+  });
+}
+
+class Error extends InitialVideoState {
+  final String message;
+
+  Error({
+    @required this.message
+  });
+}
