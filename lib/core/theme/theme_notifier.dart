@@ -94,6 +94,14 @@ class ThemeNotifier with ChangeNotifier {
     return AppTheme.system;
   }
 
+  bool getThemeIsDark() {
+    String themeMode = preferences.get(KEY_THEME_MODE);
+    if (themeMode == AppTheme.dark.value()) {
+      return true;
+    }
+    return false;
+  }
+
   void setDarkMode() async {
     _themeData = darkTheme;
     preferences.setString(KEY_THEME_MODE, AppTheme.dark.value());

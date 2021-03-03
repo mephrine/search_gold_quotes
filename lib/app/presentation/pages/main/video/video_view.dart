@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:search_gold_quotes/app/domain/entities/video_items.dart';
 import 'package:search_gold_quotes/app/number_trivia/presentation/widgets/message_display.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/video/video/video_bloc.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
+import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
 import 'package:shimmer/shimmer.dart';
 
 class VideoView extends StatelessWidget {
@@ -62,25 +64,37 @@ class VideoListWidget extends StatefulWidget {
 class _VideoListWidget extends State<VideoListWidget> {
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: const EdgeInsets.all(16),
-      itemCount: 10,
-      itemBuilder: (context, index) {
-        return VideoItemWidget(
-          videoItem: widget.videoList.itemList[index],
-        );
-      },
-      separatorBuilder: (context, index) {
-        return Divider();
-      },
+    return ChangeNotifierProvider(
+      create: (_) => container<ThemeNotifier>(),
+      child: Consumer<ThemeNotifier>(
+          builder: (context, ThemeNotifier theme, child) {
+            return ListView.separated(
+              padding: const EdgeInsets.all(16),
+              itemCount: 10,
+              itemBuilder: (context, index) {
+                return VideoItemWidget(
+                  videoItem: widget.videoList.itemList[index],
+                    isDarkTheme: theme.getThemeIsDark()
+                );
+              },
+              separatorBuilder: (context, index) {
+                return Divider();
+              },
+            );
+          }
+      ),
     );
   }
 }
 
 class VideoItemWidget extends StatelessWidget {
   final VideoItem videoItem;
+  final bool isDarkTheme;
 
-  VideoItemWidget({@required this.videoItem});
+  VideoItemWidget({
+    @required this.videoItem,
+    @required this.isDarkTheme
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +110,7 @@ class VideoItemWidget extends StatelessWidget {
               AnimatedOpacity(
                 opacity: frame == null ? 1 : 0,
                 duration: Duration(seconds: 1),
-                child: frame == null ? Image.asset('images/logo.png') : null,
+                child: frame == null ? isDarkTheme ? Image.asset('images/placeholder_white.png') : Image.asset('images/placeholder_black.png') : null,
               ),
               AnimatedOpacity(
                   opacity: frame == null ? 0 : 1,
