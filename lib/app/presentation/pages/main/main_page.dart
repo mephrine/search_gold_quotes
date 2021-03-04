@@ -7,6 +7,8 @@ import 'package:search_gold_quotes/app/presentation/pages/main/home/home_view.da
 import 'package:search_gold_quotes/app/presentation/pages/main/video/video_view.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
 import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
+import 'package:search_gold_quotes/core/values/dimens.dart' as dimens;
+import 'package:search_gold_quotes/core/values/strings.dart' as strings;
 
 // StatelessWidget -> 상태가 없다! 즉, 한번 그려진 후 다시 그려지지 않는 위젯
 
@@ -38,10 +40,10 @@ class MainPage extends StatelessWidget {
   }
 }
 
-class NavigationBar extends StatelessWidget with PreferredSizeWidget {
+class NavigationTitleWidget extends StatelessWidget with PreferredSizeWidget {
   final String title;
 
-  const NavigationBar({@required this.title});
+  const NavigationTitleWidget({@required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -51,19 +53,19 @@ class NavigationBar extends StatelessWidget with PreferredSizeWidget {
             child: Icon(
               Icons.settings,
               color: CupertinoTheme.of(context).primaryColor,
-              size: 30,
+              size: dimens.iconSizeTitle,
             ),
             onPressed: () => presentToSettingPage,
           ),
           leading: Padding(
-            padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+            padding: EdgeInsets.fromLTRB(dimens.margin, 0, 0, 0),
             child: Align(
               widthFactor: 1.0,
               alignment: Alignment.center,
               child: Text(
                 title,
                 style: TextStyle(
-                    fontSize: 20,
+                    fontSize: dimens.fontTextTitle,
                     fontWeight: FontWeight.bold,
                 color: CupertinoTheme.of(context).primaryColor),
               ),
@@ -89,7 +91,7 @@ class MainView extends StatefulWidget {
 class _MainView extends State<MainView> with SingleTickerProviderStateMixin {
   TabController _tabController;
   String _navigationTitle;
-  final _tabTitleList = ['홈', '히스토리', '영상'];
+  final _tabTitleList = [strings.titleHome, strings.titleHistory, strings.titleVideo];
   final _pages = [
     HomeView(),
     HistoryView(),
@@ -115,7 +117,7 @@ class _MainView extends State<MainView> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: NavigationBar(title: _navigationTitle),
+      appBar: NavigationTitleWidget(title: _navigationTitle),
       body: TabBarView(
         controller: _tabController,
         children: _pages,
@@ -127,7 +129,7 @@ class _MainView extends State<MainView> with SingleTickerProviderStateMixin {
           TabItem(icon: Icons.history, title: _tabTitleList[1]),
           TabItem(icon: Icons.play_circle_outline, title: _tabTitleList[2]),
         ],
-        height: 60,
+        height: dimens.bottomTabHeight,
         style: TabStyle.react,
         initialActiveIndex: 0,//optional, default as 0
         onTap: (int i) => print('click index=$i'),

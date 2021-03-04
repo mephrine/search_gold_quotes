@@ -6,7 +6,7 @@ import 'package:search_gold_quotes/app/domain/usecases/get_video_list.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/video/video/video_bloc.dart';
 import 'package:search_gold_quotes/core/error/failures.dart';
 import 'package:search_gold_quotes/core/usecases/no_params.dart';
-import 'package:search_gold_quotes/core/values/strings.dart';
+import 'package:search_gold_quotes/core/error/error_messages.dart';
 
 class MockGetVideoList extends Mock implements GetVideoList {}
 

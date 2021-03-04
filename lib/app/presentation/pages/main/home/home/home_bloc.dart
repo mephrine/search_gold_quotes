@@ -5,8 +5,9 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:search_gold_quotes/app/domain/entities/home_data.dart';
 import 'package:search_gold_quotes/app/domain/usecases/get_home_data.dart';
+import 'package:search_gold_quotes/core/error/error_messages.dart';
 import 'package:search_gold_quotes/core/usecases/no_params.dart';
-import 'package:search_gold_quotes/core/values/strings.dart';
+
 
 part 'home_event.dart';
 part 'home_state.dart';

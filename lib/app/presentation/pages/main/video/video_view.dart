@@ -8,6 +8,7 @@ import 'package:search_gold_quotes/app/number_trivia/presentation/widgets/messag
 import 'package:search_gold_quotes/app/presentation/pages/main/video/video/video_bloc.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
 import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
+import 'package:search_gold_quotes/core/values/dimens.dart' as dimens;
 import 'package:shimmer/shimmer.dart';
 
 class VideoView extends StatelessWidget {
@@ -95,7 +96,7 @@ class _VideoListWidget extends State<VideoListWidget> {
       child: Consumer<ThemeNotifier>(
           builder: (context, ThemeNotifier theme, child) {
             return ListView.separated(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(dimens.margin),
               itemCount: 10,
               itemBuilder: (context, index) {
                 return VideoItemWidget(
