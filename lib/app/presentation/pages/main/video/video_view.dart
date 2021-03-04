@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -14,20 +15,45 @@ class VideoView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => container<VideoBloc>(),
-      child: BlocBuilder<VideoBloc, VideoState>(builder: (bloc, state) {
-        if (state is Empty) {
-          return Container();
-        } else if (state is Loading) {
-          return LoadingListWidget();
-        } else if (state is Loaded) {
-          return VideoListWidget(videoList: state.videoList);
-        } else if (state is Error) {
-          return MessageDisplay(message: state.message);
-        }
-      }),
+      child: VideoContainer(),
     );
   }
 }
+
+class VideoContainer extends StatefulWidget {
+  @override
+  _VideoContainer createState() => _VideoContainer();
+}
+
+class _VideoContainer extends State<VideoContainer> {
+
+  @override
+  void initState() {
+    super.initState();
+    _dispatchVideoData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<VideoBloc, VideoState>(builder: (bloc, state) {
+      if (state is Loading) {
+        return LoadingListWidget();
+      } else if (state is Loaded) {
+        return VideoListWidget(videoList: state.videoList);
+      } else if (state is Error) {
+        return MessageDisplay(message: state.message);
+      }
+      return Container();
+    });
+  }
+
+  void _dispatchVideoData() {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      BlocProvider.of<VideoBloc>(context, listen: false).add(GetVideoListOnLoaded());
+    });
+  }
+}
+
 
 class LoadingListWidget extends StatelessWidget {
   @override

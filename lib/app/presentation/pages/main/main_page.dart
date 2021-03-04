@@ -7,7 +7,6 @@ import 'package:search_gold_quotes/app/presentation/pages/main/home/home_view.da
 import 'package:search_gold_quotes/app/presentation/pages/main/video/video_view.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
 import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
-import 'package:search_gold_quotes/core/values/colors.dart';
 
 // StatelessWidget -> 상태가 없다! 즉, 한번 그려진 후 다시 그려지지 않는 위젯
 
@@ -51,7 +50,7 @@ class NavigationBar extends StatelessWidget with PreferredSizeWidget {
             padding: EdgeInsets.all(0),
             child: Icon(
               Icons.settings,
-              color: blackColor,
+              color: CupertinoTheme.of(context).primaryColor,
               size: 30,
             ),
             onPressed: () => presentToSettingPage,
@@ -63,7 +62,10 @@ class NavigationBar extends StatelessWidget with PreferredSizeWidget {
               alignment: Alignment.center,
               child: Text(
                 title,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                color: CupertinoTheme.of(context).primaryColor),
               ),
             ),
           )
@@ -129,6 +131,8 @@ class _MainView extends State<MainView> with SingleTickerProviderStateMixin {
         style: TabStyle.react,
         initialActiveIndex: 0,//optional, default as 0
         onTap: (int i) => print('click index=$i'),
+        color: CupertinoTheme.of(context).primaryColor,
+        backgroundColor: CupertinoTheme.of(context).barBackgroundColor,
       ),
     );
   }

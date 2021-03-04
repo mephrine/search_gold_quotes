@@ -34,8 +34,10 @@ class ThemeNotifier with ChangeNotifier {
     scaffoldBackgroundColor: const Color(0xFF212121),
     barBackgroundColor : Colors.white,
     textTheme: CupertinoTextThemeData(
-      primaryColor: Colors.white
+      primaryColor: Colors.white,
+
     ),
+
   );
 
   final lightTheme = CupertinoThemeData(
