@@ -6,7 +6,9 @@ import 'package:search_gold_quotes/app/presentation/pages/main/history/history_v
 import 'package:search_gold_quotes/app/presentation/pages/main/home/home_view.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/video/video_view.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
+import 'package:search_gold_quotes/core/presentation/routes/router.gr.dart';
 import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:search_gold_quotes/core/values/dimens.dart' as dimens;
 import 'package:search_gold_quotes/core/values/strings.dart' as strings;
 
@@ -37,48 +39,6 @@ class MainPage extends StatelessWidget {
           }
       ),
     );
-  }
-}
-
-class NavigationTitleWidget extends StatelessWidget with PreferredSizeWidget {
-  final String title;
-
-  const NavigationTitleWidget({@required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-      return CupertinoNavigationBar(
-          trailing: CupertinoButton(
-            padding: EdgeInsets.all(0),
-            child: Icon(
-              Icons.settings,
-              color: CupertinoTheme.of(context).primaryColor,
-              size: dimens.iconSizeTitle,
-            ),
-            onPressed: () => presentToSettingPage,
-          ),
-          leading: Padding(
-            padding: EdgeInsets.fromLTRB(dimens.margin, 0, 0, 0),
-            child: Align(
-              widthFactor: 1.0,
-              alignment: Alignment.center,
-              child: Text(
-                title,
-                style: TextStyle(
-                    fontSize: dimens.fontTextTitle,
-                    fontWeight: FontWeight.bold,
-                color: CupertinoTheme.of(context).primaryColor),
-              ),
-            ),
-          )
-      );
-  }
-
-  @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
-
-  void presentToSettingPage() {
-    //TODO: 설정 페이지 이동
   }
 }
 
@@ -150,3 +110,44 @@ class _MainView extends State<MainView> with SingleTickerProviderStateMixin {
   }
 }
 
+class NavigationTitleWidget extends StatelessWidget with PreferredSizeWidget {
+  final String title;
+
+  const NavigationTitleWidget({@required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoNavigationBar(
+        trailing: CupertinoButton(
+          padding: EdgeInsets.all(0),
+          child: Icon(
+            Icons.settings,
+            color: CupertinoTheme.of(context).primaryColor,
+            size: dimens.iconSizeTitle,
+          ),
+          onPressed: () => presentToSettingPage,
+        ),
+        leading: Padding(
+          padding: EdgeInsets.fromLTRB(dimens.margin, 0, 0, 0),
+          child: Align(
+            widthFactor: 1.0,
+            alignment: Alignment.center,
+            child: Text(
+              title,
+              style: TextStyle(
+                  fontSize: dimens.fontTextTitle,
+                  fontWeight: FontWeight.bold,
+                  color: CupertinoTheme.of(context).primaryColor),
+            ),
+          ),
+        )
+    );
+  }
+
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+
+  void presentToSettingPage(BuildContext context) {
+    context.router.push(SettingPage());
+  }
+}

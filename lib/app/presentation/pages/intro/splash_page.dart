@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
@@ -8,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:search_gold_quotes/app/presentation/pages/intro/bloc/bloc.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:search_gold_quotes/core/presentation/routes/router.gr.dart';
 
 const String _SERVER_ERROR_MESSAGE =
