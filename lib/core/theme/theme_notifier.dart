@@ -34,8 +34,10 @@ class ThemeNotifier with ChangeNotifier {
     scaffoldBackgroundColor: const Color(0xFF212121),
     barBackgroundColor : Colors.white,
     textTheme: CupertinoTextThemeData(
-      primaryColor: Colors.white
+      primaryColor: Colors.white,
+
     ),
+
   );
 
   final lightTheme = CupertinoThemeData(
@@ -92,6 +94,14 @@ class ThemeNotifier with ChangeNotifier {
     }
 
     return AppTheme.system;
+  }
+
+  bool getThemeIsDark() {
+    String themeMode = preferences.get(KEY_THEME_MODE);
+    if (themeMode == AppTheme.dark.value()) {
+      return true;
+    }
+    return false;
   }
 
   void setDarkMode() async {

@@ -8,6 +8,7 @@ import 'package:search_gold_quotes/app/number_trivia/presentation/widgets/loadin
 import 'package:search_gold_quotes/app/number_trivia/presentation/widgets/message_display.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/home/home/home_bloc.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
+import 'package:search_gold_quotes/core/values/dimens.dart' as dimens;
 
 class HomeView extends StatelessWidget {
   @override
@@ -66,7 +67,7 @@ class _HomeLoadedWidget extends StatelessWidget {
       ),
       Text(
           homeData.referenceSiteName,
-          style: TextStyle(fontSize: 14)
+          style: TextStyle(fontSize: dimens.fontTextSmall)
       ),
       LineChart(
         LineChartData(
@@ -90,7 +91,7 @@ class FamousQuotesAnimationWidget extends StatelessWidget {
       speed: Duration(milliseconds: 2000),
       repeatForever: true,
       text: [famousQuotes],
-      textStyle: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
+      textStyle: TextStyle(fontSize: dimens.fontTextBig, fontWeight: FontWeight.bold),
       pause: Duration(milliseconds: 1000),
       displayFullTextOnTap: false,
       stopPauseOnTap: false,

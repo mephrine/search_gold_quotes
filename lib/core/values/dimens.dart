@@ -1,10 +1,16 @@
-final double margin = 15.0;
-final double spacing = 8;
+const double margin = 15.0;
+const double spacing = 8;
 
-final double fontTextTitle = 22.0;
-final double fontTextBig = 18.0;
-final double fontText = 16.0;
-final double fontTextSmall = 14.0;
-final double fontTextSmaller = 12.0;
+const double fontTextTitle = 22.0;
+const double fontTextBig = 18.0;
+const double fontText = 16.0;
+const double fontTextSmall = 14.0;
+const double fontTextSmaller = 12.0;
 
-final double fontButton = 14.0;
+const double fontButton = 14.0;
+
+
+const double iconSizeTitle = 30.0;
+
+
+const double bottomTabHeight = 60.0;

@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:search_gold_quotes/app/domain/usecases/get_version_info.dart';
 import 'package:search_gold_quotes/core/usecases/no_params.dart';
-import 'package:search_gold_quotes/core/values/strings.dart';
+import 'package:search_gold_quotes/core/error/error_messages.dart';
 
 import 'bloc.dart';
 
