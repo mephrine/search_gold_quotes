@@ -22,8 +22,7 @@ class AppRouter extends _i1.RootStackRouter {
       return _i1.AdaptivePage(entry: entry, child: _i3.MainPage());
     },
     SettingPage.name: (entry) {
-      return _i1.AdaptivePage(
-          entry: entry, child: _i4.SettingPage(), fullscreenDialog: true);
+      return _i1.AdaptivePage(entry: entry, child: _i4.SettingPage());
     }
   };
 
@@ -33,12 +32,10 @@ class AppRouter extends _i1.RootStackRouter {
             path: '/', routeBuilder: (match) => SplashPage.fromMatch(match)),
         _i1.RouteConfig<MainPage>(MainPage.name,
             path: '/main-page',
-            routeBuilder: (match) => MainPage.fromMatch(match),
-            children: [
-              _i1.RouteConfig<SettingPage>(SettingPage.name,
-                  path: 'setting-page',
-                  routeBuilder: (match) => SettingPage.fromMatch(match))
-            ])
+            routeBuilder: (match) => MainPage.fromMatch(match)),
+        _i1.RouteConfig<SettingPage>(SettingPage.name,
+            path: 'setting-page',
+            routeBuilder: (match) => SettingPage.fromMatch(match))
       ];
 }
 
@@ -51,8 +48,7 @@ class SplashPage extends _i1.PageRouteInfo {
 }
 
 class MainPage extends _i1.PageRouteInfo {
-  const MainPage({List<_i1.PageRouteInfo> children})
-      : super(name, path: '/main-page', initialChildren: children);
+  const MainPage() : super(name, path: '/main-page');
 
   MainPage.fromMatch(_i1.RouteMatch match) : super.fromMatch(match);
 
@@ -60,7 +56,7 @@ class MainPage extends _i1.PageRouteInfo {
 }
 
 class SettingPage extends _i1.PageRouteInfo {
-  const SettingPage() : super(name, path: 'setting-page');
+  const SettingPage() : super(name, path: '/setting-page');
 
   SettingPage.fromMatch(_i1.RouteMatch match) : super.fromMatch(match);
 

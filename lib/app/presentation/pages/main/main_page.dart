@@ -28,16 +28,10 @@ import 'package:search_gold_quotes/core/values/strings.dart' as strings;
 class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => container<ThemeNotifier>(),
-      child: Consumer<ThemeNotifier>(
-          builder: (context, ThemeNotifier theme, child) {
-            return CupertinoApp(
-              theme: theme.getTheme(),
-              home: MainView(),
-            );
-          }
-      ),
+    ThemeNotifier themeService = Provider.of<ThemeNotifier>(context);
+    return CupertinoApp(
+      theme: themeService.getTheme(),
+      home: MainView(),
     );
   }
 }
@@ -125,7 +119,7 @@ class NavigationTitleWidget extends StatelessWidget with PreferredSizeWidget {
             color: CupertinoTheme.of(context).primaryColor,
             size: dimens.iconSizeTitle,
           ),
-          onPressed: () => presentToSettingPage,
+          onPressed: () => presentToSettingPage(context),
         ),
         leading: Padding(
           padding: EdgeInsets.fromLTRB(dimens.margin, 0, 0, 0),

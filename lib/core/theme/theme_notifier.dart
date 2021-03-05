@@ -28,6 +28,7 @@ class ThemeNotifier with ChangeNotifier {
   final SharedPreferences preferences;
 
   final darkTheme = CupertinoThemeData(
+
     primaryContrastingColor: Colors.grey,
     primaryColor: Colors.black,
     brightness: Brightness.dark,

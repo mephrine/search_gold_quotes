@@ -69,6 +69,7 @@ class _SplashView extends State<SplashView> {
             CupertinoButton(
               child: Text(_BUTTON_CONFIRM_TITLE),
               onPressed: () {
+                Navigator.pop(context);
                 _push(0);
               },
             ),

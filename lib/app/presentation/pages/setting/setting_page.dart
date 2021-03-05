@@ -8,20 +8,13 @@ import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
 import 'package:search_gold_quotes/core/values/strings.dart' as strings;
 
 class SettingPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (_) =>
-            container<ThemeNotifier>()
-        ,
-        child: Consumer<ThemeNotifier>(
-            builder: (context, ThemeNotifier theme, child) {
-              return CupertinoApp(
-                theme: theme.getTheme(),
-                home: SettingView(),
-              );
-            }
-        )
+    ThemeNotifier themeService = Provider.of<ThemeNotifier>(context);
+    return CupertinoApp(
+      theme: themeService.getTheme(),
+      home: SettingView(),
     );
   }
 }
