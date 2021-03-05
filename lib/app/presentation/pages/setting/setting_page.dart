@@ -44,7 +44,12 @@ class ListItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Row(
+      children: [
+        Expanded(child: Text(title)),
+        Icon(Icons.keyboard_arrow_right),
+      ],
+    );
   }
 }
 
