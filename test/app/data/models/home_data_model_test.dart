@@ -15,7 +15,7 @@ void main() {
       GoldModel(jewelryType: 'G', goldDate: '2021-02-09', goldPurity: '70', goldPriceType: 'W', goldPrice: '90000'),
       GoldModel(jewelryType: 'G', goldDate: '2021-02-08', goldPurity: '100', goldPriceType: 'W', goldPrice: '95000'),
     ];
-    homeDataModel = HomeDataModel(famousQuotes: 'Gold is God', referenceSiteName: 'https://www.naver.com', goldList: goldList);
+    homeDataModel = HomeDataModel(famousQuotes: 'Gold is God', famousSayingWriter: 'aaa', referenceSiteName: 'https://www.naver.com', goldList: goldList);
   });
 
   test('should is subclass', () async {
@@ -39,7 +39,8 @@ void main() {
       test('should when', () async {
           // arrange
         final Map<String, dynamic> jsonMap = {
-          "famousQuotes": "Gold is God",
+          "famous_saying": "Gold is God",
+          "famous_saying_writer": "aaa",
           "referenceSiteName": "https://www.naver.com",
           "goldList": [
             {

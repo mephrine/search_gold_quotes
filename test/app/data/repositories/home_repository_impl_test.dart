@@ -39,7 +39,7 @@ void main() {
     GoldModel(jewelryType: 'G', goldDate: '2021-02-09', goldPurity: '70', goldPriceType: 'W', goldPrice: '90000'),
     GoldModel(jewelryType: 'G', goldDate: '2021-02-08', goldPurity: '100', goldPriceType: 'W', goldPrice: '95000'),
   ];
-  final homeDataModel = HomeDataModel(famousQuotes: 'Gold is God', referenceSiteName: 'https://www.naver.com', goldList: goldList);
+  final homeDataModel = HomeDataModel(famousQuotes: 'Gold is God', famousSayingWriter: 'aaa', referenceSiteName: 'https://www.naver.com', goldList: goldList);
 
   group('network is connected', () {
 
@@ -63,11 +63,11 @@ void main() {
         .thenAnswer((_) async => HomeDataModel.fromJson(json.decode(fixture('home_data.json'))));
 
       // act
-      final result = await remoteDataSource.getHomeData();
+      final result = await homeRepository.getHomeData();
 
       // assert
       verify(localDataSource.cacheHomeData(any));
-      expect(result, homeDataModel);
+      expect(result, Right(homeDataModel));
     });
 
     test('should return ServerError when the call to main data repository is failure', () async {

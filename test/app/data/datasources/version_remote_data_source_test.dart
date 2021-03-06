@@ -6,6 +6,7 @@ import 'package:mockito/mockito.dart';
 import 'package:search_gold_quotes/app/data/datasources/version_remote_data_source.dart';
 import 'package:search_gold_quotes/app/data/models/version_info_model.dart';
 import 'package:search_gold_quotes/core/error/exceptions.dart';
+import 'package:search_gold_quotes/core/values/constants.dart';
 
 import '../../../fixtures/fixture_reader.dart';
 
@@ -24,7 +25,7 @@ void main() {
 
   group('device is connect', () {
     final versionInfoModel =
-        VersionInfoModel(latestVersion: '1.0.0', forceUpdate: "Y");
+        VersionInfoModel(appVersion: '1.0.0', forceUpdate: "Y");
     test('check correct url', () async {
       // arrange
       when(mockHttpClient.get(any)).thenAnswer((realInvocation) async =>
@@ -33,7 +34,7 @@ void main() {
       // act
       remoteDataSource.getVersionInfo();
       // assert
-      verify(mockHttpClient.get('https://www.naver.com'));
+      verify(mockHttpClient.get(appInfoURL));
     });
 
     test('should return version info when the response code is 200', () async {

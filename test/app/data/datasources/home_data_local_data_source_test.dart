@@ -25,7 +25,7 @@ void main() {
       GoldModel(jewelryType: 'G', goldDate: '2021-02-09', goldPurity: '70', goldPriceType: 'W', goldPrice: '90000'),
       GoldModel(jewelryType: 'G', goldDate: '2021-02-08', goldPurity: '100', goldPriceType: 'W', goldPrice: '95000'),
     ];
-    final homeDataModel = HomeDataModel(famousQuotes: 'Gold is God', referenceSiteName: 'https://www.naver.com', goldList: goldList);
+    final homeDataModel = HomeDataModel(famousQuotes: 'Gold is God', famousSayingWriter: 'aaa', referenceSiteName: 'https://www.naver.com', goldList: goldList);
       test('should get last home data when cache is exist', () async {
           // arrange
           when(sharedPreferences.getString(CACHED_MAIN_DATA))

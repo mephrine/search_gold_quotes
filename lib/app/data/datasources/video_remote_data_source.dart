@@ -17,7 +17,7 @@ class VideoRemoteDataSourceImpl extends VideoRemoteDataSource {
 
   @override
   Future<VideoListModel> getVideoList() async {
-    final response = await httpClient.get(apiURL);
+    final response = await httpClient.get(videoListURL);
     if (response.statusCode == 200) {
       try {
         return VideoListModel.fromJson(jsonDecode(response.data));

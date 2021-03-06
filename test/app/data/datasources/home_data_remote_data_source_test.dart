@@ -42,6 +42,7 @@ void main() {
     ];
     final homeDataModel = HomeDataModel(
         famousQuotes: 'Gold is God',
+        famousSayingWriter: 'aaa',
         referenceSiteName: 'https://www.naver.com',
         goldList: goldList);
 

@@ -10,7 +10,7 @@ void main() {
   VersionInfoModel versionInfoModel;
   setUp(() {
     versionInfoModel =
-        VersionInfoModel(latestVersion: "1.0.0", forceUpdate: "Y");
+        VersionInfoModel(appVersion: "1.0.0", forceUpdate: "Y");
   });
 
   test('should be a subclass of a VersionInfo', () async {
@@ -43,7 +43,7 @@ void main() {
       test('should return a Json Map containing the proper data', () async {
           // arrange
         Map<String, dynamic> expectMap = {
-          "latestVersion": "1.0.0",
+          "app_version": "1.0.0",
           "forceUpdate": "Y"
         };
         // act

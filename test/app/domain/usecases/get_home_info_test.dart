@@ -20,7 +20,7 @@ void main() {
 
   group('GetHomeInfo', () {
     final gold = HomeGold(date: '2021-02-10', day: '오늘', price: '100000');
-    final homeInfo = HomeData(famousQuotes: 'Gold is God', referenceSiteName: "https://www.naver.com", goldList: [gold]);
+    final homeInfo = HomeData(famousQuotes: 'Gold is God', famousSayingWriter: 'aaa', referenceSiteName: "https://www.naver.com", goldList: [gold]);
 
     test('should get price, referenceSite and famousQuotes for Information at home tab from the repository', () async {
       // arrange
