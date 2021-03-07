@@ -1,6 +1,7 @@
 import 'package:auto_route/annotations.dart';
 import 'package:search_gold_quotes/app/presentation/pages/intro/splash_page.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/main_page.dart';
+import 'package:search_gold_quotes/app/presentation/pages/main/video/video_player_page.dart';
 import 'package:search_gold_quotes/app/presentation/pages/setting/setting_page.dart';
 
 @AdaptiveAutoRouter(
@@ -8,6 +9,7 @@ import 'package:search_gold_quotes/app/presentation/pages/setting/setting_page.d
   routes: <AutoRoute>[
     AutoRoute(page: SplashPage, initial: true),
     AutoRoute(page: MainPage),
+    AutoRoute(page: VideoPlayerPage),
     AutoRoute(page: SettingPage),
   ],
 )

@@ -7,9 +7,12 @@ import 'package:search_gold_quotes/app/domain/entities/video_items.dart';
 import 'package:search_gold_quotes/app/number_trivia/presentation/widgets/message_display.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/video/video/video_bloc.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
+import 'package:search_gold_quotes/core/presentation/routes/router.gr.dart';
 import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
 import 'package:search_gold_quotes/core/values/dimens.dart' as dimens;
 import 'package:shimmer/shimmer.dart';
+
+import 'video_player_page.dart';
 
 class VideoView extends StatelessWidget {
   @override
@@ -27,7 +30,6 @@ class VideoContainer extends StatefulWidget {
 }
 
 class _VideoContainer extends State<VideoContainer> {
-
   @override
   void initState() {
     super.initState();
@@ -50,11 +52,11 @@ class _VideoContainer extends State<VideoContainer> {
 
   void _dispatchVideoData() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      BlocProvider.of<VideoBloc>(context, listen: false).add(GetVideoListOnLoaded());
+      BlocProvider.of<VideoBloc>(context, listen: false)
+          .add(GetVideoListOnLoaded());
     });
   }
 }
-
 
 class LoadingListWidget extends StatelessWidget {
   @override
@@ -95,22 +97,27 @@ class _VideoListWidget extends State<VideoListWidget> {
       create: (_) => container<ThemeNotifier>(),
       child: Consumer<ThemeNotifier>(
           builder: (context, ThemeNotifier theme, child) {
-            return ListView.separated(
-              padding: const EdgeInsets.all(dimens.margin),
-              itemCount: 10,
-              itemBuilder: (context, index) {
-                return VideoItemWidget(
+        return ListView.separated(
+          padding: const EdgeInsets.all(dimens.margin),
+          itemCount: 10,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              child: VideoItemWidget(
                   videoItem: widget.videoList.itemList[index],
-                    isDarkTheme: theme.getThemeIsDark()
-                );
-              },
-              separatorBuilder: (context, index) {
-                return Divider();
-              },
+                  isDarkTheme: theme.getThemeIsDark()),
+              onTap: () => _pushToVideoPlayerPage(widget.videoList.itemList[index].linkURL),
             );
-          }
-      ),
+          },
+          separatorBuilder: (context, index) {
+            return Divider();
+          },
+        );
+      }),
     );
+  }
+
+  void _pushToVideoPlayerPage(String videoLinkURL) {
+    context.router.push(VideoPlayerPage());
   }
 }
 
@@ -118,10 +125,7 @@ class VideoItemWidget extends StatelessWidget {
   final VideoItem videoItem;
   final bool isDarkTheme;
 
-  VideoItemWidget({
-    @required this.videoItem,
-    @required this.isDarkTheme
-  });
+  VideoItemWidget({@required this.videoItem, @required this.isDarkTheme});
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +141,11 @@ class VideoItemWidget extends StatelessWidget {
               AnimatedOpacity(
                 opacity: frame == null ? 1 : 0,
                 duration: Duration(seconds: 1),
-                child: frame == null ? isDarkTheme ? Image.asset('images/placeholder_white.png') : Image.asset('images/placeholder_black.png') : null,
+                child: frame == null
+                    ? isDarkTheme
+                        ? Image.asset('images/placeholder_white.png')
+                        : Image.asset('images/placeholder_black.png')
+                    : null,
               ),
               AnimatedOpacity(
                   opacity: frame == null ? 0 : 1,
@@ -146,8 +154,10 @@ class VideoItemWidget extends StatelessWidget {
             ]);
           },
         ),
-        Text(videoItem.title),
-        Text(videoItem.subTitle)
+        Expanded(
+            child: Column(
+          children: [Text(videoItem.title), Text(videoItem.subTitle)],
+        ))
       ],
     );
   }
