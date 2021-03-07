@@ -19,7 +19,7 @@ class VersionRemoteDataSourceImpl extends VersionRemoteDataSource {
 
   @override
   Future<VersionInfoModel> getVersionInfo() async {
-    final response = await httpClient.get(apiURL);
+    final response = await httpClient.get(appInfoURL);
     if (response.statusCode == 200) {
       try {
         return VersionInfoModel.fromJson(json.decode(response.data));

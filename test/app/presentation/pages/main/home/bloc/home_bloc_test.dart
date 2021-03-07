@@ -26,10 +26,12 @@ void main() {
   });
 
   group('HomeData 상태', () {
-    final homeData = HomeData(famousQuotes: 'Gold is God', referenceSiteName: "https://www.naver.com", goldList: [
+    final homeData = HomeData(famousQuotes: 'Gold is God', famousSayingWriter: 'aaa', referenceSiteName: "https://www.naver.com", goldList: [
         HomeGold(date: '2021-02-10', day: '오늘', price: '100000')
     ]);
     test('GetHomeData 이벤트 발생 시, GetHomeInfo usecase가 실행된다.', () async {
+      //arrange
+      when(usecase(any)).thenAnswer((_) async => Right(homeData));
         // act
       bloc.add(GetHomeData());
       await untilCalled(usecase(any));

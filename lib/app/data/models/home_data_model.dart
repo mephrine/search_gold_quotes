@@ -4,11 +4,13 @@ import 'package:search_gold_quotes/app/domain/entities/home_data.dart';
 import 'gold_model.dart';
 
 class HomeDataModel extends HomeData {
-  HomeDataModel(
-      {@required String famousQuotes,
+  HomeDataModel({
+    @required String famousQuotes,
+    @required String famousSayingWriter,
       @required String referenceSiteName,
       @required List<GoldModel> goldList}): super(
     famousQuotes: famousQuotes,
+      famousSayingWriter: famousSayingWriter,
     referenceSiteName: referenceSiteName,
     goldList: goldList
   );
@@ -22,14 +24,16 @@ class HomeDataModel extends HomeData {
     Iterable iterator = jsonMap['goldList'];
     List<GoldModel> _goldList = List<GoldModel>.from(iterator.map((item) => GoldModel.fromJson(item)));
     return HomeDataModel(
-        famousQuotes: jsonMap['famousQuotes'],
+        famousQuotes: jsonMap['famous_saying'],
+        famousSayingWriter: jsonMap['famous_saying_writer'],
         referenceSiteName: jsonMap['referenceSiteName'],
         goldList: _goldList);
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "famousQuotes": famousQuotes,
+      "famous_saying": famousQuotes,
+      "famous_saying_writer": famousSayingWriter,
       "referenceSiteName": referenceSiteName,
       "goldList": (goldList as List<GoldModel>).map((item) => item.toJson())
     };
