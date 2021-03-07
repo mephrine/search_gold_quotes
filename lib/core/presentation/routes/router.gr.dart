@@ -5,6 +5,7 @@
 // **************************************************************************
 
 import 'package:auto_route/auto_route.dart' as _i1;
+import 'package:flutter/material.dart' as _i6;
 
 import '../../../app/presentation/pages/intro/splash_page.dart' as _i2;
 import '../../../app/presentation/pages/main/main_page.dart' as _i3;
@@ -24,7 +25,12 @@ class AppRouter extends _i1.RootStackRouter {
       return _i1.AdaptivePage(entry: entry, child: _i3.MainPage());
     },
     VideoPlayerPage.name: (entry) {
-      return _i1.AdaptivePage(entry: entry, child: _i4.VideoPlayerPage());
+      var route = entry.routeData.as<VideoPlayerPage>();
+      return _i1.AdaptivePage(
+          entry: entry,
+          child: _i4.VideoPlayerPage(
+              youtubeIDList: route.youtubeIDList,
+              startIndex: route.startIndex));
     },
     SettingPage.name: (entry) {
       return _i1.AdaptivePage(entry: entry, child: _i5.SettingPage());
@@ -64,9 +70,18 @@ class MainPage extends _i1.PageRouteInfo {
 }
 
 class VideoPlayerPage extends _i1.PageRouteInfo {
-  const VideoPlayerPage() : super(name, path: '/video-player-page');
+  VideoPlayerPage(
+      {@_i6.required this.youtubeIDList, @_i6.required this.startIndex})
+      : super(name, path: '/video-player-page');
 
-  VideoPlayerPage.fromMatch(_i1.RouteMatch match) : super.fromMatch(match);
+  VideoPlayerPage.fromMatch(_i1.RouteMatch match)
+      : youtubeIDList = null,
+        startIndex = null,
+        super.fromMatch(match);
+
+  final List<String> youtubeIDList;
+
+  final int startIndex;
 
   static const String name = 'VideoPlayerPage';
 }
