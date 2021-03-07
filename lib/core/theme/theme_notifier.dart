@@ -32,7 +32,7 @@ class ThemeNotifier with ChangeNotifier {
     primaryColor: Colors.black,
     brightness: Brightness.dark,
     scaffoldBackgroundColor: const Color(0xFF212121),
-    barBackgroundColor : Colors.white,
+    barBackgroundColor : const Color(0xFF212121),
     textTheme: CupertinoTextThemeData(
       primaryColor: Colors.white,
 
@@ -45,7 +45,7 @@ class ThemeNotifier with ChangeNotifier {
     primaryColor: Colors.white,
     brightness: Brightness.light,
     scaffoldBackgroundColor: const Color(0xFFE5E5E5),
-    barBackgroundColor: Colors.black,
+    barBackgroundColor: Colors.blue,
     textTheme: CupertinoTextThemeData(
         primaryColor: Colors.black
     ),

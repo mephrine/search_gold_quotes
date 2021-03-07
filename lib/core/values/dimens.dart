@@ -1,4 +1,7 @@
 const double margin = 15.0;
+
+const double verticallyMargin = 30.0;
+
 const double spacing = 8;
 
 const double fontTextTitle = 22.0;
