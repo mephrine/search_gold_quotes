@@ -6,3 +6,6 @@ const titleSetting = '설정';
 const titleTheme = '테마';
 const titleOpenSourceLicense = '오픈소스 라이선스';
 const titleVersionInfo = '버전정보';
+
+const videoPlayerTitleDescription = '제목';
+const videoPlayerChannelDescription = '채널';

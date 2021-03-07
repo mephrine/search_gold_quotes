@@ -1,24 +1,46 @@
-
-
+import 'package:meta/meta.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:search_gold_quotes/app/presentation/widgets/navigation_push_widget.dart';
+import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
+import 'package:search_gold_quotes/core/values/strings.dart' as strings;
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoPlayerPage extends StatelessWidget {
+  final List<String> youtubeIDList;
+  final int startIndex;
+
+  VideoPlayerPage({@required this.youtubeIDList, @required this.startIndex});
+
   @override
   Widget build(BuildContext context) {
-    return VideoPlayerView();
+    ThemeNotifier themeService = Provider.of<ThemeNotifier>(context);
+    return _VideoPlayerView(
+        youtubeIDList: youtubeIDList,
+        index: startIndex,
+        themeData: themeService.getTheme());
   }
 }
 
 /// Homepage
-class VideoPlayerView extends StatefulWidget {
+// ignore: must_be_immutable
+class _VideoPlayerView extends StatefulWidget {
+  final List<String> youtubeIDList;
+  int index;
+  final CupertinoThemeData themeData;
+
+  _VideoPlayerView(
+      {@required this.youtubeIDList,
+      @required this.index,
+      @required this.themeData});
+
   @override
-  _VideoPlayerView createState() => _VideoPlayerView();
+  _VideoPlayerViewState createState() => _VideoPlayerViewState();
 }
 
-class _VideoPlayerView extends State<VideoPlayerView> {
+class _VideoPlayerViewState extends State<_VideoPlayerView> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   YoutubePlayerController _controller;
   TextEditingController _idController;
@@ -30,23 +52,11 @@ class _VideoPlayerView extends State<VideoPlayerView> {
   bool _muted = false;
   bool _isPlayerReady = false;
 
-  final List<String> _ids = [
-    'nPt8bK2gbaU',
-    'gQDByCdjUXw',
-    'iLnmTe5Q2Qw',
-    '_WoCV4c6XOE',
-    'KmzdUe0RSJo',
-    '6jZDSSZZxjQ',
-    'p2lYr3vM_1w',
-    '7QUtEmBT_-w',
-    '34_PXCzGw1M',
-  ];
-
   @override
   void initState() {
     super.initState();
     _controller = YoutubePlayerController(
-      initialVideoId: _ids.first,
+      initialVideoId: widget.youtubeIDList[widget.index],
       flags: const YoutubePlayerFlags(
         mute: false,
         autoPlay: true,
@@ -104,7 +114,6 @@ class _VideoPlayerView extends State<VideoPlayerView> {
             child: Text(
               _controller.metadata.title,
               style: const TextStyle(
-                color: Colors.white,
                 fontSize: 18.0,
               ),
               overflow: TextOverflow.ellipsis,
@@ -112,9 +121,9 @@ class _VideoPlayerView extends State<VideoPlayerView> {
             ),
           ),
           IconButton(
-            icon: const Icon(
+            icon: Icon(
               Icons.settings,
-              color: Colors.white,
+              color: widget.themeData.primaryColor,
               size: 25.0,
             ),
             onPressed: () {
@@ -126,38 +135,16 @@ class _VideoPlayerView extends State<VideoPlayerView> {
           _isPlayerReady = true;
         },
         onEnded: (data) {
-          _controller
-              .load(_ids[(_ids.indexOf(data.videoId) + 1) % _ids.length]);
+          _controller.load(_nextVideoID());
           _showSnackBar('Next Video Started!');
         },
       ),
-      builder: (context, player) => Scaffold(
+      builder: (context, player) => CupertinoPageScaffold(
         key: _scaffoldKey,
-        appBar: AppBar(
-          leading: Padding(
-            padding: const EdgeInsets.only(left: 12.0),
-            child: Image.asset(
-              'assets/ypf.png',
-              fit: BoxFit.fitWidth,
-            ),
-          ),
-          title: const Text(
-            'Youtube Player Flutter',
-            style: TextStyle(color: Colors.white),
-          ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.video_library),
-              // onPressed: () => Navigator.push(
-              //   context,
-              //   CupertinoPageRoute(
-              //     builder: (context) => VideoList(),
-              //   ),
-              // ),
-            ),
-          ],
+        navigationBar: NavigationPushWidget(
+          title: _controller.metadata.title,
         ),
-        body: ListView(
+        child: ListView(
           children: [
             player,
             Padding(
@@ -166,52 +153,11 @@ class _VideoPlayerView extends State<VideoPlayerView> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   _space,
-                  _text('Title', _videoMetaData.title),
+                  _text(strings.videoPlayerTitleDescription,
+                      _videoMetaData.title),
                   _space,
-                  _text('Channel', _videoMetaData.author),
-                  _space,
-                  _text('Video Id', _videoMetaData.videoId),
-                  _space,
-                  Row(
-                    children: [
-                      _text(
-                        'Playback Quality',
-                        _controller.value.playbackQuality,
-                      ),
-                      const Spacer(),
-                      _text(
-                        'Playback Rate',
-                        '${_controller.value.playbackRate}x  ',
-                      ),
-                    ],
-                  ),
-                  _space,
-                  TextField(
-                    enabled: _isPlayerReady,
-                    controller: _idController,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Enter youtube \<video id\> or \<link\>',
-                      fillColor: Colors.blueAccent.withAlpha(20),
-                      filled: true,
-                      hintStyle: const TextStyle(
-                        fontWeight: FontWeight.w300,
-                        color: Colors.blueAccent,
-                      ),
-                      suffixIcon: IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: () => _idController.clear(),
-                      ),
-                    ),
-                  ),
-                  _space,
-                  Row(
-                    children: [
-                      _loadCueButton('LOAD'),
-                      const SizedBox(width: 10.0),
-                      _loadCueButton('CUE'),
-                    ],
-                  ),
+                  _text(strings.videoPlayerChannelDescription,
+                      _videoMetaData.author),
                   _space,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -219,10 +165,7 @@ class _VideoPlayerView extends State<VideoPlayerView> {
                       IconButton(
                         icon: const Icon(Icons.skip_previous),
                         onPressed: _isPlayerReady
-                            ? () => _controller.load(_ids[
-                        (_ids.indexOf(_controller.metadata.videoId) -
-                            1) %
-                            _ids.length])
+                            ? () => _controller.load(_prevVideoID())
                             : null,
                       ),
                       IconButton(
@@ -233,84 +176,37 @@ class _VideoPlayerView extends State<VideoPlayerView> {
                         ),
                         onPressed: _isPlayerReady
                             ? () {
-                          _controller.value.isPlaying
-                              ? _controller.pause()
-                              : _controller.play();
-                          setState(() {});
-                        }
+                                _controller.value.isPlaying
+                                    ? _controller.pause()
+                                    : _controller.play();
+                                setState(() {});
+                              }
                             : null,
                       ),
                       IconButton(
                         icon: Icon(_muted ? Icons.volume_off : Icons.volume_up),
                         onPressed: _isPlayerReady
                             ? () {
-                          _muted
-                              ? _controller.unMute()
-                              : _controller.mute();
-                          setState(() {
-                            _muted = !_muted;
-                          });
-                        }
+                                _muted
+                                    ? _controller.unMute()
+                                    : _controller.mute();
+                                setState(() {
+                                  _muted = !_muted;
+                                });
+                              }
                             : null,
                       ),
                       FullScreenButton(
                         controller: _controller,
-                        color: Colors.blueAccent,
+                        color: widget.themeData.primaryColor,
                       ),
                       IconButton(
                         icon: const Icon(Icons.skip_next),
                         onPressed: _isPlayerReady
-                            ? () => _controller.load(_ids[
-                        (_ids.indexOf(_controller.metadata.videoId) +
-                            1) %
-                            _ids.length])
+                            ? () => _controller.load(_nextVideoID())
                             : null,
                       ),
                     ],
-                  ),
-                  _space,
-                  Row(
-                    children: <Widget>[
-                      const Text(
-                        "Volume",
-                        style: TextStyle(fontWeight: FontWeight.w300),
-                      ),
-                      Expanded(
-                        child: Slider(
-                          inactiveColor: Colors.transparent,
-                          value: _volume,
-                          min: 0.0,
-                          max: 100.0,
-                          divisions: 10,
-                          label: '${(_volume).round()}',
-                          onChanged: _isPlayerReady
-                              ? (value) {
-                            setState(() {
-                              _volume = value;
-                            });
-                            _controller.setVolume(_volume.round());
-                          }
-                              : null,
-                        ),
-                      ),
-                    ],
-                  ),
-                  _space,
-                  AnimatedContainer(
-                    duration: const Duration(milliseconds: 800),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.0),
-                      color: _getStateColor(_playerState),
-                    ),
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      _playerState.toString(),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w300,
-                        color: Colors.white,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
                   ),
                 ],
               ),
@@ -326,14 +222,12 @@ class _VideoPlayerView extends State<VideoPlayerView> {
       text: TextSpan(
         text: '$title : ',
         style: const TextStyle(
-          color: Colors.blueAccent,
           fontWeight: FontWeight.bold,
         ),
         children: [
           TextSpan(
             text: value ?? '',
             style: const TextStyle(
-              color: Colors.blueAccent,
               fontWeight: FontWeight.w300,
             ),
           ),
@@ -342,64 +236,7 @@ class _VideoPlayerView extends State<VideoPlayerView> {
     );
   }
 
-  Color _getStateColor(PlayerState state) {
-    switch (state) {
-      case PlayerState.unknown:
-        return Colors.grey[700];
-      case PlayerState.unStarted:
-        return Colors.pink;
-      case PlayerState.ended:
-        return Colors.red;
-      case PlayerState.playing:
-        return Colors.blueAccent;
-      case PlayerState.paused:
-        return Colors.orange;
-      case PlayerState.buffering:
-        return Colors.yellow;
-      case PlayerState.cued:
-        return Colors.blue[900];
-      default:
-        return Colors.blue;
-    }
-  }
-
   Widget get _space => const SizedBox(height: 10);
-
-  Widget _loadCueButton(String action) {
-    return Expanded(
-      child: MaterialButton(
-        color: Colors.blueAccent,
-        onPressed: _isPlayerReady
-            ? () {
-          if (_idController.text.isNotEmpty) {
-            var id = YoutubePlayer.convertUrlToId(
-              _idController.text,
-            );
-            if (action == 'LOAD') _controller.load(id);
-            if (action == 'CUE') _controller.cue(id);
-            FocusScope.of(context).requestFocus(FocusNode());
-          } else {
-            _showSnackBar('Source can\'t be empty!');
-          }
-        }
-            : null,
-        disabledColor: Colors.grey,
-        disabledTextColor: Colors.black,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 14.0),
-          child: Text(
-            action,
-            style: const TextStyle(
-              fontSize: 18.0,
-              color: Colors.white,
-              fontWeight: FontWeight.w300,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ),
-    );
-  }
 
   void _showSnackBar(String message) {
     _scaffoldKey.currentState.showSnackBar(
@@ -420,5 +257,15 @@ class _VideoPlayerView extends State<VideoPlayerView> {
         ),
       ),
     );
+  }
+
+  String _nextVideoID() {
+    widget.index = (widget.index + 1) % widget.youtubeIDList.length;
+    return widget.youtubeIDList[widget.index];
+  }
+
+  String _prevVideoID() {
+    widget.index = (widget.index - 1) % widget.youtubeIDList.length;
+    return widget.youtubeIDList[widget.index];
   }
 }

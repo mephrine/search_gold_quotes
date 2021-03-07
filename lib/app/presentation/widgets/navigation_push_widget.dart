@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:search_gold_quotes/core/presentation/routes/router.gr.dart';
 import 'package:search_gold_quotes/core/values/dimens.dart' as dimens;
 
-class NavigationPushWidget extends StatelessWidget with PreferredSizeWidget {
+class NavigationPushWidget extends StatelessWidget with ObstructingPreferredSizeWidget {
   final String title;
 
   const NavigationPushWidget({@required this.title});
@@ -32,4 +32,9 @@ class NavigationPushWidget extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
+
+  @override
+  bool shouldFullyObstruct(BuildContext context) {
+    return true;
+  }
 }
