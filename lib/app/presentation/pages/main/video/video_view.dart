@@ -8,11 +8,10 @@ import 'package:search_gold_quotes/app/number_trivia/presentation/widgets/messag
 import 'package:search_gold_quotes/app/presentation/pages/main/video/video/video_bloc.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
 import 'package:search_gold_quotes/core/presentation/routes/router.gr.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
 import 'package:search_gold_quotes/core/values/dimens.dart' as dimens;
 import 'package:shimmer/shimmer.dart';
-
-import 'video_player_page.dart';
 
 class VideoView extends StatelessWidget {
   @override
@@ -105,7 +104,7 @@ class _VideoListWidget extends State<VideoListWidget> {
               child: VideoItemWidget(
                   videoItem: widget.videoList.itemList[index],
                   isDarkTheme: theme.getThemeIsDark()),
-              onTap: () => _pushToVideoPlayerPage(widget.videoList.itemList[index].linkURL),
+              onTap: () => _pushToVideoPlayerPage(context, index),
             );
           },
           separatorBuilder: (context, index) {
@@ -116,8 +115,11 @@ class _VideoListWidget extends State<VideoListWidget> {
     );
   }
 
-  void _pushToVideoPlayerPage(String videoLinkURL) {
-    context.router.push(VideoPlayerPage());
+  void _pushToVideoPlayerPage(BuildContext context, int index) {
+    context.router.push(VideoPlayerPage(
+      youtubeIDList: widget.videoList.itemList.map((item) => item.linkURL),
+      startIndex: index
+    ));
   }
 }
 
