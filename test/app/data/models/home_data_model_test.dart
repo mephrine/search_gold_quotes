@@ -49,8 +49,8 @@ void main() {
           // arrange
         final Map<String, dynamic> jsonMap = {
           "data": {
-            "famous_saying": "Gold is God",
-            "famous_saying_writer": "aaa",
+            "famousSaying": "Gold is God",
+            "famousSayingWriter": "aaa",
             "referenceSiteName": "https://www.naver.com",
             "goldList": [
               {

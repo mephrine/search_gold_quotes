@@ -41,15 +41,18 @@ class AppRouter extends _i1.RootStackRouter {
     },
     OpenSourceLicensePage.name: (entry) {
       var route = entry.routeData.as<OpenSourceLicensePage>();
-      return _i1.AdaptivePage(entry: entry, child: _i6.OpenSourceLicensePage(title: route.title,));
+      return _i1.AdaptivePage(
+          entry: entry, child: _i6.OpenSourceLicensePage(title: route.title));
     },
     ThemePage.name: (entry) {
       var route = entry.routeData.as<ThemePage>();
-      return _i1.AdaptivePage(entry: entry, child: _i7.ThemePage(title: route.title));
+      return _i1.AdaptivePage(
+          entry: entry, child: _i7.ThemePage(title: route.title));
     },
     VersionInfoPage.name: (entry) {
       var route = entry.routeData.as<VersionInfoPage>();
-      return _i1.AdaptivePage(entry: entry, child: _i8.VersionInfoPage(title: route.title));
+      return _i1.AdaptivePage(
+          entry: entry, child: _i8.VersionInfoPage(title: route.title));
     }
   };
 
@@ -120,8 +123,7 @@ class SettingPage extends _i1.PageRouteInfo {
 }
 
 class OpenSourceLicensePage extends _i1.PageRouteInfo {
-  const OpenSourceLicensePage(
-      {@_i9.required this.title})
+  OpenSourceLicensePage({@_i9.required this.title})
       : super(name, path: '/open-source-license-page');
 
   OpenSourceLicensePage.fromMatch(_i1.RouteMatch match)
@@ -134,8 +136,7 @@ class OpenSourceLicensePage extends _i1.PageRouteInfo {
 }
 
 class ThemePage extends _i1.PageRouteInfo {
-  const ThemePage(
-      {@_i9.required this.title}) : super(name, path: '/theme-page');
+  ThemePage({@_i9.required this.title}) : super(name, path: '/theme-page');
 
   ThemePage.fromMatch(_i1.RouteMatch match)
       : title = null,
@@ -147,8 +148,8 @@ class ThemePage extends _i1.PageRouteInfo {
 }
 
 class VersionInfoPage extends _i1.PageRouteInfo {
-  const VersionInfoPage(
-      {@_i9.required this.title}) : super(name, path: '/version-info-page');
+  VersionInfoPage({@_i9.required this.title})
+      : super(name, path: '/version-info-page');
 
   VersionInfoPage.fromMatch(_i1.RouteMatch match)
       : title = null,

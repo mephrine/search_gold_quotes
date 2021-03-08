@@ -27,6 +27,7 @@ import 'package:search_gold_quotes/app/presentation/pages/main/video/video/video
 import 'package:search_gold_quotes/core/platform/network_info.dart';
 import 'package:search_gold_quotes/core/presentation/utils/input_converter.dart';
 import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
+import 'package:search_gold_quotes/core/values/constants.dart' as constants;
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Service Locator
@@ -111,7 +112,11 @@ Future<void> init() async {
   //! External
   final sharePreferences = await SharedPreferences.getInstance();
   container.registerLazySingleton(() => sharePreferences);
-  container.registerLazySingleton(() => Dio());
+  container.registerLazySingleton(() => Dio(BaseOptions(
+      baseUrl: constants.apiURL + constants.apiVersion,
+      connectTimeout: 5000,
+      receiveTimeout: 3000,
+      headers: { "api-key": "goldnawa!@#", 'Content-Type': 'application/json' })));
   container.registerLazySingleton(() => Connectivity());
 
 

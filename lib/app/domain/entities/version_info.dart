@@ -3,14 +3,14 @@ import 'package:meta/meta.dart';
 
 class VersionInfo extends Equatable {
   final String latestVersion;
-  final String forceUpdate;
+  final int appVersionSeq;
 
   VersionInfo({
     @required this.latestVersion,
-    @required this.forceUpdate
+    @required this.appVersionSeq
   });
 
   @override
-  List<Object> get props => [latestVersion, forceUpdate];
+  List<Object> get props => [latestVersion, appVersionSeq];
 
 }

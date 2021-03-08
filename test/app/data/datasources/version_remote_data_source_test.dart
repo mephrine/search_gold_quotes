@@ -25,7 +25,7 @@ void main() {
 
   group('device is connect', () {
     final versionInfoModel =
-        VersionInfoModel(appVersion: '1.0.0', forceUpdate: "Y");
+        VersionInfoModel(appVersion: '1.0.0', appVersionSeq: 1);
     test('check correct url', () async {
       // arrange
       when(mockHttpClient.get(any)).thenAnswer((realInvocation) async =>

@@ -1,6 +1,6 @@
 {
   "data": {
-    "app_version": "1.0.0",
-    "forceUpdate": "Y"
+    "appVersionSeq": 1,
+    "version": "1.0.0"
   }
 }

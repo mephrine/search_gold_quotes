@@ -17,14 +17,18 @@ class VideoRemoteDataSourceImpl extends VideoRemoteDataSource {
 
   @override
   Future<VideoListModel> getVideoList() async {
-    final response = await httpClient.get(videoListURL);
-    if (response.statusCode == 200) {
-      try {
-        return VideoListModel.fromJson(jsonDecode(response.data));
-      } catch (exception) {
-        throw ParseException();
+    try {
+      final response = await httpClient.get(videoListURL);
+      if (response.statusCode == 200) {
+        try {
+          return VideoListModel.fromJson(jsonDecode(response.data));
+        } catch (exception) {
+          throw ParseException();
+        }
+      } else {
+        throw ServerException();
       }
-    } else {
+    } catch (exception) {
       throw ServerException();
     }
   }
