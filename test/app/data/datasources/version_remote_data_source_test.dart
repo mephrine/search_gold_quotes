@@ -54,11 +54,11 @@ void main() {
       when(mockHttpClient.get(any)).thenAnswer((realInvocation) async =>
           Response(statusCode: 200, data: fixture('trivia.json')));
       // act
-      final result = await remoteDataSource.getVersionInfo();
+      final emptyVersionInfo = await remoteDataSource.getVersionInfo();
 
       // assert
+      expect(emptyVersionInfo, VersionInfoModel.empty());
       verify(mockHttpClient.get(any));
-      expect(result, isNot(versionInfoModel));
     });
 
     test('should return Parse Exception the response code is 200 and data is null', () async {

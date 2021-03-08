@@ -1,6 +1,7 @@
 
 import 'package:meta/meta.dart';
 import 'package:search_gold_quotes/app/domain/entities/version_info.dart';
+import 'package:search_gold_quotes/core/error/exceptions.dart';
 
 class VersionInfoModel extends VersionInfo {
   VersionInfoModel({
@@ -10,16 +11,27 @@ class VersionInfoModel extends VersionInfo {
 
 
   factory VersionInfoModel.fromJson(Map<String, dynamic> json) {
-    return VersionInfoModel(
-        appVersion: json["app_version"],
-        forceUpdate: json["forceUpdate"]
-    );
+    try {
+      final Map<String, dynamic> dataObject = json["data"];
+      return VersionInfoModel(
+          appVersion: dataObject["app_version"],
+          forceUpdate: dataObject["forceUpdate"]
+      );
+    } catch(e) {
+      return VersionInfoModel.empty();
+    }
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "app_version": latestVersion,
-      "forceUpdate": forceUpdate
+      "data": {
+        "app_version": latestVersion,
+        "forceUpdate": forceUpdate
+      }
     };
+  }
+
+  factory VersionInfoModel.empty() {
+    return VersionInfoModel(appVersion: "", forceUpdate: "");
   }
 }

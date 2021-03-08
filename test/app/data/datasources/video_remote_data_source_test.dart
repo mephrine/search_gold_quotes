@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:search_gold_quotes/app/data/datasources/video_remote_data_source.dart';
+import 'package:search_gold_quotes/app/data/models/version_info_model.dart';
 import 'package:search_gold_quotes/app/data/models/video_items_model.dart';
 import 'package:search_gold_quotes/core/error/exceptions.dart';
 
@@ -39,6 +40,18 @@ void main() {
       // assert
       expect(result, videoList);
     });
+
+    test('response가 잘못된 json model인 경우, 빈 데이터 모델을 반환', () async {
+      // arrange
+      when(httpClient.get(any))
+          .thenAnswer((realInvocation) async => Response(statusCode: 200, data: fixture('trivia.json')));
+      // act
+      final emptyVideoModel = await remoteDataSource.getVideoList();
+
+      // assert
+      expect(emptyVideoModel, VideoListModel.empty());
+    });
+
 
     test('StatusCode 가 200(성공)이고, response data가 null을 반환했을 때, ParseException 발생', () async {
       // arrange

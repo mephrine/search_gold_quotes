@@ -24,7 +24,8 @@ class NavigationPushWidget extends StatelessWidget with ObstructingPreferredSize
       middle: Text(
         title,
         style: TextStyle(
-            fontSize: dimens.fontTextTitle
+            fontSize: dimens.fontTextTitle,
+            color: CupertinoTheme.of(context).primaryColor
         ),
       ),
     );

@@ -40,13 +40,16 @@ class AppRouter extends _i1.RootStackRouter {
       return _i1.AdaptivePage(entry: entry, child: _i5.SettingPage());
     },
     OpenSourceLicensePage.name: (entry) {
-      return _i1.AdaptivePage(entry: entry, child: _i6.OpenSourceLicensePage());
+      var route = entry.routeData.as<OpenSourceLicensePage>();
+      return _i1.AdaptivePage(entry: entry, child: _i6.OpenSourceLicensePage(title: route.title,));
     },
     ThemePage.name: (entry) {
-      return _i1.AdaptivePage(entry: entry, child: _i7.ThemePage());
+      var route = entry.routeData.as<ThemePage>();
+      return _i1.AdaptivePage(entry: entry, child: _i7.ThemePage(title: route.title));
     },
     VersionInfoPage.name: (entry) {
-      return _i1.AdaptivePage(entry: entry, child: _i8.VersionInfoPage());
+      var route = entry.routeData.as<VersionInfoPage>();
+      return _i1.AdaptivePage(entry: entry, child: _i8.VersionInfoPage(title: route.title));
     }
   };
 
@@ -117,27 +120,41 @@ class SettingPage extends _i1.PageRouteInfo {
 }
 
 class OpenSourceLicensePage extends _i1.PageRouteInfo {
-  const OpenSourceLicensePage()
+  const OpenSourceLicensePage(
+      {@_i9.required this.title})
       : super(name, path: '/open-source-license-page');
 
   OpenSourceLicensePage.fromMatch(_i1.RouteMatch match)
-      : super.fromMatch(match);
+      : title = null,
+        super.fromMatch(match);
+
+  final String title;
 
   static const String name = 'OpenSourceLicensePage';
 }
 
 class ThemePage extends _i1.PageRouteInfo {
-  const ThemePage() : super(name, path: '/theme-page');
+  const ThemePage(
+      {@_i9.required this.title}) : super(name, path: '/theme-page');
 
-  ThemePage.fromMatch(_i1.RouteMatch match) : super.fromMatch(match);
+  ThemePage.fromMatch(_i1.RouteMatch match)
+      : title = null,
+        super.fromMatch(match);
+
+  final String title;
 
   static const String name = 'ThemePage';
 }
 
 class VersionInfoPage extends _i1.PageRouteInfo {
-  const VersionInfoPage() : super(name, path: '/version-info-page');
+  const VersionInfoPage(
+      {@_i9.required this.title}) : super(name, path: '/version-info-page');
 
-  VersionInfoPage.fromMatch(_i1.RouteMatch match) : super.fromMatch(match);
+  VersionInfoPage.fromMatch(_i1.RouteMatch match)
+      : title = null,
+        super.fromMatch(match);
+
+  final String title;
 
   static const String name = 'VersionInfoPage';
 }

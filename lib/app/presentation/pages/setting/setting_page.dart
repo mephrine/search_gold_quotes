@@ -28,27 +28,27 @@ class SettingView extends StatelessWidget {
       appBar: NavigationPushWidget(title: strings.titleSetting),
       body: ListView(
         children: [
-          ListItemWidget(title: strings.titleTheme, routeAction: () { _pushToThemePage(context); }),
+          ListItemWidget(title: strings.titleTheme, routeAction: () { _pushToThemePage(context, strings.titleTheme); }),
           SeparatorWidget(),
-          ListItemWidget(title: strings.titleOpenSourceLicense, routeAction: () { _pushToOpenSourceLicensePage(context); }),
+          ListItemWidget(title: strings.titleOpenSourceLicense, routeAction: () { _pushToOpenSourceLicensePage(context, strings.titleOpenSourceLicense); }),
           SeparatorWidget(),
-          ListItemWidget(title: strings.titleVersionInfo, routeAction: () { _pushToVersionInfoPage(context); }),
+          ListItemWidget(title: strings.titleVersionInfo, routeAction: () { _pushToVersionInfoPage(context, strings.titleVersionInfo); }),
         ],
         padding: EdgeInsets.fromLTRB(dimens.margin, dimens.spacing, dimens.margin, dimens.spacing),
       ),
     );
   }
 
-  void _pushToThemePage(BuildContext context) {
-    context.router.push(ThemePage());
+  void _pushToThemePage(BuildContext context, String title) {
+    context.router.push(ThemePage(title: title));
   }
 
-  void _pushToOpenSourceLicensePage(BuildContext context) {
-    context.router.push(OpenSourceLicensePage());
+  void _pushToOpenSourceLicensePage(BuildContext context, String title) {
+    context.router.push(OpenSourceLicensePage(title: title));
   }
 
-  void _pushToVersionInfoPage(BuildContext context) {
-    context.router.push(VersionInfoPage());
+  void _pushToVersionInfoPage(BuildContext context, String title) {
+    context.router.push(VersionInfoPage(title: title));
   }
 }
 

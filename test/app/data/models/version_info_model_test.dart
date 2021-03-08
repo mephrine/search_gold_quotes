@@ -31,11 +31,9 @@ void main() {
       // arrange
       final jsonMap = json.decode(fixture('trivia.json'));
       // act
-      final resultLatestVersion = VersionInfoModel.fromJson(jsonMap).latestVersion;
-      final resultForceUpdate = VersionInfoModel.fromJson(jsonMap).forceUpdate;
+      final resultVersionInfoModel = VersionInfoModel.fromJson(jsonMap).forceUpdate;
       // assert
-      expect(resultLatestVersion, null);
-      expect(resultForceUpdate, null);
+      expect(resultVersionInfoModel, "");
     });
   });
 
@@ -43,8 +41,10 @@ void main() {
       test('should return a Json Map containing the proper data', () async {
           // arrange
         Map<String, dynamic> expectMap = {
-          "app_version": "1.0.0",
-          "forceUpdate": "Y"
+          "data": {
+            "app_version": "1.0.0",
+            "forceUpdate": "Y"
+          }
         };
         // act
         final result = versionInfoModel.toJson();

@@ -60,6 +60,18 @@ void main() {
       expect(result, homeDataModel);
     });
 
+    test('response가 잘못된 json model인 경우, 빈 데이터 모델을 반환', () async {
+      // arrange
+      when(httpClient.get(any))
+          .thenAnswer((realInvocation) async => Response(statusCode: 200, data: fixture('trivia.json')));
+      // act
+      final emptyVideoModel = await remoteDataSource.getHomeData();
+
+      // assert
+      expect(emptyVideoModel, HomeDataModel.empty());
+    });
+
+
     test('should return ParseException  when the response data is null', () async {
       // arrange
       when(httpClient.get(any))

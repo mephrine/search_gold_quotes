@@ -34,5 +34,14 @@ void main() {
       // assert
       expect(result, videoList);
     });
+
+    test('잘못된 JSON을 받았을 경우, 빈 데이터 모델 반환', () async {
+      // arrange
+      final Map<String, dynamic> jsonMap = json.decode(fixture('trivia.json'));
+      // act
+      final result = VideoListModel.fromJson(jsonMap);
+      // assert
+      expect(result, VideoListModel.empty());
+    });
   });
 }
