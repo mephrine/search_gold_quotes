@@ -1,5 +1,13 @@
 {
   "data": {
+    "seq": "1",
+    "use_yn": "Y",
+    "display_yn": "Y",
+    "del_yn": "N",
+    "reg_user": "버블",
+    "reg_date": "2021-02-21 15:54:00",
+    "mod_user": "버블",
+    "mod_date": "2021-02-21 15:54:00",
     "famousSaying": "Gold is God",
     "famousSayingWriter": "aaa",
     "referenceSiteName": "https://www.naver.com",
@@ -26,5 +34,7 @@
         "goldPrice": "95000"
       }
     ]
-  }
+  },
+  "httpStatusCd": 200,
+  "resultStatusCd": 200
 }
