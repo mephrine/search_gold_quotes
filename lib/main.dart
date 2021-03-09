@@ -17,26 +17,19 @@ class Main extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: NumberTriviaPage(),
-    ) ;
+    return ChangeNotifierProvider(
+      create: (_) => di.container<ThemeNotifier>(),
+      child: Builder(builder: (context) {
+        ThemeNotifier themeService = Provider.of<ThemeNotifier>(context);
+        return CupertinoApp(
+          theme: themeService.getTheme(),
+          home: CupertinoApp.router(
+            routerDelegate: _appRouter.delegate(),
+            routeInformationParser: _appRouter.defaultRouteParser(),
+          ),
+        );
+      }
+      ),
+    );
   }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return ChangeNotifierProvider(
-  //     create: (_) => di.container<ThemeNotifier>(),
-  //     child: Builder(builder: (context) {
-  //       ThemeNotifier themeService = Provider.of<ThemeNotifier>(context);
-  //       return CupertinoApp(
-  //         theme: themeService.getTheme(),
-  //         home: CupertinoApp.router(
-  //           routerDelegate: _appRouter.delegate(),
-  //           routeInformationParser: _appRouter.defaultRouteParser(),
-  //         ),
-  //       );
-  //     }
-  //     ),
-  //   );
-  // }
 }

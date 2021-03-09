@@ -113,7 +113,7 @@ Future<void> init() async {
   final sharePreferences = await SharedPreferences.getInstance();
   container.registerLazySingleton(() => sharePreferences);
   container.registerLazySingleton(() => Dio(BaseOptions(
-
+      baseUrl: constants.apiURL + constants.apiVersion,
       connectTimeout: 5000,
       receiveTimeout: 3000,
       headers: { "api-key": "goldnawa!@#", 'Content-Type': 'application/json' })));
