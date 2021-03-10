@@ -26,7 +26,6 @@ class VersionRemoteDataSourceImpl extends VersionRemoteDataSource {
         try {
           return VersionInfoModel.fromJson(response.data);
         } catch (exception) {
-          print('parseException : ' + exception.toString());
           throw ParseException();
         }
       } else {

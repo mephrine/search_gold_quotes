@@ -29,12 +29,6 @@ class SplashView extends StatefulWidget {
 
 class _SplashView extends State<SplashView> {
   @override
-  void initState() {
-    super.initState();
-
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocConsumer<SplashBloc, SplashState>(builder: (context, state) {
       return CupertinoPageScaffold(
