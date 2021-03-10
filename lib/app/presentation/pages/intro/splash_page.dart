@@ -31,7 +31,7 @@ class _SplashView extends State<SplashView> {
   @override
   void initState() {
     super.initState();
-    _dispatchVersion(context);
+
   }
 
   @override
@@ -80,12 +80,12 @@ class _SplashView extends State<SplashView> {
   }
 
   void _push(int delaySeconds) async {
-    Timer(
-        Duration(seconds: delaySeconds),
-        () => context.router.pushAndRemoveUntil(MainPage(),
+    // Timer(
+    //     Duration(seconds: delaySeconds),
+        context.router.pushAndRemoveUntil(MainPage(),
             predicate: (routes) {
              return false;
-            }, onFailure: (routes) {}));
+            }, onFailure: (routes) {});
   }
 }
 
@@ -95,9 +95,8 @@ class LottieGoldImageWidget extends StatelessWidget {
     return Lottie.asset(
       'assets/gold.json',
         height: 200,
-
       // controller: _controller,
-      // onLoaded: (composition) {
+      onLoaded: (composition) => _dispatchVersion(context)
       // Configure the AnimationController with the duration of the
       // Lottie file and start the animation.
       // _controller
