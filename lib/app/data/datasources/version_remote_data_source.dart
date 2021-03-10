@@ -23,10 +23,7 @@ class VersionRemoteDataSourceImpl extends VersionRemoteDataSource {
       final Response<Map> response = await httpClient.get(appInfoURL);
       if (response.statusCode == 200) {
         try {
-          print("decodeData1 : $response.data");
-          final Map responseBody = response.data;
-          // final decodeData = json.decode(responseBody);
-          return VersionInfoModel.fromJson(responseBody);
+          return VersionInfoModel.fromJson(response.data);
         } catch (exception) {
           print('parseException : ' + exception.toString());
           throw ParseException();

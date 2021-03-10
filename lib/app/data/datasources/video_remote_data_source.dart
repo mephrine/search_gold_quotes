@@ -21,7 +21,7 @@ class VideoRemoteDataSourceImpl extends VideoRemoteDataSource {
       final response = await httpClient.get(videoListURL);
       if (response.statusCode == 200) {
         try {
-          return VideoListModel.fromJson(jsonDecode(response.data));
+          return VideoListModel.fromJson(response.data);
         } catch (exception) {
           throw ParseException();
         }

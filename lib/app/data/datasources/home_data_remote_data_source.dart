@@ -26,7 +26,7 @@ class HomeDataRemoteDataSourceImpl extends HomeDataRemoteDataSource {
       final response = await httpClient.get(constants.famousSayingURL);
       if (response.statusCode == 200) {
         try {
-          return HomeDataModel.fromJson(json.decode(response.data));
+          return HomeDataModel.fromJson(response.data);
         } catch (exception) {
           throw ParseException();
         }
