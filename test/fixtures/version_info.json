@@ -1,10 +1,7 @@
 {
   "data": {
     "appVersionSeq": 1,
-    "version": "1.0",
-    "versionDesc": "1.0 버전",
-    "useYn": null,
-    "displayYn": null
+    "version": "1.0"
   },
   "httpStatusCd": 200,
   "resultStatusCd": 200

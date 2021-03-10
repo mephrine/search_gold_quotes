@@ -79,7 +79,7 @@ void main() {
       // act
       final call = remoteDataSource.getHomeData();
       // assert
-      expect(() => call, throwsA(isInstanceOf<ParseException>()));
+      expect(() => call, throwsA(isInstanceOf<ServerException>()));
     });
 
     test('should return ServerException when the request code is 500', () async {

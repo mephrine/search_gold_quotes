@@ -61,7 +61,7 @@ void main() {
       final call = remoteDataSource.getVideoList();
 
       // assert
-      expect(() => call, throwsA(isInstanceOf<ParseException>()));
+      expect(() => call, throwsA(isInstanceOf<ServerException>()));
     });
 
     test('StatusCode 가 500(실패)일 때, ServerException 발생', () async {

@@ -32,7 +32,7 @@ void main() {
           Response(statusCode: 200, data: fixture('version_info.json')));
 
       // act
-      remoteDataSource.getVersionInfo();
+      await remoteDataSource.getVersionInfo();
       // assert
       verify(mockHttpClient.get(appInfoURL));
     });
@@ -70,7 +70,7 @@ void main() {
       final call = remoteDataSource.getVersionInfo;
 
       // assert
-      expect(() => call(), throwsA(isInstanceOf<ParseException>()));
+      expect(() => call(), throwsA(isInstanceOf<ServerException>()));
       verify(mockHttpClient.get(any));
     });
 

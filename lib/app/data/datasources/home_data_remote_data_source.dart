@@ -6,6 +6,7 @@ import 'package:retrofit/http.dart';
 import 'package:search_gold_quotes/app/data/models/home_data_model.dart';
 import 'package:search_gold_quotes/core/error/exceptions.dart';
 import 'package:search_gold_quotes/core/values/constants.dart' as constants;
+import 'package:search_gold_quotes/core/extensions/dio_response.dart';
 
 abstract class HomeDataRemoteDataSource {
   @GET("/api/appVersion")
@@ -24,7 +25,7 @@ class HomeDataRemoteDataSourceImpl extends HomeDataRemoteDataSource {
   Future<HomeDataModel> getHomeData() async {
     try {
       final response = await httpClient.get(constants.famousSayingURL);
-      if (response.statusCode == 200) {
+      if (response.validateResponseData) {
         try {
           return HomeDataModel.fromJson(response.data);
         } catch (exception) {
