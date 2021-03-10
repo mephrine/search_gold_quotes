@@ -2,11 +2,14 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
+import 'package:retrofit/http.dart';
 import 'package:search_gold_quotes/app/data/models/home_data_model.dart';
 import 'package:search_gold_quotes/core/error/exceptions.dart';
 import 'package:search_gold_quotes/core/values/constants.dart' as constants;
+import 'package:search_gold_quotes/core/extensions/dio_response.dart';
 
 abstract class HomeDataRemoteDataSource {
+  @GET("/api/appVersion")
   Future<HomeDataModel> getHomeData();
 }
 
@@ -20,17 +23,20 @@ class HomeDataRemoteDataSourceImpl extends HomeDataRemoteDataSource {
 
   @override
   Future<HomeDataModel> getHomeData() async {
-    final response = await httpClient.get(constants.famousSayingURL);
-    if (response.statusCode == 200) {
-      try {
-        return HomeDataModel.fromJson(json.decode(response.data));
-      } catch (exception) {
-        throw ParseException();
+    try {
+      final response = await httpClient.get(constants.famousSayingURL);
+      if (response.validateResponseData) {
+        try {
+          return HomeDataModel.fromJson(response.data);
+        } catch (exception) {
+          throw ParseException();
+        }
+      } else {
+        throw ServerException();
       }
-    } else {
+    } catch (exception) {
       throw ServerException();
     }
-    return null;
   }
 
 }

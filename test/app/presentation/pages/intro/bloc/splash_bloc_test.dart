@@ -34,7 +34,7 @@ void main() {
 
   group('GetVersionInfoForUpdate', () {
     // Input값 체크 및 호출 성공, 실패 케이스, usecase성공, usecase 실패, 성공한 경우의 상태 변화, 실패한 경우의 상태 변화
-    final versionInfoModel = VersionInfo(latestVersion: '1.0.0', forceUpdate: 'Y');
+    final versionInfoModel = VersionInfo(latestVersion: '1.0.0', appVersionSeq: 1);
     test('should get data from the get version info usecase', () async {
       // arrange
       when(mockGetVersionInfo(any))

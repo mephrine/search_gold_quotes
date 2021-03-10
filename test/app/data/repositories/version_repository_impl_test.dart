@@ -24,7 +24,7 @@ void main() {
   });
   
   group('getVersionInfo is online', () {
-    final versionInfoModel = VersionInfoModel(appVersion: "1.0.0", forceUpdate: "Y");
+    final versionInfoModel = VersionInfoModel(appVersion: "1.0.0", appVersionSeq: 1);
     setUp(() {
       when(networkInfo.isConnected)
           .thenAnswer((_) async => true);

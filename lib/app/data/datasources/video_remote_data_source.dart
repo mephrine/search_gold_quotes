@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 import 'package:search_gold_quotes/app/data/models/video_items_model.dart';
 import 'package:search_gold_quotes/core/error/exceptions.dart';
+import 'package:search_gold_quotes/core/extensions/dio_response.dart';
 import 'package:search_gold_quotes/core/values/constants.dart';
 
 abstract class VideoRemoteDataSource {
@@ -17,15 +18,21 @@ class VideoRemoteDataSourceImpl extends VideoRemoteDataSource {
 
   @override
   Future<VideoListModel> getVideoList() async {
-    final response = await httpClient.get(videoListURL);
-    if (response.statusCode == 200) {
-      try {
-        return VideoListModel.fromJson(jsonDecode(response.data));
-      } catch (exception) {
-        throw ParseException();
+    try {
+      final response = await httpClient.get(videoListURL);
+      if (response.validateResponseData) {
+        try {
+          return VideoListModel.fromJson(response.data);
+        } catch (exception) {
+          throw ParseException();
+        }
+      } else {
+        throw ServerException();
       }
-    } else {
+    } catch (exception) {
       throw ServerException();
     }
   }
+
+
 }

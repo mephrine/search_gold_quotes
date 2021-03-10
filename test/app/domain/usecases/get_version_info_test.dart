@@ -19,7 +19,7 @@ void main() {
   });
 
   group('GetVersionInfo', () {
-    final testVersionInfo = VersionInfo(latestVersion: "1.0.0", forceUpdate: "N");
+    final testVersionInfo = VersionInfo(latestVersion: "1.0.0", appVersionSeq: 1);
     test('should get latest version when splash page called api', () async {
 
       // arrange

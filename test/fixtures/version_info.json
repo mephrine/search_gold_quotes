@@ -1,4 +1,8 @@
 {
-  "app_version": "1.0.0",
-  "forceUpdate": "Y"
+  "data": {
+    "appVersionSeq": 1,
+    "version": "1.0"
+  },
+  "httpStatusCd": 200,
+  "resultStatusCd": 200
 }

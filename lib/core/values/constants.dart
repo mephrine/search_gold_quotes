@@ -1,4 +1,7 @@
+import 'package:dio/dio.dart';
+
 const apiURL = "https://goldnawa-api.devrartes.com";
-const appInfoURL = apiURL + "/main/appInfo";
-const famousSayingURL = apiURL+ "/main/famousSaying";
-const videoListURL = apiURL+ "/main/famousSaying";
+const apiVersion = "/v1.0";
+const appInfoURL = "/api/appVersion";
+const famousSayingURL = "/api/famousSaying";
+const videoListURL = "/main/video";

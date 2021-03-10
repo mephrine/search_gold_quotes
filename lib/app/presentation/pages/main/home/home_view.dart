@@ -1,5 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +9,7 @@ import 'package:search_gold_quotes/app/domain/entities/home_data.dart';
 import 'package:search_gold_quotes/app/number_trivia/presentation/widgets/loading_widget.dart';
 import 'package:search_gold_quotes/app/number_trivia/presentation/widgets/message_display.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/home/home/home_bloc.dart';
+import 'package:search_gold_quotes/app/presentation/style/TextStyles.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
 import 'package:search_gold_quotes/core/values/dimens.dart' as dimens;
 
@@ -35,15 +38,14 @@ class _HomeContainer extends State<HomeContainer> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(builder: (bloc, state) {
-      if (state is Empty) {
-        return Container();
-      } else if (state is Loading) {
+      if (state is Loading) {
         return LoadingWidget();
       } else if (state is Loaded) {
         return _HomeLoadedWidget(homeData: state.homeData);
       } else if (state is Error) {
         return MessageDisplay(message: state.message);
       }
+      return Container();
     });
   }
 
@@ -63,17 +65,21 @@ class _HomeLoadedWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(children: [
       FamousQuotesAnimationWidget(
-          famousQuotes: homeData.famousQuotes
+        //todo test
+          // famousQuotes: homeData.famousQuotes,
+        famousQuotes: "가나다라마바사",
       ),
       Text(
-          homeData.referenceSiteName,
-          style: TextStyle(fontSize: dimens.fontTextSmall)
+        //todo test
+          // homeData.referenceSiteName,
+          "버블버블",
+          style: TextPrimaryStyles.defaultStyle(context)
       ),
-      LineChart(
-        LineChartData(
-            // read about it in the below section
-            ),
-      ),
+      // LineChart(
+      //   LineChartData(
+      //       // read about it in the below section
+      //       ),
+      // ),
     ]);
   }
 }
@@ -91,7 +97,7 @@ class FamousQuotesAnimationWidget extends StatelessWidget {
       speed: Duration(milliseconds: 2000),
       repeatForever: true,
       text: [famousQuotes],
-      textStyle: TextStyle(fontSize: dimens.fontTextBig, fontWeight: FontWeight.bold),
+      textStyle: TextPrimaryContrastingStyles.titleStyle(context),
       pause: Duration(milliseconds: 1000),
       displayFullTextOnTap: false,
       stopPauseOnTap: false,

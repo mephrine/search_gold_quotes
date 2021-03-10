@@ -31,6 +31,8 @@ class HomeRepositoryImpl extends HomeRepository {
         return Left(ServerFailure());
       } on ParseException {
         return Left(ParseFailure());
+      } catch (exception) {
+        return Left(CacheFailure());
       }
     } else {
       try {

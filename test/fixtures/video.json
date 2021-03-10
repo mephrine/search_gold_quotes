@@ -1,22 +1,24 @@
 {
-  "videoList": [
-    {
-      "title": "Video1",
-      "subTitle": "SubTitle1",
-      "linkURL": "https://www.naver.com",
-      "imagePath": "https://lottiefiles.com/10203-gold"
-    } ,
-    {
-      "title": "Video2",
-      "subTitle": "SubTitle2",
-      "linkURL": "https://www.daum.net",
-      "imagePath": "https://lottiefiles.com/10204-gold"
-    } ,
-    {
-      "title": "Video3",
-      "subTitle": "SubTitle3",
-      "linkURL": "https://www.nate.com",
-      "imagePath": "https://lottiefiles.com/10205-gold"
-    }
-  ]
+  "data": {
+    "videoList": [
+      {
+        "title": "Video1",
+        "subTitle": "SubTitle1",
+        "linkURL": "https://www.naver.com",
+        "imagePath": "https://lottiefiles.com/10203-gold"
+      },
+      {
+        "title": "Video2",
+        "subTitle": "SubTitle2",
+        "linkURL": "https://www.daum.net",
+        "imagePath": "https://lottiefiles.com/10204-gold"
+      },
+      {
+        "title": "Video3",
+        "subTitle": "SubTitle3",
+        "linkURL": "https://www.nate.com",
+        "imagePath": "https://lottiefiles.com/10205-gold"
+      }
+    ]
+  }
 }

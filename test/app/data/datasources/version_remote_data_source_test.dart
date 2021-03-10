@@ -25,7 +25,7 @@ void main() {
 
   group('device is connect', () {
     final versionInfoModel =
-        VersionInfoModel(appVersion: '1.0.0', forceUpdate: "Y");
+        VersionInfoModel(appVersion: '1.0.0', appVersionSeq: 1);
     test('check correct url', () async {
       // arrange
       when(mockHttpClient.get(any)).thenAnswer((realInvocation) async =>
@@ -54,11 +54,11 @@ void main() {
       when(mockHttpClient.get(any)).thenAnswer((realInvocation) async =>
           Response(statusCode: 200, data: fixture('trivia.json')));
       // act
-      final result = await remoteDataSource.getVersionInfo();
+      final emptyVersionInfo = await remoteDataSource.getVersionInfo();
 
       // assert
+      expect(emptyVersionInfo, VersionInfoModel.empty());
       verify(mockHttpClient.get(any));
-      expect(result, isNot(versionInfoModel));
     });
 
     test('should return Parse Exception the response code is 200 and data is null', () async {
@@ -70,7 +70,7 @@ void main() {
       final call = remoteDataSource.getVersionInfo;
 
       // assert
-      expect(() => call(), throwsA(isInstanceOf<ParseException>()));
+      expect(() => call(), throwsA(isInstanceOf<ServerException>()));
       verify(mockHttpClient.get(any));
     });
 

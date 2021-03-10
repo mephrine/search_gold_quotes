@@ -68,13 +68,19 @@ dependencies:
 
   ### Others
   youtube_player_flutter: ^7.0.0+7
+  webview_flutter: ^2.0.2
+  json_annotation: ^3.1.1
 
+  retrofit: ^1.3.4+1
+  logger: ^0.9.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   auto_route_generator: ^1.0.0-beta.10
+  retrofit_generator: ^1.4.1+3
   build_runner:
+  json_serializable: ^3.1.1
 
   integration_test:
     sdk: flutter
@@ -134,3 +140,22 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+targets:
+  $default:
+    builders:
+      json_serializable:
+        options:
+          # Options configure how source code is generated for every
+          # `@JsonSerializable`-annotated class in the package.
+          #
+          # The default value for each is listed.
+          any_map: false
+          checked: false
+          create_factory: true
+          create_to_json: true
+          disallow_unrecognized_keys: false
+          explicit_to_json: false
+          field_rename: none
+          generic_argument_factories: false
+          ignore_unannotated: false
+          include_if_null: true

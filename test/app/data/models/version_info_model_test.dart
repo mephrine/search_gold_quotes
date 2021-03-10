@@ -10,7 +10,7 @@ void main() {
   VersionInfoModel versionInfoModel;
   setUp(() {
     versionInfoModel =
-        VersionInfoModel(appVersion: "1.0.0", forceUpdate: "Y");
+        VersionInfoModel(appVersion: "1.0.0", appVersionSeq: 1);
   });
 
   test('should be a subclass of a VersionInfo', () async {
@@ -18,7 +18,7 @@ void main() {
   });
 
   group('fromJson', () {
-    test('should return a valid model json forceUpdate is string', () async {
+    test('should return a valid model json appVersionSeq is int', () async {
       // arrange
       final jsonMap = json.decode(fixture('version_info.json'));
       // act
@@ -31,11 +31,9 @@ void main() {
       // arrange
       final jsonMap = json.decode(fixture('trivia.json'));
       // act
-      final resultLatestVersion = VersionInfoModel.fromJson(jsonMap).latestVersion;
-      final resultForceUpdate = VersionInfoModel.fromJson(jsonMap).forceUpdate;
+      final resultVersionInfoModel = VersionInfoModel.fromJson(jsonMap).appVersionSeq;
       // assert
-      expect(resultLatestVersion, null);
-      expect(resultForceUpdate, null);
+      expect(resultVersionInfoModel, 1);
     });
   });
 
@@ -43,8 +41,10 @@ void main() {
       test('should return a Json Map containing the proper data', () async {
           // arrange
         Map<String, dynamic> expectMap = {
-          "app_version": "1.0.0",
-          "forceUpdate": "Y"
+          "data": {
+            "version": "1.0.0",
+            "appVersionSeq": 1
+          }
         };
         // act
         final result = versionInfoModel.toJson();
