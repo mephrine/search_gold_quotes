@@ -8,7 +8,8 @@ class HomeGold extends Jewelry {
   HomeGold({
     @required String date,
     @required String day,
-    @required String price}): super(date: date, price: price);
+    @required String goldCurrency,
+    @required String price}): super(date: date, price: price, goldCurrency: goldCurrency);
 
   @override
   List<Object> get props => [date, day, price];

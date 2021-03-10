@@ -5,7 +5,7 @@ class VideoListModel extends VideoList {
   factory VideoListModel.fromJson(Map<String, dynamic> jsonMap) {
     try {
       final Map<String, dynamic> data = jsonMap['data'];
-      Iterable iterable = data['videoList'];
+      Iterable iterable = data['youtubeList'];
       final videoList = List<VideoItemModel>.from(iterable.map((data) => VideoItemModel.fromJson(data)));
       return VideoListModel(itemList: videoList);
     } catch(e) {
@@ -23,10 +23,10 @@ class VideoListModel extends VideoList {
 
 class VideoItemModel extends VideoItem {
   factory VideoItemModel.fromJson(Map<String, dynamic> jsonMap) {
-    return VideoItemModel(title: jsonMap['title'],
-        subTitle: jsonMap['subTitle'],
-        linkURL: jsonMap['linkURL'],
-        imagePath: jsonMap['imagePath']);
+    return VideoItemModel(title: jsonMap['youtubeTitle'],
+        subTitle: jsonMap['youtubeSubTitle'],
+        linkURL: jsonMap['youtubeUrl'],
+        imagePath: jsonMap['thumbImageUrl']);
   }
 
   VideoItemModel({

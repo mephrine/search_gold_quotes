@@ -12,12 +12,13 @@ class GoldModel extends HomeGold {
       @required String goldDate,
       @required this.goldPurity,
       @required this.goldPriceType,
-      @required String goldPrice}):
+      @required String goldPrice,
+      @required String goldCurrency}):
         day = _dateToDay(goldDate)
-       , super(date: goldDate, price: goldPrice);
+       , super(date: goldDate, price: goldPrice, goldCurrency: goldCurrency);
 
   @override
-  List<Object> get props => [jewelryType, date, goldPurity, goldPriceType, price];
+  List<Object> get props => [jewelryType, date, goldPurity, goldPriceType, price, goldCurrency];
 
   static String _dateToDay(String date) {
     if (date == '2021-02-10') {
@@ -32,7 +33,8 @@ class GoldModel extends HomeGold {
         goldDate: jsonMap['goldDate'],
         goldPurity: jsonMap['goldPurity'],
         goldPriceType: jsonMap['goldPriceType'],
-        goldPrice: jsonMap['goldPrice']);
+        goldPrice: jsonMap['goldPrice'],
+        goldCurrency: jsonMap['goldCurrency']);
   }
 
   Map<String, dynamic> toJson() {
@@ -41,7 +43,8 @@ class GoldModel extends HomeGold {
       "goldDate": date,
       "goldPurity": goldPurity,
       "goldPriceType": goldPriceType,
-      "goldPrice": price
+      "goldPrice": price,
+      "goldCurrency": goldCurrency
     };
   }
 }
