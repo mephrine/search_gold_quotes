@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,19 +31,16 @@ class _SplashView extends State<SplashView> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SplashBloc, SplashState>(builder: (context, state) {
-      return CupertinoPageScaffold(
-        child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                LottieGoldImageWidget(),
-                LogoImageWidget()
-              ],
-            ),
+      return Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [LottieGoldImageWidget(), LogoImageWidget()],
           ),
-        );
+        ),
+      );
     }, listener: (context, state) {
       if (state is Loaded) {
         _push(2);
@@ -54,19 +51,20 @@ class _SplashView extends State<SplashView> {
   }
 
   void _showErrorAlert() {
-    showCupertinoDialog(
+    showDialog<void>(
       context: context,
-      builder: (context) {
-        return CupertinoAlertDialog(
+      barrierDismissible: false,
+      // false = user must tap button, true = tap outside dialog
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
           content: Text(_SERVER_ERROR_MESSAGE),
           actions: <Widget>[
-            CupertinoButton(
-              child: Text(_BUTTON_CONFIRM_TITLE),
-              onPressed: () {
-                Navigator.pop(context);
-                _push(0);
-              },
-            ),
+            MaterialButton(
+                child: Text(_BUTTON_CONFIRM_TITLE),
+                onPressed: () {
+                  Navigator.pop(context);
+                  _push(0);
+                }),
           ],
         );
       },
@@ -76,28 +74,26 @@ class _SplashView extends State<SplashView> {
   void _push(int delaySeconds) async {
     // Timer(
     //     Duration(seconds: delaySeconds),
-        context.router.pushAndRemoveUntil(MainPage(),
-            predicate: (routes) {
-             return false;
-            }, onFailure: (routes) {});
+    context.router.pushAndRemoveUntil(MainPage(), predicate: (routes) {
+      return false;
+    }, onFailure: (routes) {});
   }
 }
 
 class LottieGoldImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Lottie.asset(
-      'assets/gold.json',
+    return Lottie.asset('assets/gold.json',
         height: 200,
-      // controller: _controller,
-      onLoaded: (composition) => _dispatchVersion(context)
-      // Configure the AnimationController with the duration of the
-      // Lottie file and start the animation.
-      // _controller
-      //   ..duration = composition.duration
-      //   ..forward();
-      // },
-    );
+        // controller: _controller,
+        onLoaded: (composition) => _dispatchVersion(context)
+        // Configure the AnimationController with the duration of the
+        // Lottie file and start the animation.
+        // _controller
+        //   ..duration = composition.duration
+        //   ..forward();
+        // },
+        );
   }
 }
 
@@ -105,7 +101,7 @@ class LogoImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-        'images/logo.png',
+      'images/logo.png',
       width: 50,
       height: 25,
     );

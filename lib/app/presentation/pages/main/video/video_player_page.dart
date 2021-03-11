@@ -1,5 +1,4 @@
 import 'package:meta/meta.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -29,7 +28,7 @@ class VideoPlayerPage extends StatelessWidget {
 class _VideoPlayerView extends StatefulWidget {
   final List<String> youtubeIDList;
   int index;
-  final CupertinoThemeData themeData;
+  final ThemeData themeData;
 
   _VideoPlayerView(
       {@required this.youtubeIDList,
@@ -139,12 +138,12 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
           _showSnackBar('Next Video Started!');
         },
       ),
-      builder: (context, player) => CupertinoPageScaffold(
+      builder: (context, player) => Scaffold(
         key: _scaffoldKey,
-        navigationBar: NavigationPushWidget(
+        appBar: NavigationPushWidget(
           title: _controller.metadata.title,
         ),
-        child: ListView(
+        body: ListView(
           children: [
             player,
             Padding(

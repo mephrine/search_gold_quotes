@@ -1,5 +1,4 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/history/history_view.dart';
@@ -29,7 +28,7 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeService = Provider.of<ThemeNotifier>(context);
-    return CupertinoApp(
+    return MaterialApp(
       theme: themeService.getTheme(),
       home: MainView(),
     );
@@ -87,8 +86,8 @@ class _MainView extends State<MainView> with SingleTickerProviderStateMixin {
         style: TabStyle.react,
         initialActiveIndex: 0,//optional, default as 0
         onTap: (int i) => print('click index=$i'),
-        color: CupertinoTheme.of(context).primaryColor,
-        backgroundColor: CupertinoTheme.of(context).barBackgroundColor,
+        color: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).backgroundColor,
       ),
     );
   }
@@ -111,28 +110,36 @@ class NavigationTitleWidget extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoNavigationBar(
-        trailing: CupertinoButton(
-          padding: EdgeInsets.all(0),
-          child: Icon(
-            Icons.settings,
-            color: CupertinoTheme.of(context).primaryColor,
-            size: dimens.iconSizeTitle,
-          ),
-          onPressed: () => presentToSettingPage(context),
-        ),
-        leading: Padding(
-          padding: EdgeInsets.fromLTRB(dimens.margin, 0, 0, 0),
-          child: Align(
-            widthFactor: 1.0,
-            alignment: Alignment.center,
-            child: Text(
-              title,
-              style: TextStyle(
-                  fontSize: dimens.fontTextTitle,
-                  fontWeight: FontWeight.bold,
-                  color: CupertinoTheme.of(context).primaryColor),
-            ),
+    return Container(
+        child: SafeArea(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(dimens.navigationHorizontalMargin, 0, 0, 0),
+                child: Align(
+                  widthFactor: 1.0,
+                  alignment: Alignment.center,
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                        fontSize: dimens.fontTextTitle,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).primaryColor),
+                  ),
+                ),
+              ),
+              Expanded(child: Container()),
+              MaterialButton(
+                padding: EdgeInsets.all(0),
+                child: Icon(
+                  Icons.settings,
+                  color: Theme.of(context).primaryColor,
+                  size: dimens.iconSizeTitle,
+                ),
+                onPressed: () => presentToSettingPage(context),
+              ),
+            ],
           ),
         )
     );

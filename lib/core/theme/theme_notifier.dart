@@ -1,16 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-enum AppTheme {
-  system, light, dark
-}
+enum AppTheme { system, light, dark }
 
-extension Theme on AppTheme {
+extension ThemeStyles on AppTheme {
   String value() {
-    switch(this) {
+    switch (this) {
       case AppTheme.system:
         return 'system';
       case AppTheme.light:
@@ -27,36 +24,32 @@ class ThemeNotifier with ChangeNotifier {
   static const String KEY_THEME_MODE = 'themeMode';
   final SharedPreferences preferences;
 
-  final darkTheme = CupertinoThemeData(
-    primaryContrastingColor: Colors.grey,
-    primaryColor: Colors.black,
-    brightness: Brightness.dark,
-    scaffoldBackgroundColor: const Color(0xFF212121),
-    barBackgroundColor : const Color(0xFF212121),
-    textTheme: CupertinoTextThemeData(
-      primaryColor: Colors.white,
-
-    ),
-
-  );
-
-  final lightTheme = CupertinoThemeData(
-    primaryContrastingColor: Colors.grey,
+  final darkTheme = ThemeData(
+    primaryColorDark: Colors.grey,
     primaryColor: Colors.white,
-    brightness: Brightness.light,
-    scaffoldBackgroundColor: const Color(0xFFE5E5E5),
-    barBackgroundColor: Colors.blue,
-    textTheme: CupertinoTextThemeData(
-        primaryColor: Colors.black
-    ),
+    brightness: Brightness.dark,
+    backgroundColor: Colors.black,
+    scaffoldBackgroundColor: Colors.black,
+    dialogBackgroundColor: Colors.black54,
+    bottomAppBarColor: Colors.black,
+    accentColor: Colors.white,
   );
 
-  CupertinoThemeData _themeData;
-  CupertinoThemeData getTheme() => _themeData;
+  final lightTheme = ThemeData(
+      primaryColorLight: Colors.grey,
+      primaryColor: Colors.black,
+      brightness: Brightness.light,
+      backgroundColor: const Color(0xFFE5E5E5),
+      scaffoldBackgroundColor: const Color(0xFFE5E5E5),
+      dialogBackgroundColor: Colors.white,
+      bottomAppBarColor: Colors.blue,
+      accentColor: Colors.blue,);
 
-  ThemeNotifier({
-    @required this.preferences
-  }) {
+  ThemeData _themeData;
+
+  ThemeData getTheme() => _themeData;
+
+  ThemeNotifier({@required this.preferences}) {
     AppTheme themeMode = getThemeMode();
     if (themeMode == AppTheme.system) {
       themeMode = _getSystemAppTheme();
@@ -76,7 +69,7 @@ class ThemeNotifier with ChangeNotifier {
     try {
       var brightness = SchedulerBinding.instance.window.platformBrightness;
       return brightness == Brightness.light ? AppTheme.light : AppTheme.dark;
-    } catch(nullPointException) {
+    } catch (nullPointException) {
       return AppTheme.light;
     }
   }
@@ -117,7 +110,8 @@ class ThemeNotifier with ChangeNotifier {
   }
 
   void setSystemMode() async {
-    _themeData =  _getSystemAppTheme() == AppTheme.light ? lightTheme : darkTheme;
+    _themeData =
+        _getSystemAppTheme() == AppTheme.light ? lightTheme : darkTheme;
     preferences.setString(KEY_THEME_MODE, AppTheme.system.value());
     notifyListeners();
   }

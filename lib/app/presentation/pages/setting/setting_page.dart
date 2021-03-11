@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/navigation_push_widget.dart';
+import 'package:search_gold_quotes/app/presentation/widgets/separator_widget.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
 import 'package:search_gold_quotes/core/presentation/routes/router.gr.dart';
 import 'package:auto_route/auto_route.dart';
@@ -14,7 +13,7 @@ class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeService = Provider.of<ThemeNotifier>(context);
-    return CupertinoApp(
+    return MaterialApp(
       theme: themeService.getTheme(),
       home: SettingView(),
     );
@@ -52,17 +51,6 @@ class SettingView extends StatelessWidget {
   }
 }
 
-class SeparatorWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 1,
-      color: CupertinoTheme.of(context).primaryContrastingColor,
-      padding: EdgeInsets.all(dimens.margin),
-    );
-  }
-}
-
 class ListItemWidget extends StatelessWidget {
   final String title;
   final Function routeAction;
@@ -88,7 +76,7 @@ class ListItemWidget extends StatelessWidget {
             Icon(
               Icons.keyboard_arrow_right,
               size: dimens.iconSizeTitle,
-              color: CupertinoTheme.of(context).primaryContrastingColor,
+              color: Colors.white,
             ),
           ],
         ),

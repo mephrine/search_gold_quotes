@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:search_gold_quotes/app/number_trivia/presentation/pages/number_trivia_page.dart';
@@ -21,9 +20,9 @@ class Main extends StatelessWidget {
       create: (_) => di.container<ThemeNotifier>(),
       child: Builder(builder: (context) {
         ThemeNotifier themeService = Provider.of<ThemeNotifier>(context);
-        return CupertinoApp(
+        return MaterialApp(
           theme: themeService.getTheme(),
-          home: CupertinoApp.router(
+          home: MaterialApp.router(
             routerDelegate: _appRouter.delegate(),
             routeInformationParser: _appRouter.defaultRouteParser(),
           ),

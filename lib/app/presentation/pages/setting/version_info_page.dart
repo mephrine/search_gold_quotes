@@ -1,5 +1,4 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:meta/meta.dart';
@@ -15,7 +14,7 @@ class VersionInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeService = Provider.of<ThemeNotifier>(context);
-    return CupertinoApp(
+    return MaterialApp(
       theme: themeService.getTheme(),
       home: _VersionInfoView(title: title),
     );

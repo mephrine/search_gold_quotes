@@ -1,7 +1,6 @@
 
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +18,7 @@ class OpenSourceLicensePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeService = Provider.of<ThemeNotifier>(context);
-    return CupertinoApp(
+    return MaterialApp(
       theme: themeService.getTheme(),
       home: _OpenSourceLicenseView(title: title),
     );

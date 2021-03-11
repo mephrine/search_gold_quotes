@@ -7,7 +7,7 @@ class HomeGold extends Jewelry {
 
   HomeGold({
     @required String date,
-    @required String day,
+    @required this.day,
     @required String price}): super(date: date, price: price);
 
   @override

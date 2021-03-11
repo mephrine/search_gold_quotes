@@ -1,11 +1,11 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:search_gold_quotes/app/domain/entities/home_data.dart';
+import 'package:search_gold_quotes/app/domain/entities/home_gold.dart';
 import 'package:search_gold_quotes/app/number_trivia/presentation/widgets/loading_widget.dart';
 import 'package:search_gold_quotes/app/number_trivia/presentation/widgets/message_display.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/home/home/home_bloc.dart';
@@ -63,38 +63,90 @@ class _HomeLoadedWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(children: [
-        SizedBox(height: 20,),
-        FamousQuotesAnimationWidget(
-          famousQuotes: homeData.famousQuotes,
+    return Column(children: [
+      SizedBox(
+        height: 20,
+      ),
+      FamousQuotesAnimationWidget(
+        famousQuotes: homeData.famousQuotes,
+      ),
+      SizedBox(
+        height: 20,
+      ),
+      Text(homeData.referenceSiteName,
+          style: TextPrimaryContrastingStyles.defaultStyle(context)),
+      SizedBox(
+        height: 30,
+      ),
+      Expanded(
+        child: Padding(
+          padding: const EdgeInsets.only(right: 16.0, left: 6.0),
+          child: LineChartSample1(),
         ),
-        SizedBox(height: 20,),
-        Text(homeData.referenceSiteName,
-            style: TextPrimaryContrastingStyles.defaultStyle(context)),
-        SizedBox(height: 30,),
-        Container(
-          child: Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 16.0, left: 6.0),
-              child: LineChartSample1(),
-            ),
-          ),
-          height: 300,
-        ),
-        SizedBox(height: 30,),
-        Container(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(child: Text("abc")),
-              Expanded(child: Text("def")),
-              Expanded(child: Text("ghi")),
-            ],
+      ),
+      SizedBox(
+        height: 30,
+      ),
+      TodayGoldPriceWidget(),
+    ]);
+  }
+}
 
-          ),
-        ),
-      ])
+class TodayGoldPriceWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          TodayGoldPriceItemWidget(
+              homeGold:
+                  HomeGold(date: "2021-03-11", day: "오늘", price: "210,000원")),
+          TodayGoldPriceItemWidget(
+              homeGold:
+                  HomeGold(date: "2021-03-10", day: "어제", price: "210,000원")),
+          TodayGoldPriceItemWidget(
+              homeGold:
+                  HomeGold(date: "2021-03-09", day: "그제", price: "210,000원")),
+        ],
+      ),
+      margin: EdgeInsets.fromLTRB(
+          dimens.margin, 0, dimens.margin, dimens.mainTabBarCurveMargin),
+    );
+  }
+}
+
+class TodayGoldPriceItemWidget extends StatefulWidget {
+  final HomeGold homeGold;
+
+  TodayGoldPriceItemWidget({@required this.homeGold});
+
+  @override
+  _TodayGoldPriceItemWidgetState createState() =>
+      _TodayGoldPriceItemWidgetState();
+}
+
+class _TodayGoldPriceItemWidgetState extends State<TodayGoldPriceItemWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(widget.homeGold.day,
+            style: TextStyle(
+                fontSize: dimens.fontTextBig,
+                color: Colors.redAccent,
+                fontWeight: FontWeight.bold)),
+        Text(widget.homeGold.date,
+            style: TextStyle(
+                fontSize: dimens.fontTextSmall,
+                color: Colors.blueAccent,
+                fontWeight: FontWeight.bold)),
+        Text(widget.homeGold.price,
+            style: TextStyle(
+                fontSize: dimens.fontTextTitle,
+                color: Colors.blueAccent,
+                fontWeight: FontWeight.bold)),
+      ],
     );
   }
 }
@@ -117,7 +169,6 @@ class FamousQuotesAnimationWidget extends StatelessWidget {
     );
   }
 }
-
 
 class LineChartSample1 extends StatefulWidget {
   @override

@@ -1,6 +1,10 @@
 const double margin = 15.0;
 
+const double navigationHorizontalMargin = 30.0;
+
 const double verticallyMargin = 30.0;
+
+const double mainTabBarCurveMargin = 50.0;
 
 const double spacing = 8;
 
