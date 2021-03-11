@@ -11,7 +11,7 @@ abstract class VideoRemoteDataSource {
   Future<VideoListModel> getVideoList();
 }
 
-class VideoRemoteDataSourceImpl extends VideoRemoteDataSource {
+class VideoRemoteDataSourceImpl implements VideoRemoteDataSource {
   final Dio httpClient;
 
   VideoRemoteDataSourceImpl({@required this.httpClient});
@@ -22,7 +22,9 @@ class VideoRemoteDataSourceImpl extends VideoRemoteDataSource {
       final response = await httpClient.get(videoListURL);
       if (response.validateResponseData) {
         try {
-          return VideoListModel.fromJson(response.data);
+          //Todo. test
+          // return VideoListModel.fromJson(response.data);
+          return VideoListModel.fromJson(json.decode(testData));
         } catch (exception) {
           throw ParseException();
         }
@@ -33,6 +35,33 @@ class VideoRemoteDataSourceImpl extends VideoRemoteDataSource {
       throw ServerException();
     }
   }
+
+  final testData = """
+  {
+  "data": {
+    "videoList": [
+      {
+        "title": "Video1",
+        "subTitle": "SubTitle1",
+        "linkURL": "https://www.naver.com",
+        "imagePath": "https://lottiefiles.com/10203-gold"
+      },
+      {
+        "title": "Video2",
+        "subTitle": "SubTitle2",
+        "linkURL": "https://www.daum.net",
+        "imagePath": "https://lottiefiles.com/10204-gold"
+      },
+      {
+        "title": "Video3",
+        "subTitle": "SubTitle3",
+        "linkURL": "https://www.nate.com",
+        "imagePath": "https://lottiefiles.com/10205-gold"
+      }
+    ]
+  }
+}
+  """;
 
 
 }

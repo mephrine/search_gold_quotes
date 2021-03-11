@@ -59,7 +59,7 @@ Future<void> init() async {
     VersionRepositoryImpl(remoteDataSource: container(), networkInfo: container())
   );
   container.registerLazySingleton<HomeRepository>(() =>
-      HomeRepositoryImpl(remoteDataSource: container(), networkInfo: container())
+      HomeRepositoryImpl(remoteDataSource: container(), networkInfo: container(), localDataSource: container())
   );
   container.registerLazySingleton<VideoRepository>(() =>
       VideoRepositoryImpl(dataSource: container(), networkInfo: container())

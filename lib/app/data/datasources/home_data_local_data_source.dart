@@ -11,7 +11,7 @@ abstract class HomeDataLocalDataSource {
 }
 
 const String CACHED_MAIN_DATA = "CACHED_MAIN_DATA";
-class HomeDataLocalDataSourceImpl extends HomeDataLocalDataSource {
+class HomeDataLocalDataSourceImpl implements HomeDataLocalDataSource {
   final SharedPreferences sharedPreferences;
 
   HomeDataLocalDataSourceImpl({

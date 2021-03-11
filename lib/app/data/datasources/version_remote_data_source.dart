@@ -11,7 +11,7 @@ abstract class VersionRemoteDataSource {
   Future<VersionInfoModel> getVersionInfo();
 }
 
-class VersionRemoteDataSourceImpl extends VersionRemoteDataSource {
+class VersionRemoteDataSourceImpl implements VersionRemoteDataSource {
   final Dio httpClient;
 
   VersionRemoteDataSourceImpl({

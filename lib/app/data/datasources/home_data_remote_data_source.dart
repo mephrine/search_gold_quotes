@@ -14,7 +14,7 @@ abstract class HomeDataRemoteDataSource {
 }
 
 
-class HomeDataRemoteDataSourceImpl extends HomeDataRemoteDataSource {
+class HomeDataRemoteDataSourceImpl implements HomeDataRemoteDataSource {
   final Dio httpClient;
 
   HomeDataRemoteDataSourceImpl({
@@ -27,7 +27,9 @@ class HomeDataRemoteDataSourceImpl extends HomeDataRemoteDataSource {
       final response = await httpClient.get(constants.famousSayingURL);
       if (response.validateResponseData) {
         try {
-          return HomeDataModel.fromJson(response.data);
+          //Todo. test
+          // return HomeDataModel.fromJson(response.data);
+          return HomeDataModel.fromJson(json.decode(testData));
         } catch (exception) {
           throw ParseException();
         }
@@ -38,5 +40,41 @@ class HomeDataRemoteDataSourceImpl extends HomeDataRemoteDataSource {
       throw ServerException();
     }
   }
+
+  final testData = """
+  {
+  "data": {
+    "famousSayingSeq": 7,
+    "famousSaying": "Gold is God",
+    "famousSayingWriter": "aaa",
+    "referenceSiteName": "https://www.naver.com",
+    "goldList": [
+      {
+        "jewelryType": "G",
+        "goldDate": "2021-02-10",
+        "goldPurity": "100",
+        "goldPriceType": "W",
+        "goldPrice": "100000"
+      } ,
+      {
+        "jewelryType": "G",
+        "goldDate": "2021-02-09",
+        "goldPurity": "70",
+        "goldPriceType": "W",
+        "goldPrice": "90000"
+      } ,
+      {
+        "jewelryType": "G",
+        "goldDate": "2021-02-08",
+        "goldPurity": "100",
+        "goldPriceType": "W",
+        "goldPrice": "95000"
+      }
+    ]
+  },
+  "httpStatusCd": 200,
+  "resultStatusCd": 200
+}
+  """;
 
 }
