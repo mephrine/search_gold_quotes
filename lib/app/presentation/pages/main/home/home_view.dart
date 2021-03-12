@@ -359,11 +359,11 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
       maxX: 14,
       maxY: 220000,
       minY: 0,
-      lineBarsData: linesBarData1(widget.goldList.map((item) => double.tryParse(item.price) ?? 0)),
+      lineBarsData: linesBarData(widget.goldList.map((item) => double.tryParse(item.price) ?? 0.0).toList()) ,
     );
   }
 
-  List<LineChartBarData> linesBarData1(List<double> priceList) {
+  List<LineChartBarData> linesBarData(List<double> priceList) {
     final LineChartBarData lineChartBarData1 = LineChartBarData(
       spots: [
         FlSpot(1, priceList[0]),
