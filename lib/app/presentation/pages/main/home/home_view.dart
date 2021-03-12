@@ -81,18 +81,26 @@ class _HomeLoadedWidget extends StatelessWidget {
       Expanded(
         child: Padding(
           padding: const EdgeInsets.only(right: 16.0, left: 6.0),
-          child: LineChartSample1(),
+          child: TodayGoldLineChart(goldList: homeData.goldList),
         ),
       ),
       SizedBox(
         height: 30,
       ),
-      TodayGoldPriceWidget(),
+      Positioned(
+        bottom: 0.0,
+        child: TodayGoldPriceWidget(goldList: homeData.goldList),
+      ),
     ]);
   }
 }
 
 class TodayGoldPriceWidget extends StatelessWidget {
+  final List<HomeGold> goldList;
+
+
+  TodayGoldPriceWidget({@required this.goldList});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -100,14 +108,11 @@ class TodayGoldPriceWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           TodayGoldPriceItemWidget(
-              homeGold:
-                  HomeGold(date: "2021-03-11", day: "오늘", price: "210,000원")),
+              homeGold: goldList[0]),
           TodayGoldPriceItemWidget(
-              homeGold:
-                  HomeGold(date: "2021-03-10", day: "어제", price: "210,000원")),
+              homeGold: goldList[1]),
           TodayGoldPriceItemWidget(
-              homeGold:
-                  HomeGold(date: "2021-03-09", day: "그제", price: "210,000원")),
+              homeGold: goldList[2]),
         ],
       ),
       margin: EdgeInsets.fromLTRB(
@@ -170,18 +175,32 @@ class FamousQuotesAnimationWidget extends StatelessWidget {
   }
 }
 
-class LineChartSample1 extends StatefulWidget {
+class TodayGoldLineChart extends StatefulWidget {
+  final List<HomeGold> goldList;
+
+  TodayGoldLineChart({@required this.goldList});
+
+
+
+
+
   @override
-  State<StatefulWidget> createState() => LineChartSample1State();
+  State<StatefulWidget> createState() => _TodayGoldLineChartState();
 }
 
-class LineChartSample1State extends State<LineChartSample1> {
+class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
   bool isShowingMainData;
+  int maxPrice;
+  int minPrice;
+  int middlePrice;
 
   @override
   void initState() {
     super.initState();
     isShowingMainData = true;
+    maxPrice = widget.goldList.map((item) => int.tryParse(item.price) ?? 0 ).reduce((current, next) => current > next? current: next);
+    minPrice = widget.goldList.map((item) => int.tryParse(item.price) ?? 0 ).reduce((current, next) => current < next? current: next);
+    middlePrice = minPrice + (maxPrice - minPrice) ~/ 2;
   }
 
   @override
@@ -209,7 +228,7 @@ class LineChartSample1State extends State<LineChartSample1> {
                   height: 37,
                 ),
                 const Text(
-                  'Unfold Shop 2018',
+                  '2021',
                   style: TextStyle(
                     color: Color(0xff827daa),
                     fontSize: 16,
@@ -220,7 +239,7 @@ class LineChartSample1State extends State<LineChartSample1> {
                   height: 4,
                 ),
                 const Text(
-                  'Monthly Sales',
+                  '오늘의 시세',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 32,
@@ -233,7 +252,7 @@ class LineChartSample1State extends State<LineChartSample1> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 16.0, left: 6.0),
+                    padding: const EdgeInsets.only(right: dimens.margin, left: dimens.spacing),
                     child: LineChart(
                       isShowingMainData ? sampleData1() : sampleData2(),
                       swapAnimationDuration: const Duration(milliseconds: 250),
@@ -286,12 +305,12 @@ class LineChartSample1State extends State<LineChartSample1> {
           margin: 10,
           getTitles: (value) {
             switch (value.toInt()) {
-              case 2:
-                return 'SEPT';
+              case 1:
+                return '오늘';
               case 7:
-                return 'OCT';
-              case 12:
-                return 'DEC';
+                return '어제';
+              case 13:
+                return '그제';
             }
             return '';
           },
@@ -306,18 +325,16 @@ class LineChartSample1State extends State<LineChartSample1> {
           getTitles: (value) {
             switch (value.toInt()) {
               case 1:
-                return '1m';
+                return  '$maxPrice 원';
               case 2:
-                return '2m';
+                return '$middlePrice 원';
               case 3:
-                return '3m';
-              case 4:
-                return '5m';
+                return '$minPrice 원';
             }
             return '';
           },
           margin: 8,
-          reservedSize: 30,
+          reservedSize: 80,
         ),
       ),
       borderData: FlBorderData(
@@ -340,22 +357,18 @@ class LineChartSample1State extends State<LineChartSample1> {
       ),
       minX: 0,
       maxX: 14,
-      maxY: 4,
+      maxY: 220000,
       minY: 0,
-      lineBarsData: linesBarData1(),
+      lineBarsData: linesBarData1(widget.goldList.map((item) => double.tryParse(item.price) ?? 0)),
     );
   }
 
-  List<LineChartBarData> linesBarData1() {
+  List<LineChartBarData> linesBarData1(List<double> priceList) {
     final LineChartBarData lineChartBarData1 = LineChartBarData(
       spots: [
-        FlSpot(1, 1),
-        FlSpot(3, 1.5),
-        FlSpot(5, 1.4),
-        FlSpot(7, 3.4),
-        FlSpot(10, 2),
-        FlSpot(12, 2.2),
-        FlSpot(13, 1.8),
+        FlSpot(1, priceList[0]),
+        FlSpot(7, priceList[1]),
+        FlSpot(13, priceList[2]),
       ],
       isCurved: true,
       colors: [
@@ -372,12 +385,9 @@ class LineChartSample1State extends State<LineChartSample1> {
     );
     final LineChartBarData lineChartBarData2 = LineChartBarData(
       spots: [
-        FlSpot(1, 1),
-        FlSpot(3, 2.8),
-        FlSpot(7, 1.2),
-        FlSpot(10, 2.8),
-        FlSpot(12, 2.6),
-        FlSpot(13, 3.9),
+        FlSpot(1, 190000),
+        FlSpot(7, 200000),
+        FlSpot(13, 210000),
       ],
       isCurved: true,
       colors: [
@@ -394,11 +404,9 @@ class LineChartSample1State extends State<LineChartSample1> {
     );
     final LineChartBarData lineChartBarData3 = LineChartBarData(
       spots: [
-        FlSpot(1, 2.8),
-        FlSpot(3, 1.9),
-        FlSpot(6, 3),
-        FlSpot(10, 1.3),
-        FlSpot(13, 2.5),
+        FlSpot(1, 280000),
+        FlSpot(7, 150000),
+        FlSpot(13, 230000),
       ],
       isCurved: true,
       colors: const [
