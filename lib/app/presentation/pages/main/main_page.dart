@@ -23,7 +23,6 @@ import 'package:search_gold_quotes/core/values/strings.dart' as strings;
 // 즉, Material 디자인 앱의 뼈대가 되는 Widget
 // Cupertino에서도 Scaffold가 사용은 가능하나, Cupertino~~로 시작하는 위젯들을 사용하면 될 듯?
 
-
 class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -43,14 +42,14 @@ class MainView extends StatefulWidget {
 // class
 class _MainView extends State<MainView> with SingleTickerProviderStateMixin {
   TabController _tabController;
+  ScrollController _scrollController;
   String _navigationTitle;
-  final _tabTitleList = [strings.titleHome, strings.titleHistory, strings.titleVideo];
-  final _pages = [
-    HomeView(),
-    HistoryView(),
-    VideoView()
+  final _tabTitleList = [
+    strings.titleHome,
+    strings.titleHistory,
+    strings.titleVideo
   ];
-
+  final _pages = [HomeView(), HistoryView(), VideoView()];
 
   @override
   void initState() {
@@ -59,7 +58,6 @@ class _MainView extends State<MainView> with SingleTickerProviderStateMixin {
     _tabController = TabController(vsync: this, length: _tabTitleList.length);
     _tabController.addListener(changeNavigationTitleByIndex);
   }
-
 
   @override
   void dispose() {
@@ -72,19 +70,21 @@ class _MainView extends State<MainView> with SingleTickerProviderStateMixin {
     return Scaffold(
       appBar: NavigationTitleWidget(title: _navigationTitle),
       body: TabBarView(
+        physics: NeverScrollableScrollPhysics(),
         controller: _tabController,
         children: _pages,
       ),
       bottomNavigationBar: ConvexAppBar(
         controller: _tabController,
         items: [
-          TabItem(icon: Icons.account_balance_outlined, title: _tabTitleList[0]),
+          TabItem(
+              icon: Icons.account_balance_outlined, title: _tabTitleList[0]),
           TabItem(icon: Icons.history, title: _tabTitleList[1]),
           TabItem(icon: Icons.play_circle_outline, title: _tabTitleList[2]),
         ],
         height: dimens.bottomTabHeight,
         style: TabStyle.react,
-        initialActiveIndex: 0,//optional, default as 0
+        initialActiveIndex: 0,
         onTap: (int i) => print('click index=$i'),
         color: Theme.of(context).primaryColor,
         backgroundColor: Theme.of(context).backgroundColor,
@@ -98,9 +98,7 @@ class _MainView extends State<MainView> with SingleTickerProviderStateMixin {
     });
   }
 
-  void reloadPage(int index) {
-
-  }
+  void reloadPage(int index) {}
 }
 
 class NavigationTitleWidget extends StatelessWidget with PreferredSizeWidget {
@@ -112,37 +110,37 @@ class NavigationTitleWidget extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     return Container(
         child: SafeArea(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(dimens.navigationHorizontalMargin, 0, 0, 0),
-                child: Align(
-                  widthFactor: 1.0,
-                  alignment: Alignment.center,
-                  child: Text(
-                    title,
-                    style: TextStyle(
-                        fontSize: dimens.fontTextTitle,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).primaryColor),
-                  ),
-                ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding:
+                EdgeInsets.fromLTRB(dimens.navigationHorizontalMargin, 0, 0, 0),
+            child: Align(
+              widthFactor: 1.0,
+              alignment: Alignment.center,
+              child: Text(
+                title,
+                style: TextStyle(
+                    fontSize: dimens.fontTextTitle,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).primaryColor),
               ),
-              Expanded(child: Container()),
-              MaterialButton(
-                padding: EdgeInsets.all(0),
-                child: Icon(
-                  Icons.settings,
-                  color: Theme.of(context).primaryColor,
-                  size: dimens.iconSizeTitle,
-                ),
-                onPressed: () => presentToSettingPage(context),
-              ),
-            ],
+            ),
           ),
-        )
-    );
+          Expanded(child: Container()),
+          MaterialButton(
+            padding: EdgeInsets.all(0),
+            child: Icon(
+              Icons.settings,
+              color: Theme.of(context).primaryColor,
+              size: dimens.iconSizeTitle,
+            ),
+            onPressed: () => presentToSettingPage(context),
+          ),
+        ],
+      ),
+    ));
   }
 
   @override

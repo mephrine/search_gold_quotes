@@ -135,6 +135,7 @@ class VideoItemWidget extends StatelessWidget {
                   image: AssetImage(videoItem.imagePath),
                   fit: BoxFit.fitWidth)),
           height: 200,
+          width: MediaQuery.of(context).size.width,
           child: Image.asset('images/placeholder_black.png'),
           // Image.network(
           //   videoItem.imagePath,
@@ -167,7 +168,7 @@ class VideoItemWidget extends StatelessWidget {
         Text(videoItem.subTitle,
             textAlign: TextAlign.start,
             maxLines: 2,
-            style: TextPrimaryStyles.smallerStyle(context)),
+            style: TextPrimaryStyles.defaultStyle(context)),
       ],
     );
   }
