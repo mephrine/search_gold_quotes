@@ -7,9 +7,7 @@ abstract class SplashState extends Equatable {}
 
 class SplashInitial extends SplashState {
   @override
-  // TODO: implement props
   List<Object> get props => const <dynamic>[];
-
 }
 
 class Empty extends SplashInitial {}
@@ -19,16 +17,11 @@ class Loading extends SplashInitial {}
 class Loaded extends SplashInitial {
   final VersionInfo versionInfo;
 
-  Loaded({
-   @required this.versionInfo
-  });
+  Loaded({@required this.versionInfo});
 }
 
 class Error extends SplashInitial {
   final String message;
 
-  Error({
-    @required this.message
-  });
+  Error({@required this.message});
 }
-

@@ -5,19 +5,18 @@ class GoldModel extends HomeGold {
   final String jewelryType;
   final String goldPurity;
   final String goldPriceType;
-  final String day;
 
-  GoldModel({
-    @required this.jewelryType,
+  GoldModel(
+      {@required this.jewelryType,
       @required String goldDate,
       @required this.goldPurity,
       @required this.goldPriceType,
-      @required String goldPrice}):
-        day = _dateToDay(goldDate)
-       , super(date: goldDate, price: goldPrice);
+      @required String goldPrice})
+      : super(date: goldDate, price: goldPrice, day: _dateToDay(goldDate));
 
   @override
-  List<Object> get props => [jewelryType, date, goldPurity, goldPriceType, price];
+  List<Object> get props =>
+      [jewelryType, date, goldPurity, goldPriceType, price];
 
   static String _dateToDay(String date) {
     if (date == '2021-02-10') {

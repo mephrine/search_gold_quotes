@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:search_gold_quotes/app/domain/entities/video_items.dart';
 import 'package:search_gold_quotes/app/number_trivia/presentation/widgets/message_display.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/video/video/video_bloc.dart';
+import 'package:search_gold_quotes/app/presentation/style/TextStyles.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
 import 'package:search_gold_quotes/core/presentation/routes/router.gr.dart';
 import 'package:auto_route/auto_route.dart';
@@ -92,34 +93,28 @@ class VideoListWidget extends StatefulWidget {
 class _VideoListWidget extends State<VideoListWidget> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => container<ThemeNotifier>(),
-      child: Consumer<ThemeNotifier>(
-          builder: (context, ThemeNotifier theme, child) {
-        return ListView.separated(
-          padding: const EdgeInsets.all(dimens.margin),
-          itemCount: 10,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              child: VideoItemWidget(
-                  videoItem: widget.videoList.itemList[index],
-                  isDarkTheme: theme.getThemeIsDark()),
-              onTap: () => _pushToVideoPlayerPage(context, index),
-            );
-          },
-          separatorBuilder: (context, index) {
-            return Divider();
-          },
+    return ListView.separated(
+      padding: const EdgeInsets.all(dimens.margin),
+      shrinkWrap: true,
+      itemCount: widget.videoList.itemList.length,
+      itemBuilder: (context, index) {
+        return GestureDetector(
+          child: VideoItemWidget(
+              videoItem: widget.videoList.itemList[index], isDarkTheme: false),
+          onTap: () => _pushToVideoPlayerPage(context, index),
         );
-      }),
+      },
+      separatorBuilder: (context, index) {
+        return Divider();
+      },
     );
   }
 
   void _pushToVideoPlayerPage(BuildContext context, int index) {
     context.router.push(VideoPlayerPage(
-      youtubeIDList: widget.videoList.itemList.map((item) => item.linkURL),
-      startIndex: index
-    ));
+        youtubeIDList:
+            widget.videoList.itemList.map((item) => item.linkURL).toList(),
+        startIndex: index));
   }
 }
 
@@ -132,34 +127,47 @@ class VideoItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Image.network(
-          videoItem.imagePath,
-          fit: BoxFit.cover,
-          frameBuilder: (ctx, child, frame, wasSynchronouslyLoaded) {
-            if (wasSynchronouslyLoaded) return child;
+        Container(
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage(videoItem.imagePath),
+                  fit: BoxFit.fitWidth)),
+          height: 200,
+          child: Image.asset('images/placeholder_black.png'),
+          // Image.network(
+          //   videoItem.imagePath,
+          //   fit: BoxFit.cover,
+          //   frameBuilder: (ctx, child, frame, wasSynchronouslyLoaded) {
+          //     if (wasSynchronouslyLoaded) return child;
 
-            return Stack(children: <Widget>[
-              AnimatedOpacity(
-                opacity: frame == null ? 1 : 0,
-                duration: Duration(seconds: 1),
-                child: frame == null
-                    ? isDarkTheme
-                        ? Image.asset('images/placeholder_white.png')
-                        : Image.asset('images/placeholder_black.png')
-                    : null,
-              ),
-              AnimatedOpacity(
-                  opacity: frame == null ? 0 : 1,
-                  duration: Duration(seconds: 1),
-                  child: frame != null ? child : null),
-            ]);
-          },
+          //     return Stack(children: <Widget>[
+          //       AnimatedOpacity(
+          //         opacity: frame == null ? 1 : 0,
+          //         duration: Duration(seconds: 1),
+          //         child: frame == null
+          //             ? isDarkTheme
+          //                 ? Image.asset('images/placeholder_white.png')
+          //                 : Image.asset('images/placeholder_black.png')
+          //             : null,
+          //       ),
+          //       AnimatedOpacity(
+          //           opacity: frame == null ? 0 : 1,
+          //           duration: Duration(seconds: 1),
+          //           child: frame != null ? child : null),
+          //     ]);
+          //   },
+          // ),
         ),
-        Expanded(
-            child: Column(
-          children: [Text(videoItem.title), Text(videoItem.subTitle)],
-        ))
+        Text(videoItem.title,
+            textAlign: TextAlign.start,
+            maxLines: 2,
+            style: TextPrimaryStyles.titleStyle(context)),
+        Text(videoItem.subTitle,
+            textAlign: TextAlign.start,
+            maxLines: 2,
+            style: TextPrimaryStyles.smallerStyle(context)),
       ],
     );
   }

@@ -19,18 +19,18 @@ class VideoRemoteDataSourceImpl implements VideoRemoteDataSource {
   @override
   Future<VideoListModel> getVideoList() async {
     try {
-      final response = await httpClient.get(videoListURL);
-      if (response.validateResponseData) {
-        try {
-          //Todo. test
-          // return VideoListModel.fromJson(response.data);
-          return VideoListModel.fromJson(json.decode(testData));
-        } catch (exception) {
-          throw ParseException();
-        }
-      } else {
-        throw ServerException();
-      }
+      //Todo. test
+      return VideoListModel.fromJson(json.decode(testData));
+      // final response = await httpClient.get(videoListURL);
+      // if (response.validateResponseData) {
+      //   try {
+      //     return VideoListModel.fromJson(response.data);
+      //   } catch (exception) {
+      //     throw ParseException();
+      //   }
+      // } else {
+      //   throw ServerException();
+      // }
     } catch (exception) {
       throw ServerException();
     }
@@ -62,6 +62,4 @@ class VideoRemoteDataSourceImpl implements VideoRemoteDataSource {
   }
 }
   """;
-
-
 }
