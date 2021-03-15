@@ -42,7 +42,7 @@ class MainView extends StatefulWidget {
 // class
 class _MainView extends State<MainView> with SingleTickerProviderStateMixin {
   TabController _tabController;
-  ScrollController _scrollController;
+
   String _navigationTitle;
   final _tabTitleList = [
     strings.titleHome,

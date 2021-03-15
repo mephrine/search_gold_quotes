@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:search_gold_quotes/app/domain/entities/home_gold.dart';
+import 'package:search_gold_quotes/app/presentation/style/TextStyles.dart';
 import 'package:search_gold_quotes/core/values/dimens.dart' as dimens;
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
@@ -10,8 +11,14 @@ class HistoryView extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(
         length: 3,
-        child: Scaffold(
-          appBar: HistoryTabBar(),
+        child: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return [
+              SliverToBoxAdapter(
+                child: HistoryTabBar(),
+              )
+            ];
+          },
           body: TabBarView(children: [
             HistoryListWidget(),
             HistoryListWidget(),
@@ -70,8 +77,9 @@ class _HistoryListWidgetState extends State<HistoryListWidget> {
             return HistoryItemWidget();
           },
           separatorBuilder: (context, index) => Divider(),
-          itemCount: 10,
+          itemCount: 30,
           shrinkWrap: true,
+          scrollDirection: Axis.vertical,
           padding: const EdgeInsets.all(dimens.margin),
         )
       ],
@@ -84,7 +92,25 @@ class HistoryItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Row(
-        children: [Text('abc'), Text('abc'), Text('abc')],
+        children: [
+          Expanded(
+            child: Text(
+              '2021-03-15',
+              style: TextPrimaryStyles.defaultStyle(context),
+            ),
+          ),
+          Text(
+            '211,000원',
+            style: TextPrimaryStyles.defaultStyle(context),
+          ),
+          SizedBox(
+            width: 15,
+          ),
+          Text(
+            '▼▲1,000',
+            style: TextPrimaryStyles.defaultStyle(context),
+          )
+        ],
       ),
     );
   }
