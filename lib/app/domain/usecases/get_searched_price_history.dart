@@ -13,13 +13,18 @@ class GetSearchedPriceHistory extends UseCase<List<HistoryJewelry>, Params> {
 
   @override
   Future<Either<Failure, List<HistoryJewelry>>> call(Params parms) {
-    return null;
+    return repository.getHistoryData();
   }
 }
 
 class Params extends Equatable {
+  // daily, modthly, yearly
   final String period;
+
+  // buy, sell
   final String exchangeState;
+
+  // gold, platinum, diamond
   final String jewelryType;
 
   Params(
