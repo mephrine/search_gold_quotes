@@ -13,7 +13,11 @@ class GoldModel extends HomeGold {
       @required this.goldPriceType,
       @required String goldCurrency,
       @required String goldPrice})
-      : super(date: goldDate, price: goldPrice, day: _dateToDay(goldDate), goldCurrency);
+      : super(
+            date: goldDate,
+            price: goldPrice,
+            day: _dateToDay(goldDate),
+            goldCurrency: goldCurrency);
 
   @override
   List<Object> get props =>
