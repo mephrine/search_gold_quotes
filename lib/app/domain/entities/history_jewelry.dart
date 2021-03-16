@@ -2,12 +2,14 @@ import 'package:meta/meta.dart';
 import 'jewelry.dart';
 
 class HistoryJewelry extends Jewelry {
-  String variation;
+  final String variation;
 
-  HistoryJewelry({
-    @required String variation,
-    @required String date,
-    @required String price}): super(date: date, price: price);
+  HistoryJewelry(
+      {@required this.variation,
+      @required String date,
+      @required String price,
+      @required String goldCurrency})
+      : super(date: date, price: price, goldCurrency: goldCurrency);
 
   @override
   List<Object> get props => [variation, date, price];
