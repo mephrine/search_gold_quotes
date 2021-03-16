@@ -1,4 +1,4 @@
 import 'dart:convert';
 import 'dart:io';
 
-dynamic fixture(String name) => json.decode(File('test/fixtures/$name').readAsStringSync());
+String fixture(String name) => File('test/fixtures/$name').readAsStringSync();

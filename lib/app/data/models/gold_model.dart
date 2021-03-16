@@ -11,8 +11,9 @@ class GoldModel extends HomeGold {
       @required String goldDate,
       @required this.goldPurity,
       @required this.goldPriceType,
+      @required String goldCurrency,
       @required String goldPrice})
-      : super(date: goldDate, price: goldPrice, day: _dateToDay(goldDate));
+      : super(date: goldDate, price: goldPrice, day: _dateToDay(goldDate), goldCurrency);
 
   @override
   List<Object> get props =>
@@ -31,7 +32,8 @@ class GoldModel extends HomeGold {
         goldDate: jsonMap['goldDate'],
         goldPurity: jsonMap['goldPurity'],
         goldPriceType: jsonMap['goldPriceType'],
-        goldPrice: jsonMap['goldPrice']);
+        goldPrice: jsonMap['goldPrice'],
+        goldCurrency: jsonMap['goldCurrency']);
   }
 
   Map<String, dynamic> toJson() {
@@ -40,7 +42,8 @@ class GoldModel extends HomeGold {
       "goldDate": date,
       "goldPurity": goldPurity,
       "goldPriceType": goldPriceType,
-      "goldPrice": price
+      "goldPrice": price,
+      "goldCurrency": goldCurrency
     };
   }
 }

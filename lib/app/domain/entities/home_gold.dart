@@ -5,8 +5,12 @@ import 'jewelry.dart';
 class HomeGold extends Jewelry {
   String day;
 
-  HomeGold({@required String date, @required this.day, @required String price})
-      : super(date: date, price: price);
+  HomeGold(
+      {@required String date,
+      @required this.day,
+      @required String goldCurrency,
+      @required String price})
+      : super(date: date, price: price, goldCurrency: goldCurrency);
 
   @override
   List<Object> get props => [date, day, price];

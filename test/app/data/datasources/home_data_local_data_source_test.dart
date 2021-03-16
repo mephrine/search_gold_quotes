@@ -28,7 +28,7 @@ void main() {
     final homeDataModel = HomeDataModel(famousQuotes: 'Gold is God', famousSayingWriter: 'aaa', referenceSiteName: 'https://www.naver.com', goldList: goldList);
       test('should get last home data when cache is exist', () async {
           // arrange
-          when(sharedPreferences.getString(CACHED_MAIN_DATA))
+          when(sharedPreferences.getString(any))
               .thenReturn(fixture('home_data.json'));
           // act
         final result = await localDataSource.getLastHomeData();
