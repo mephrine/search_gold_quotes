@@ -10,21 +10,24 @@
         "goldDate": "2021-02-10",
         "goldPurity": "100",
         "goldPriceType": "W",
-        "goldPrice": "100000"
+        "goldPrice": "100000",
+        "goldCurrency": "C001C001"
       } ,
       {
         "jewelryType": "G",
         "goldDate": "2021-02-09",
         "goldPurity": "70",
         "goldPriceType": "W",
-        "goldPrice": "90000"
+        "goldPrice": "90000",
+        "goldCurrency": "C001C001"
       } ,
       {
         "jewelryType": "G",
         "goldDate": "2021-02-08",
         "goldPurity": "100",
         "goldPriceType": "W",
-        "goldPrice": "95000"
+        "goldPrice": "95000",
+        "goldCurrency": "C001C001"
       }
     ]
   },

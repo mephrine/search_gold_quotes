@@ -11,23 +11,46 @@ void main() {
   HomeDataModel homeDataModel;
   setUp(() {
     final goldList = [
-      GoldModel(jewelryType: 'G', goldDate: '2021-02-10', goldPurity: '100', goldPriceType: 'W', goldPrice: '100000'),
-      GoldModel(jewelryType: 'G', goldDate: '2021-02-09', goldPurity: '70', goldPriceType: 'W', goldPrice: '90000'),
-      GoldModel(jewelryType: 'G', goldDate: '2021-02-08', goldPurity: '100', goldPriceType: 'W', goldPrice: '95000'),
+      GoldModel(
+          jewelryType: 'G',
+          goldDate: '2021-02-10',
+          goldPurity: '100',
+          goldPriceType: 'W',
+          goldPrice: '100000',
+          goldCurrency: 'C001C001'),
+      GoldModel(
+          jewelryType: 'G',
+          goldDate: '2021-02-09',
+          goldPurity: '70',
+          goldPriceType: 'W',
+          goldPrice: '90000',
+          goldCurrency: 'C001C001'),
+      GoldModel(
+          jewelryType: 'G',
+          goldDate: '2021-02-08',
+          goldPurity: '100',
+          goldPriceType: 'W',
+          goldPrice: '95000',
+          goldCurrency: 'C001C001'),
     ];
-    homeDataModel = HomeDataModel(famousQuotes: 'Gold is God', famousSayingWriter: 'aaa', referenceSiteName: 'https://www.naver.com', goldList: goldList);
+    homeDataModel = HomeDataModel(
+        famousQuotes: 'Gold is God',
+        famousSayingWriter: 'aaa',
+        referenceSiteName: 'https://www.naver.com',
+        goldList: goldList);
   });
 
   test('should is subclass', () async {
     // assert
     expect(homeDataModel, isA<HomeData>());
-   });
-
+  });
 
   group('from JSON', () {
-    test('should return a valid model when the JSON goldList is a List', () async {
+    test('should return a valid model when the JSON goldList is a List',
+        () async {
       // arrange
-      final Map<String, dynamic> jsonMap = json.decode(fixture('home_data.json'));
+      final Map<String, dynamic> jsonMap =
+          json.decode(fixture('home_data.json'));
       // act
       final result = HomeDataModel.fromJson(jsonMap);
       // assert
@@ -45,42 +68,45 @@ void main() {
   });
 
   group('to JSON', () {
-      test('should when', () async {
-          // arrange
-        final Map<String, dynamic> jsonMap = {
-          "data": {
-            "famousSaying": "Gold is God",
-            "famousSayingWriter": "aaa",
-            "referenceSiteName": "https://www.naver.com",
-            "goldList": [
-              {
-                "jewelryType": "G",
-                "goldDate": "2021-02-10",
-                "goldPurity": "100",
-                "goldPriceType": "W",
-                "goldPrice": "100000"
-              } ,
-              {
-                "jewelryType": "G",
-                "goldDate": "2021-02-09",
-                "goldPurity": "70",
-                "goldPriceType": "W",
-                "goldPrice": "90000"
-              } ,
-              {
-                "jewelryType": "G",
-                "goldDate": "2021-02-08",
-                "goldPurity": "100",
-                "goldPriceType": "W",
-                "goldPrice": "95000"
-              }
-            ]
-          }
-        };
-          // act
-        final result = homeDataModel.toJson();
-          // assert
-        expect(result, jsonMap);
-       });
+    test('should when', () async {
+      // arrange
+      final Map<String, dynamic> jsonMap = {
+        "data": {
+          "famousSaying": "Gold is God",
+          "famousSayingWriter": "aaa",
+          "referenceSiteName": "https://www.naver.com",
+          "goldList": [
+            {
+              "jewelryType": "G",
+              "goldDate": "2021-02-10",
+              "goldPurity": "100",
+              "goldPriceType": "W",
+              "goldPrice": "100000",
+              "goldCurrency": "C001C001"
+            },
+            {
+              "jewelryType": "G",
+              "goldDate": "2021-02-09",
+              "goldPurity": "70",
+              "goldPriceType": "W",
+              "goldPrice": "90000",
+              "goldCurrency": "C001C001"
+            },
+            {
+              "jewelryType": "G",
+              "goldDate": "2021-02-08",
+              "goldPurity": "100",
+              "goldPriceType": "W",
+              "goldPrice": "95000",
+              "goldCurrency": "C001C001"
+            }
+          ]
+        }
+      };
+      // act
+      final result = homeDataModel.toJson();
+      // assert
+      expect(result, jsonMap);
+    });
   });
 }
