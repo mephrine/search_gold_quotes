@@ -6,10 +6,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:search_gold_quotes/app/domain/entities/home_data.dart';
 import 'package:search_gold_quotes/app/domain/entities/home_gold.dart';
-import 'package:search_gold_quotes/app/number_trivia/presentation/widgets/loading_widget.dart';
-import 'package:search_gold_quotes/app/number_trivia/presentation/widgets/message_display.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/home/home/home_bloc.dart';
 import 'package:search_gold_quotes/app/presentation/style/TextStyles.dart';
+import 'package:search_gold_quotes/app/presentation/widgets/message_display.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
 import 'package:search_gold_quotes/core/values/dimens.dart' as dimens;
 
@@ -39,7 +38,7 @@ class _HomeContainer extends State<HomeContainer> {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(builder: (bloc, state) {
       if (state is Loading) {
-        return LoadingWidget();
+        return _LoadingWidget();
       } else if (state is Loaded) {
         return _HomeLoadedWidget(homeData: state.homeData);
       } else if (state is Error) {
@@ -53,6 +52,16 @@ class _HomeContainer extends State<HomeContainer> {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<HomeBloc>(context, listen: false).add(GetHomeData());
     });
+  }
+}
+
+class _LoadingWidget extends StatelessWidget {
+  const _LoadingWidget({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    //Todo.
+    return Container();
   }
 }
 
@@ -98,7 +107,6 @@ class _HomeLoadedWidget extends StatelessWidget {
 class TodayGoldPriceWidget extends StatelessWidget {
   final List<HomeGold> goldList;
 
-
   TodayGoldPriceWidget({@required this.goldList});
 
   @override
@@ -107,12 +115,9 @@ class TodayGoldPriceWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          TodayGoldPriceItemWidget(
-              homeGold: goldList[0]),
-          TodayGoldPriceItemWidget(
-              homeGold: goldList[1]),
-          TodayGoldPriceItemWidget(
-              homeGold: goldList[2]),
+          TodayGoldPriceItemWidget(homeGold: goldList[0]),
+          TodayGoldPriceItemWidget(homeGold: goldList[1]),
+          TodayGoldPriceItemWidget(homeGold: goldList[2]),
         ],
       ),
       margin: EdgeInsets.fromLTRB(
@@ -180,10 +185,6 @@ class TodayGoldLineChart extends StatefulWidget {
 
   TodayGoldLineChart({@required this.goldList});
 
-
-
-
-
   @override
   State<StatefulWidget> createState() => _TodayGoldLineChartState();
 }
@@ -198,8 +199,12 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
   void initState() {
     super.initState();
     isShowingMainData = true;
-    maxPrice = widget.goldList.map((item) => int.tryParse(item.price) ?? 0 ).reduce((current, next) => current > next? current: next);
-    minPrice = widget.goldList.map((item) => int.tryParse(item.price) ?? 0 ).reduce((current, next) => current < next? current: next);
+    maxPrice = widget.goldList
+        .map((item) => int.tryParse(item.price) ?? 0)
+        .reduce((current, next) => current > next ? current : next);
+    minPrice = widget.goldList
+        .map((item) => int.tryParse(item.price) ?? 0)
+        .reduce((current, next) => current < next ? current : next);
     middlePrice = minPrice + (maxPrice - minPrice) ~/ 2;
   }
 
@@ -252,7 +257,8 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.only(right: dimens.margin, left: dimens.spacing),
+                    padding: const EdgeInsets.only(
+                        right: dimens.margin, left: dimens.spacing),
                     child: LineChart(
                       isShowingMainData ? sampleData1() : sampleData2(),
                       swapAnimationDuration: const Duration(milliseconds: 250),
@@ -325,7 +331,7 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
           getTitles: (value) {
             switch (value.toInt()) {
               case 1:
-                return  '$maxPrice 원';
+                return '$maxPrice 원';
               case 2:
                 return '$middlePrice 원';
               case 3:
@@ -359,7 +365,9 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
       maxX: 14,
       maxY: 220000,
       minY: 0,
-      lineBarsData: linesBarData(widget.goldList.map((item) => double.tryParse(item.price) ?? 0.0).toList()) ,
+      lineBarsData: linesBarData(widget.goldList
+          .map((item) => double.tryParse(item.price) ?? 0.0)
+          .toList()),
     );
   }
 

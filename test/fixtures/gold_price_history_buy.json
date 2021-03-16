@@ -1,0 +1,31 @@
+{
+    "data": [
+      {
+        "jewelryType": "C002001",
+        "goldDate": "20210315",
+        "calDate": "20210315",
+        "goldPurity": "C003001",
+        "goldPriceType": "B",
+        "goldPrice": "260,500",
+        "goldCurrency": "C001C001"
+      },
+      {
+        "jewelryType": "C002001",
+        "goldDate": "20210313",
+        "calDate": "20210313",
+        "goldPurity": "C003001",
+        "goldPriceType": "B",
+        "goldPrice": "261,000",
+        "goldCurrency": "C001C001"
+      },
+      {
+        "jewelryType": "C002001",
+        "goldDate": "20210312",
+        "calDate": "20210312",
+        "goldPurity": "C003001",
+        "goldPriceType": "B",
+        "goldPrice": "260,000",
+        "goldCurrency": "C001C001"
+      }
+    ]
+}

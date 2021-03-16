@@ -26,49 +26,49 @@ void main() {
   });
 
   group('HomeData 상태', () {
-    final homeData = HomeData(famousQuotes: 'Gold is God', famousSayingWriter: 'aaa', referenceSiteName: "https://www.naver.com", goldList: [
-        HomeGold(date: '2021-02-10', day: '오늘', price: '100000')
-    ]);
+    final homeData = HomeData(
+        famousQuotes: 'Gold is God',
+        famousSayingWriter: 'aaa',
+        referenceSiteName: "https://www.naver.com",
+        goldList: [
+          HomeGold(
+              date: '2021-02-10',
+              day: '오늘',
+              price: '100000',
+              goldCurrency: 'C001C001')
+        ]);
     test('GetHomeData 이벤트 발생 시, GetHomeInfo usecase가 실행된다.', () async {
       //arrange
       when(usecase(any)).thenAnswer((_) async => Right(homeData));
-        // act
+      // act
       bloc.add(GetHomeData());
       await untilCalled(usecase(any));
 
       // assert
       verify(usecase(NoParams()));
-     });
+    });
 
     test('데이터를 성공적으로 가져왔을 때, [Loading, Loaded] 를 방출한다.', () async {
       // arrange
-      when(usecase(any))
-          .thenAnswer((_) async => Right(homeData));
+      when(usecase(any)).thenAnswer((_) async => Right(homeData));
 
       // act
       bloc.add(GetHomeData());
 
       // assert
-      final expected = [
-        Loading(),
-        Loaded(homeData: homeData)
-      ];
+      final expected = [Loading(), Loaded(homeData: homeData)];
       expectLater(bloc, emitsInOrder(expected));
     });
 
     test('데이터를 가져오는게 실패했을 때, [Loading, Error] 를 방출한다.', () async {
       // arrange
-      when(usecase(any))
-          .thenAnswer((_) async => Left(ServerFailure()));
+      when(usecase(any)).thenAnswer((_) async => Left(ServerFailure()));
 
       // act
       bloc.add(GetHomeData());
 
       // assert
-      final expected = [
-        Loading(),
-        Error(message: SERVER_FAILURE_MESSAGE)
-      ];
+      final expected = [Loading(), Error(message: SERVER_FAILURE_MESSAGE)];
       expectLater(bloc, emitsInOrder(expected));
     });
   });

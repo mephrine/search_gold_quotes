@@ -28,19 +28,22 @@ void main() {
           goldDate: '2021-02-10',
           goldPurity: '100',
           goldPriceType: 'W',
-          goldPrice: '100000'),
+          goldPrice: '100000',
+          goldCurrency: 'C001C001'),
       GoldModel(
           jewelryType: 'G',
           goldDate: '2021-02-09',
           goldPurity: '70',
           goldPriceType: 'W',
-          goldPrice: '90000'),
+          goldPrice: '90000',
+          goldCurrency: 'C001C001'),
       GoldModel(
           jewelryType: 'G',
           goldDate: '2021-02-08',
           goldPurity: '100',
           goldPriceType: 'W',
-          goldPrice: '95000'),
+          goldPrice: '95000',
+          goldCurrency: 'C001C001'),
     ];
     final homeDataModel = HomeDataModel(
         famousQuotes: 'Gold is God',
@@ -49,13 +52,12 @@ void main() {
         goldList: goldList);
 
     HomeDataModel testHomeDataModel;
-    setUp(() {
-    });
+    setUp(() {});
 
     test('should return home data when the request code is 200', () async {
       // arrange
-      when(httpClient.get(any))
-          .thenAnswer((_) async => Response(statusCode: 200, data: json.decode(fixture('home_data.json'))));
+      when(httpClient.get(any)).thenAnswer((_) async => Response(
+          statusCode: 200, data: json.decode(fixture('home_data.json'))));
       // act
       final result = await remoteDataSource.getHomeData();
       // assert
@@ -64,8 +66,8 @@ void main() {
 
     test('response가 잘못된 json model인 경우, 빈 데이터 모델을 반환', () async {
       // arrange
-      when(httpClient.get(any))
-          .thenAnswer((realInvocation) async => Response(statusCode: 200, data: json.decode(fixture('trivia.json'))));
+      when(httpClient.get(any)).thenAnswer((realInvocation) async =>
+          Response(statusCode: 200, data: json.decode(fixture('trivia.json'))));
       // act
       final emptyVideoModel = await remoteDataSource.getHomeData();
 
@@ -73,8 +75,8 @@ void main() {
       expect(emptyVideoModel, HomeDataModel.empty());
     });
 
-
-    test('should return ParseException  when the response data is null', () async {
+    test('should return ParseException  when the response data is null',
+        () async {
       // arrange
       when(httpClient.get(any))
           .thenAnswer((_) async => Response(statusCode: 200, data: null));
@@ -84,7 +86,8 @@ void main() {
       expect(() => call, throwsA(isInstanceOf<ServerException>()));
     });
 
-    test('should return ServerException when the request code is 500', () async {
+    test('should return ServerException when the request code is 500',
+        () async {
       // arrange
       when(httpClient.get(any))
           .thenAnswer((_) async => Response(statusCode: 500, data: null));
