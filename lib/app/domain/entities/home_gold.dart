@@ -3,7 +3,7 @@ import 'package:meta/meta.dart';
 import 'jewelry.dart';
 
 class HomeGold extends Jewelry {
-  String day;
+  final String day;
 
   HomeGold(
       {@required String date,
