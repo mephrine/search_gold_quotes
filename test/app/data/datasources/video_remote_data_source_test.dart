@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -33,7 +35,7 @@ void main() {
     test('StatusCode 가 200(성공)일 때, VideoListModel 반환', () async {
       // arrange
       when(httpClient.get(any))
-          .thenAnswer((_) async => Response(statusCode: 200, data: fixture('video.json')));
+          .thenAnswer((_) async => Response(statusCode: 200, data: json.decode(fixture('video.json'))));
       // act
       final result = await remoteDataSource.getVideoList();
 
@@ -44,7 +46,7 @@ void main() {
     test('response가 잘못된 json model인 경우, 빈 데이터 모델을 반환', () async {
       // arrange
       when(httpClient.get(any))
-          .thenAnswer((realInvocation) async => Response(statusCode: 200, data: fixture('trivia.json')));
+          .thenAnswer((realInvocation) async => Response(statusCode: 200, data: json.decode(fixture('trivia.json'))));
       // act
       final emptyVideoModel = await remoteDataSource.getVideoList();
 
