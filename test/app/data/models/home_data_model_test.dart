@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:search_gold_quotes/app/data/models/gold_model.dart';
+import 'package:search_gold_quotes/app/data/models/jewelry_model.dart';
 import 'package:search_gold_quotes/app/data/models/home_data_model.dart';
 import 'package:search_gold_quotes/app/domain/entities/home_data.dart';
 
@@ -11,21 +11,21 @@ void main() {
   HomeDataModel homeDataModel;
   setUp(() {
     final goldList = [
-      GoldModel(
+      JewelryModel(
           jewelryType: 'G',
           goldDate: '2021-02-10',
           goldPurity: '100',
           goldPriceType: 'W',
           goldPrice: '100000',
           goldCurrency: 'C001C001'),
-      GoldModel(
+      JewelryModel(
           jewelryType: 'G',
           goldDate: '2021-02-09',
           goldPurity: '70',
           goldPriceType: 'W',
           goldPrice: '90000',
           goldCurrency: 'C001C001'),
-      GoldModel(
+      JewelryModel(
           jewelryType: 'G',
           goldDate: '2021-02-08',
           goldPurity: '100',

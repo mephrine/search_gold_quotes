@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:search_gold_quotes/app/data/datasources/home_data_local_data_source.dart';
-import 'package:search_gold_quotes/app/data/models/gold_model.dart';
+import 'package:search_gold_quotes/app/data/models/jewelry_model.dart';
 import 'package:search_gold_quotes/app/data/models/home_data_model.dart';
 import 'package:search_gold_quotes/core/error/exceptions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,21 +21,21 @@ void main() {
 
   group('HomeDataLocalDataSource', () {
     final goldList = [
-      GoldModel(
+      JewelryModel(
           jewelryType: 'G',
           goldDate: '2021-02-10',
           goldPurity: '100',
           goldPriceType: 'W',
           goldPrice: '100000',
           goldCurrency: 'C001C001'),
-      GoldModel(
+      JewelryModel(
           jewelryType: 'G',
           goldDate: '2021-02-09',
           goldPurity: '70',
           goldPriceType: 'W',
           goldPrice: '90000',
           goldCurrency: 'C001C001'),
-      GoldModel(
+      JewelryModel(
           jewelryType: 'G',
           goldDate: '2021-02-08',
           goldPurity: '100',

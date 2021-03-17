@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:search_gold_quotes/app/data/datasources/home_data_local_data_source.dart';
 import 'package:search_gold_quotes/app/data/datasources/home_data_remote_data_source.dart';
-import 'package:search_gold_quotes/app/data/models/gold_model.dart';
+import 'package:search_gold_quotes/app/data/models/jewelry_model.dart';
 import 'package:search_gold_quotes/app/data/models/home_data_model.dart';
 import 'package:search_gold_quotes/app/data/repositories/home_repository_impl.dart';
 import 'package:search_gold_quotes/core/error/exceptions.dart';
@@ -40,21 +40,21 @@ void main() {
   });
 
   final goldList = [
-    GoldModel(
+    JewelryModel(
         jewelryType: 'G',
         goldDate: '2021-02-10',
         goldPurity: '100',
         goldPriceType: 'W',
         goldPrice: '100000',
         goldCurrency: 'C001C001'),
-    GoldModel(
+    JewelryModel(
         jewelryType: 'G',
         goldDate: '2021-02-09',
         goldPurity: '70',
         goldPriceType: 'W',
         goldPrice: '90000',
         goldCurrency: 'C001C001'),
-    GoldModel(
+    JewelryModel(
         jewelryType: 'G',
         goldDate: '2021-02-08',
         goldPurity: '100',

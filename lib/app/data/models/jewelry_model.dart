@@ -1,12 +1,12 @@
 import 'package:meta/meta.dart';
 import 'package:search_gold_quotes/app/domain/entities/home_gold.dart';
 
-class GoldModel extends HomeGold {
+class JewelryModel extends HomeGold {
   final String jewelryType;
   final String goldPurity;
   final String goldPriceType;
 
-  GoldModel(
+  JewelryModel(
       {@required this.jewelryType,
       @required String goldDate,
       @required this.goldPurity,
@@ -30,8 +30,8 @@ class GoldModel extends HomeGold {
     return '과거';
   }
 
-  factory GoldModel.fromJson(Map<String, dynamic> jsonMap) {
-    return GoldModel(
+  factory JewelryModel.fromJson(Map<String, dynamic> jsonMap) {
+    return JewelryModel(
         jewelryType: jsonMap['jewelryType'],
         goldDate: jsonMap['goldDate'],
         goldPurity: jsonMap['goldPurity'],
