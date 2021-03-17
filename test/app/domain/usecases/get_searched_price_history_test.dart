@@ -11,6 +11,7 @@ void main() {
   GetSearchedPriceHistory useCase;
   MockHistoryRepository historyRepository;
   List<HistoryJewelry> historyList;
+  ;
 
   setUp(() {
     historyRepository = MockHistoryRepository();
