@@ -16,7 +16,7 @@ class HistoryView extends StatelessWidget {
       child: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return [
-            NavigationMainScrollableWidget(title: Strings.titleHome),
+            NavigationMainScrollableWidget(title: Strings.titleHistory),
             SliverToBoxAdapter(
               child: HistoryTabBar(),
             )

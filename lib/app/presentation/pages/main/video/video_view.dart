@@ -22,7 +22,7 @@ class VideoView extends StatelessWidget {
     return BlocProvider(
       create: (_) => container<VideoBloc>(),
       child: CustomScrollView(slivers: [
-        NavigationMainScrollableWidget(title: Strings.titleHome),
+        NavigationMainScrollableWidget(title: Strings.titleVideo),
         SliverToBoxAdapter(
           child: VideoContainer(),
         )

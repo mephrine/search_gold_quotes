@@ -14,6 +14,7 @@ class ThemePage extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeNotifier themeService = Provider.of<ThemeNotifier>(context);
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: themeService.getTheme(),
       home: _ThemeView(title: title),
     );

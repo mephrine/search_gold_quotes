@@ -44,7 +44,6 @@ class MainView extends StatefulWidget {
 class _MainView extends State<MainView> with SingleTickerProviderStateMixin {
   TabController _tabController;
 
-  String _navigationTitle;
   final _tabTitleList = [
     Strings.titleHome,
     Strings.titleHistory,
@@ -55,9 +54,7 @@ class _MainView extends State<MainView> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _navigationTitle = _tabTitleList[0];
     _tabController = TabController(vsync: this, length: _tabTitleList.length);
-    _tabController.addListener(changeNavigationTitleByIndex);
   }
 
   @override
@@ -69,11 +66,12 @@ class _MainView extends State<MainView> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: TabBarView(
-        physics: NeverScrollableScrollPhysics(),
-        controller: _tabController,
-        children: _pages,
-      ),
+      //TabBarView(
+      //   physics: NeverScrollableScrollPhysics(),
+      //   // controller: _tabController,
+      //   children: _pages,
+      // )
+      body: IndexedStack(children: _pages, index: _tabController.index),
       bottomNavigationBar: ConvexAppBar(
         controller: _tabController,
         items: [
@@ -85,68 +83,16 @@ class _MainView extends State<MainView> with SingleTickerProviderStateMixin {
         height: Dimens.bottomTabHeight,
         style: TabStyle.react,
         initialActiveIndex: 0,
-        onTap: (int i) => print('click index=$i'),
+        onTap: (int i) => changeIndex(i),
         color: Theme.of(context).primaryColor,
         backgroundColor: Theme.of(context).backgroundColor,
       ),
     );
   }
 
-  void changeNavigationTitleByIndex() {
+  void changeIndex(int index) {
     setState(() {
-      _navigationTitle = _tabTitleList[_tabController.index];
+      _tabController.index = index;
     });
-  }
-
-  void reloadPage(int index) {}
-}
-
-class NavigationTitleWidget extends StatelessWidget with PreferredSizeWidget {
-  final String title;
-
-  const NavigationTitleWidget({@required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        child: SafeArea(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding:
-                EdgeInsets.fromLTRB(Dimens.navigationHorizontalMargin, 0, 0, 0),
-            child: Align(
-              widthFactor: 1.0,
-              alignment: Alignment.center,
-              child: Text(
-                title,
-                style: TextStyle(
-                    fontSize: Dimens.fontTextTitle,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryColor),
-              ),
-            ),
-          ),
-          Expanded(child: Container()),
-          MaterialButton(
-            padding: EdgeInsets.all(0),
-            child: Icon(
-              Icons.settings,
-              color: Theme.of(context).primaryColor,
-              size: Dimens.iconSizeTitle,
-            ),
-            onPressed: () => presentToSettingPage(context),
-          ),
-        ],
-      ),
-    ));
-  }
-
-  @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
-
-  void presentToSettingPage(BuildContext context) {
-    context.router.push(SettingPage());
   }
 }
