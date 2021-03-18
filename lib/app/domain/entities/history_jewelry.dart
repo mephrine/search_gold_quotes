@@ -1,19 +1,22 @@
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'jewelry.dart';
 
-class HistoryJewelry extends Jewelry {
-  final String variationState;
-  final String variationPrice;
+class HistoryJewelryList extends Equatable {
+  final List<HistoryJewelry> historyList;
+  HistoryJewelryList({@required this.historyList});
 
+  @override
+  List<Object> get props => historyList;
+}
+
+class HistoryJewelry extends Jewelry {
   HistoryJewelry(
-      {@required this.variationState,
-      @required this.variationPrice,
-      @required String date,
+      {@required String date,
       @required String price,
       @required String goldCurrency})
       : super(date: date, price: price, goldCurrency: goldCurrency);
 
   @override
-  List<Object> get props =>
-      [variationState, variationPrice, date, price, goldCurrency];
+  List<Object> get props => [date, price, goldCurrency];
 }

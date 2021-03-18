@@ -13,13 +13,10 @@ abstract class HomeDataRemoteDataSource {
   Future<HomeDataModel> getHomeData();
 }
 
-
 class HomeDataRemoteDataSourceImpl implements HomeDataRemoteDataSource {
   final Dio httpClient;
 
-  HomeDataRemoteDataSourceImpl({
-    @required this.httpClient
-  });
+  HomeDataRemoteDataSourceImpl({@required this.httpClient});
 
   @override
   Future<HomeDataModel> getHomeData() async {
@@ -76,5 +73,4 @@ class HomeDataRemoteDataSourceImpl implements HomeDataRemoteDataSource {
   "resultStatusCd": 200
 }
   """;
-
 }
