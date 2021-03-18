@@ -21,6 +21,7 @@ class Main extends StatelessWidget {
         ThemeNotifier themeService = Provider.of<ThemeNotifier>(context);
         return MaterialApp(
           theme: themeService.getTheme(),
+          debugShowCheckedModeBanner: false,
           home: MaterialApp.router(
             routerDelegate: _appRouter.delegate(),
             routeInformationParser: _appRouter.defaultRouteParser(),

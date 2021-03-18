@@ -10,5 +10,12 @@ import 'package:flutter/material.dart';
 //
 // final Color blackColor = Color(0xFF000000);
 
-final Color toastBackgroundColor = Colors.black38;
-final Color toastTextColor = Colors.white;
+class Palette {
+  static const Color toastBackgroundColor = Colors.black38;
+  static const Color toastTextColor = Colors.white;
+
+  static const Color iconColor = Colors.white;
+  static const Color naviTitleColor = Colors.white;
+  static const Color textTitleColor = Colors.black;
+  static const Color textSubTitleColor = Colors.grey;
+}

@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -7,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:meta/meta.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/navigation_push_widget.dart';
 import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
-import 'package:search_gold_quotes/core/values/strings.dart' as strings;
+import 'package:search_gold_quotes/core/values/strings.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class OpenSourceLicensePage extends StatelessWidget {
@@ -19,6 +18,7 @@ class OpenSourceLicensePage extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeNotifier themeService = Provider.of<ThemeNotifier>(context);
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: themeService.getTheme(),
       home: _OpenSourceLicenseView(title: title),
     );
@@ -52,6 +52,8 @@ class _OpenSourceLicenseViewState extends State<_OpenSourceLicenseView> {
 
   Future<void> _loadHtmlFromAssets(String filename, controller) async {
     String fileText = await rootBundle.loadString(filename);
-    controller.loadUrl(Uri.dataFromString(fileText, mimeType: 'text/html', encoding: Encoding.getByName('utf-8')).toString());
+    controller.loadUrl(Uri.dataFromString(fileText,
+            mimeType: 'text/html', encoding: Encoding.getByName('utf-8'))
+        .toString());
   }
 }

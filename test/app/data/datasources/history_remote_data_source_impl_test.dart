@@ -59,10 +59,10 @@ void main() {
           exchangeState: ExchangeState.buy,
           jewelryType: JewelryType.gold);
 
-      final requestURL = historyURL + "/gold/buy/daily";
+      final requestURL = Constants.historyURL + "/gold/buy/daily";
 
       // assert
-      expect(params.toRequestURL(historyURL), requestURL);
+      expect(params.toRequestURL(Constants.historyURL), requestURL);
     });
 
     test('월간 골드 시세 구매 URL 확인', () async {
@@ -72,10 +72,10 @@ void main() {
           exchangeState: ExchangeState.buy,
           jewelryType: JewelryType.gold);
 
-      final requestURL = historyURL + "/gold/buy/monthly";
+      final requestURL = Constants.historyURL + "/gold/buy/monthly";
 
       // assert
-      expect(params.toRequestURL(historyURL), requestURL);
+      expect(params.toRequestURL(Constants.historyURL), requestURL);
     });
 
     test('연간 골드 시세 구매 URL 확인', () async {
@@ -85,10 +85,10 @@ void main() {
           exchangeState: ExchangeState.buy,
           jewelryType: JewelryType.gold);
 
-      final requestURL = historyURL + "/gold/buy/yearly";
+      final requestURL = Constants.historyURL + "/gold/buy/yearly";
 
       // assert
-      expect(params.toRequestURL(historyURL), requestURL);
+      expect(params.toRequestURL(Constants.historyURL), requestURL);
     });
 
     test('일일 골드 시세 판매 URL 확인', () async {
@@ -98,10 +98,10 @@ void main() {
           exchangeState: ExchangeState.sell,
           jewelryType: JewelryType.gold);
 
-      final requestURL = historyURL + "/gold/sell/daily";
+      final requestURL = Constants.historyURL + "/gold/sell/daily";
 
       // assert
-      expect(params.toRequestURL(historyURL), requestURL);
+      expect(params.toRequestURL(Constants.historyURL), requestURL);
     });
 
     test('일일 다이아 시세 판매 URL 확인', () async {
@@ -111,10 +111,10 @@ void main() {
           exchangeState: ExchangeState.sell,
           jewelryType: JewelryType.diamond);
 
-      final requestURL = historyURL + "/diamond/sell/daily";
+      final requestURL = Constants.historyURL + "/diamond/sell/daily";
 
       // assert
-      expect(params.toRequestURL(historyURL), requestURL);
+      expect(params.toRequestURL(Constants.historyURL), requestURL);
     });
 
     test('일일 백금 시세 판매 URL 확인', () async {
@@ -124,10 +124,10 @@ void main() {
           exchangeState: ExchangeState.sell,
           jewelryType: JewelryType.platinum);
 
-      final requestURL = historyURL + "/platinum/sell/daily";
+      final requestURL = Constants.historyURL + "/platinum/sell/daily";
 
       // assert
-      expect(params.toRequestURL(historyURL), requestURL);
+      expect(params.toRequestURL(Constants.historyURL), requestURL);
     });
   });
 

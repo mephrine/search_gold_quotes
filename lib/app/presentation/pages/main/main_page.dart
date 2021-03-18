@@ -6,10 +6,10 @@ import 'package:search_gold_quotes/app/presentation/pages/main/home/home_view.da
 import 'package:search_gold_quotes/app/presentation/pages/main/video/video_view.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
 import 'package:search_gold_quotes/core/presentation/routes/router.gr.dart';
-import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:search_gold_quotes/core/values/dimens.dart' as dimens;
-import 'package:search_gold_quotes/core/values/strings.dart' as strings;
+import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
+import 'package:search_gold_quotes/core/values/dimens.dart';
+import 'package:search_gold_quotes/core/values/strings.dart';
 
 // StatelessWidget -> 상태가 없다! 즉, 한번 그려진 후 다시 그려지지 않는 위젯
 
@@ -28,6 +28,7 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeNotifier themeService = Provider.of<ThemeNotifier>(context);
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: themeService.getTheme(),
       home: MainView(),
     );
@@ -45,9 +46,9 @@ class _MainView extends State<MainView> with SingleTickerProviderStateMixin {
 
   String _navigationTitle;
   final _tabTitleList = [
-    strings.titleHome,
-    strings.titleHistory,
-    strings.titleVideo
+    Strings.titleHome,
+    Strings.titleHistory,
+    Strings.titleVideo
   ];
   final _pages = [HomeView(), HistoryView(), VideoView()];
 
@@ -68,7 +69,6 @@ class _MainView extends State<MainView> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: NavigationTitleWidget(title: _navigationTitle),
       body: TabBarView(
         physics: NeverScrollableScrollPhysics(),
         controller: _tabController,
@@ -82,7 +82,7 @@ class _MainView extends State<MainView> with SingleTickerProviderStateMixin {
           TabItem(icon: Icons.history, title: _tabTitleList[1]),
           TabItem(icon: Icons.play_circle_outline, title: _tabTitleList[2]),
         ],
-        height: dimens.bottomTabHeight,
+        height: Dimens.bottomTabHeight,
         style: TabStyle.react,
         initialActiveIndex: 0,
         onTap: (int i) => print('click index=$i'),
@@ -115,14 +115,14 @@ class NavigationTitleWidget extends StatelessWidget with PreferredSizeWidget {
         children: [
           Padding(
             padding:
-                EdgeInsets.fromLTRB(dimens.navigationHorizontalMargin, 0, 0, 0),
+                EdgeInsets.fromLTRB(Dimens.navigationHorizontalMargin, 0, 0, 0),
             child: Align(
               widthFactor: 1.0,
               alignment: Alignment.center,
               child: Text(
                 title,
                 style: TextStyle(
-                    fontSize: dimens.fontTextTitle,
+                    fontSize: Dimens.fontTextTitle,
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).primaryColor),
               ),
@@ -134,7 +134,7 @@ class NavigationTitleWidget extends StatelessWidget with PreferredSizeWidget {
             child: Icon(
               Icons.settings,
               color: Theme.of(context).primaryColor,
-              size: dimens.iconSizeTitle,
+              size: Dimens.iconSizeTitle,
             ),
             onPressed: () => presentToSettingPage(context),
           ),

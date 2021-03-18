@@ -9,16 +9,22 @@ import 'package:search_gold_quotes/app/domain/entities/home_gold.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/home/home/home_bloc.dart';
 import 'package:search_gold_quotes/app/presentation/style/TextStyles.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/message_display.dart';
+import 'package:search_gold_quotes/app/presentation/widgets/navigation_main_scrollable_widget.dart';
+import 'package:search_gold_quotes/app/presentation/widgets/navigation_main_widget.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
-import 'package:search_gold_quotes/core/values/dimens.dart' as dimens;
+import 'package:search_gold_quotes/core/values/colors.dart';
+import 'package:search_gold_quotes/core/values/dimens.dart';
+import 'package:search_gold_quotes/core/values/strings.dart';
 
 class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => container<HomeBloc>(),
-      child: HomeContainer(),
-    );
+        create: (_) => container<HomeBloc>(),
+        child: Scaffold(
+          appBar: NavigationMainWidget(title: Strings.titleHome),
+          body: HomeContainer(),
+        ));
   }
 }
 
@@ -121,7 +127,7 @@ class TodayGoldPriceWidget extends StatelessWidget {
         ],
       ),
       margin: EdgeInsets.fromLTRB(
-          dimens.margin, 0, dimens.margin, dimens.mainTabBarCurveMargin),
+          Dimens.margin, 0, Dimens.margin, Dimens.mainTabBarCurveMargin),
     );
   }
 }
@@ -143,17 +149,17 @@ class _TodayGoldPriceItemWidgetState extends State<TodayGoldPriceItemWidget> {
       children: [
         Text(widget.homeGold.day,
             style: TextStyle(
-                fontSize: dimens.fontTextBig,
+                fontSize: Dimens.fontTextBig,
                 color: Colors.redAccent,
                 fontWeight: FontWeight.bold)),
         Text(widget.homeGold.date,
             style: TextStyle(
-                fontSize: dimens.fontTextSmall,
+                fontSize: Dimens.fontTextSmall,
                 color: Colors.blueAccent,
                 fontWeight: FontWeight.bold)),
         Text(widget.homeGold.price,
             style: TextStyle(
-                fontSize: dimens.fontTextTitle,
+                fontSize: Dimens.fontTextTitle,
                 color: Colors.blueAccent,
                 fontWeight: FontWeight.bold)),
       ],
@@ -258,7 +264,7 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(
-                        right: dimens.margin, left: dimens.spacing),
+                        right: Dimens.margin, left: Dimens.spacing),
                     child: LineChart(
                       isShowingMainData ? sampleData1() : sampleData2(),
                       swapAnimationDuration: const Duration(milliseconds: 250),

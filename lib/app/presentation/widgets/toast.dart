@@ -1,6 +1,7 @@
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:search_gold_quotes/core/values/colors.dart' as colors;
-import 'package:search_gold_quotes/core/values/dimens.dart' as dimens;
+import 'package:search_gold_quotes/core/values/colors.dart';
+
+import 'package:search_gold_quotes/core/values/dimens.dart';
 
 class ToastWidget {
   static void show(String msg) => Fluttertoast.showToast(
@@ -8,10 +9,9 @@ class ToastWidget {
       toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 1,
-      backgroundColor: colors.toastBackgroundColor,
-      textColor: colors.toastTextColor,
-      fontSize: dimens.fontText
-  );
+      backgroundColor: Palette.toastBackgroundColor,
+      textColor: Palette.toastTextColor,
+      fontSize: Dimens.fontText);
 
   static void cancelAll() => Fluttertoast.cancel();
 }

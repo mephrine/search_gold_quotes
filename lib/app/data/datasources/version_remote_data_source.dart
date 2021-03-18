@@ -14,14 +14,12 @@ abstract class VersionRemoteDataSource {
 class VersionRemoteDataSourceImpl implements VersionRemoteDataSource {
   final Dio httpClient;
 
-  VersionRemoteDataSourceImpl({
-    @required this.httpClient
-  });
+  VersionRemoteDataSourceImpl({@required this.httpClient});
 
   @override
   Future<VersionInfoModel> getVersionInfo() async {
     try {
-      final response = await httpClient.get(appInfoURL);
+      final response = await httpClient.get(Constants.appInfoURL);
       if (response.validateResponseData) {
         try {
           return VersionInfoModel.fromJson(response.data);

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:search_gold_quotes/core/values/dimens.dart' as dimens;
+import 'package:search_gold_quotes/core/values/dimens.dart';
 
 class SeparatorWidget extends StatelessWidget {
   @override
@@ -7,7 +7,7 @@ class SeparatorWidget extends StatelessWidget {
     return Container(
       height: 1,
       color: Colors.grey,
-      padding: EdgeInsets.all(dimens.margin),
+      padding: EdgeInsets.all(Dimens.margin),
     );
   }
 }

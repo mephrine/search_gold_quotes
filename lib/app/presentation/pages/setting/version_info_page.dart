@@ -1,10 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:meta/meta.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/navigation_push_widget.dart';
 import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
-import 'package:search_gold_quotes/core/values/strings.dart' as strings;
+import 'package:search_gold_quotes/core/values/strings.dart';
 
 class VersionInfoPage extends StatelessWidget {
   final String title;

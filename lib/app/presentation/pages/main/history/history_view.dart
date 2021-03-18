@@ -3,28 +3,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:search_gold_quotes/app/domain/entities/home_gold.dart';
 import 'package:search_gold_quotes/app/presentation/style/TextStyles.dart';
-import 'package:search_gold_quotes/core/values/dimens.dart' as dimens;
+import 'package:search_gold_quotes/app/presentation/widgets/navigation_main_scrollable_widget.dart';
+import 'package:search_gold_quotes/core/values/dimens.dart';
+import 'package:search_gold_quotes/core/values/strings.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
 class HistoryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 3,
-        child: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            return [
-              SliverToBoxAdapter(
-                child: HistoryTabBar(),
-              )
-            ];
-          },
-          body: TabBarView(children: [
-            HistoryListWidget(),
-            HistoryListWidget(),
-            HistoryListWidget(),
-          ]),
-        ));
+      length: 3,
+      child: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [
+            NavigationMainScrollableWidget(title: Strings.titleHome),
+            SliverToBoxAdapter(
+              child: HistoryTabBar(),
+            )
+          ];
+        },
+        body: TabBarView(children: [
+          HistoryListWidget(),
+          HistoryListWidget(),
+          HistoryListWidget(),
+        ]),
+      ),
+    );
   }
 }
 
@@ -70,19 +74,15 @@ class HistoryListWidget extends StatefulWidget {
 class _HistoryListWidgetState extends State<HistoryListWidget> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListView.separated(
-          itemBuilder: (context, index) {
-            return HistoryItemWidget();
-          },
-          separatorBuilder: (context, index) => Divider(),
-          itemCount: 30,
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
-          padding: const EdgeInsets.all(dimens.margin),
-        )
-      ],
+    return ListView.separated(
+      itemBuilder: (context, index) {
+        return HistoryItemWidget();
+      },
+      separatorBuilder: (context, index) => Divider(),
+      itemCount: 30,
+      shrinkWrap: true,
+      scrollDirection: Axis.vertical,
+      padding: const EdgeInsets.all(Dimens.margin),
     );
   }
 }
@@ -194,7 +194,7 @@ class _HistoryLineChartState extends State<HistoryLineChart> {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(
-                        right: dimens.margin, left: dimens.spacing),
+                        right: Dimens.margin, left: Dimens.spacing),
                     child: LineChart(
                       isShowingMainData ? sampleData1() : sampleData2(),
                       swapAnimationDuration: const Duration(milliseconds: 250),

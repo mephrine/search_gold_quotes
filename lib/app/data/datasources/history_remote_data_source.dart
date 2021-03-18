@@ -18,7 +18,8 @@ class HistoryRemoteDataSourceImpl implements HistoryRemoteDataSource {
   @override
   Future<HistoryJewelryListModel> getHistoryData(Params params) async {
     try {
-      final response = await httpClient.get(params.toRequestURL(historyURL));
+      final response =
+          await httpClient.get(params.toRequestURL(Constants.historyURL));
 
       if (response.statusCode == 200) {
         return HistoryJewelryListModel.fromJson(response.data);

@@ -7,11 +7,13 @@ import 'package:search_gold_quotes/app/domain/entities/video_items.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/video/video/video_bloc.dart';
 import 'package:search_gold_quotes/app/presentation/style/TextStyles.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/message_display.dart';
+import 'package:search_gold_quotes/app/presentation/widgets/navigation_main_scrollable_widget.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
 import 'package:search_gold_quotes/core/presentation/routes/router.gr.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
-import 'package:search_gold_quotes/core/values/dimens.dart' as dimens;
+import 'package:search_gold_quotes/core/values/dimens.dart';
+import 'package:search_gold_quotes/core/values/strings.dart';
 import 'package:shimmer/shimmer.dart';
 
 class VideoView extends StatelessWidget {
@@ -19,7 +21,12 @@ class VideoView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => container<VideoBloc>(),
-      child: VideoContainer(),
+      child: CustomScrollView(slivers: [
+        NavigationMainScrollableWidget(title: Strings.titleHome),
+        SliverToBoxAdapter(
+          child: VideoContainer(),
+        )
+      ]),
     );
   }
 }
@@ -94,7 +101,7 @@ class _VideoListWidget extends State<VideoListWidget> {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      padding: const EdgeInsets.all(dimens.margin),
+      padding: const EdgeInsets.all(Dimens.margin),
       shrinkWrap: true,
       itemCount: widget.videoList.itemList.length,
       itemBuilder: (context, index) {

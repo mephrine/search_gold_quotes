@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/navigation_push_widget.dart';
 import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
-import 'package:search_gold_quotes/core/values/strings.dart' as strings;
+import 'package:search_gold_quotes/core/values/strings.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoPlayerPage extends StatelessWidget {
@@ -152,10 +152,10 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   _space,
-                  _text(strings.videoPlayerTitleDescription,
+                  _text(Strings.videoPlayerTitleDescription,
                       _videoMetaData.title),
                   _space,
-                  _text(strings.videoPlayerChannelDescription,
+                  _text(Strings.videoPlayerChannelDescription,
                       _videoMetaData.author),
                   _space,
                   Row(
