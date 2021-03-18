@@ -13,9 +13,14 @@ class Empty extends InitialHistoryState {}
 class Loading extends InitialHistoryState {}
 
 class Loaded extends InitialHistoryState {
+  final Period period;
+  final ExchangeState exchangeState;
   final HistoryJewelryList historyList;
 
-  Loaded({@required this.historyList});
+  Loaded(
+      {@required this.period,
+      @required this.exchangeState,
+      @required this.historyList});
 }
 
 class Error extends InitialHistoryState {

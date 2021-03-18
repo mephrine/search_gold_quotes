@@ -25,7 +25,7 @@ class ThemeNotifier with ChangeNotifier {
   final SharedPreferences preferences;
 
   final darkTheme = ThemeData(
-    primaryColorDark: Colors.grey,
+    primaryColorDark: Colors.white,
     primaryColor: Colors.white,
     brightness: Brightness.dark,
     backgroundColor: Colors.black,
@@ -36,14 +36,15 @@ class ThemeNotifier with ChangeNotifier {
   );
 
   final lightTheme = ThemeData(
-      primaryColorLight: Colors.grey,
-      primaryColor: Colors.black,
-      brightness: Brightness.light,
-      backgroundColor: const Color(0xFFE5E5E5),
-      scaffoldBackgroundColor: const Color(0xFFE5E5E5),
-      dialogBackgroundColor: Colors.white,
-      bottomAppBarColor: Colors.blue,
-      accentColor: Colors.blue,);
+    primaryColorLight: Colors.black,
+    primaryColor: Colors.black,
+    brightness: Brightness.light,
+    backgroundColor: const Color(0xFFE5E5E5),
+    scaffoldBackgroundColor: const Color(0xFFE5E5E5),
+    dialogBackgroundColor: Colors.white,
+    bottomAppBarColor: Colors.blue,
+    accentColor: Colors.blue,
+  );
 
   ThemeData _themeData;
 

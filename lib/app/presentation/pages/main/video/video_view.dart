@@ -21,12 +21,17 @@ class VideoView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => container<VideoBloc>(),
-      child: CustomScrollView(slivers: [
-        NavigationMainScrollableWidget(title: Strings.titleVideo),
-        SliverToBoxAdapter(
-          child: VideoContainer(),
-        )
-      ]),
+      child: Container(
+        color: Theme.of(context).accentColor,
+        child: SafeArea(
+          child: CustomScrollView(slivers: [
+            NavigationMainScrollableWidget(title: Strings.titleVideo),
+            SliverToBoxAdapter(
+              child: VideoContainer(),
+            )
+          ]),
+        ),
+      ),
     );
   }
 }

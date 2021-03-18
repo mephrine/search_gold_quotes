@@ -10,4 +10,15 @@ class Strings {
 
   static const videoPlayerTitleDescription = '제목';
   static const videoPlayerChannelDescription = '채널';
+
+  static const jewelryGold = '금';
+  static const jewelryPlatinum = '백금';
+  static const jewelryDiamond = '다이아몬드';
+
+  static const sortPeriodDaily = '일별';
+  static const sortPeriodMontly = '월별';
+  static const sortPeriodYearly = '연별';
+
+  static const sortExchangeStateBuy = '판매가';
+  static const sortExchangeStateSell = '구매가';
 }

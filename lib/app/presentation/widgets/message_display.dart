@@ -9,7 +9,8 @@ class MessageDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
-      height: size.height / 3,
+      height: size.height,
+      color: Theme.of(context).backgroundColor,
       child: Center(
         child: SingleChildScrollView(
           child: Text(

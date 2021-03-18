@@ -31,7 +31,10 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
           exchangeState: event.exchangeState));
       yield failureOrHistoryList.fold(
           (failure) => Error(errorMessage: failureToErrorMessage(failure)),
-          (result) => Loaded(historyList: result));
+          (result) => Loaded(
+              period: event.period,
+              exchangeState: event.exchangeState,
+              historyList: result));
     }
   }
 

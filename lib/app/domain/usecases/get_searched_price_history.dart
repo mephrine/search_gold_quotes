@@ -6,6 +6,7 @@ import 'package:search_gold_quotes/app/domain/repositories/history_repository.da
 import 'package:search_gold_quotes/core/error/failures.dart';
 import 'package:search_gold_quotes/core/usecases/usecase.dart';
 import 'package:meta/meta.dart';
+import 'package:search_gold_quotes/core/values/strings.dart';
 
 class GetSearchedPriceHistory extends UseCase<HistoryJewelryList, Params> {
   final HistoryRepository repository;
@@ -53,6 +54,17 @@ extension PeriodParams on Period {
   String toParams() {
     return describeEnum(this);
   }
+
+  String toSortTitleInScreen() {
+    switch (this) {
+      case Period.daily:
+        return Strings.sortPeriodDaily;
+      case Period.monthly:
+        return Strings.sortPeriodMontly;
+      case Period.yearly:
+        return Strings.sortPeriodYearly;
+    }
+  }
 }
 
 enum ExchangeState { buy, sell }
@@ -61,6 +73,15 @@ extension ExchangeStateParams on ExchangeState {
   String toParams() {
     return describeEnum(this);
   }
+
+  String toSortTitleInScreen() {
+    switch (this) {
+      case ExchangeState.buy:
+        return Strings.sortExchangeStateBuy;
+      case ExchangeState.sell:
+        return Strings.sortExchangeStateSell;
+    }
+  }
 }
 
 enum JewelryType { gold, platinum, diamond }
@@ -68,5 +89,16 @@ enum JewelryType { gold, platinum, diamond }
 extension JewelryTypeParams on JewelryType {
   String toParams() {
     return describeEnum(this);
+  }
+
+  String toSortTitleInScreen() {
+    switch (this) {
+      case JewelryType.gold:
+        return Strings.jewelryGold;
+      case JewelryType.platinum:
+        return Strings.jewelryPlatinum;
+      case JewelryType.diamond:
+        return Strings.jewelryDiamond;
+    }
   }
 }
