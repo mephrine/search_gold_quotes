@@ -67,6 +67,10 @@ dependencies:
   ### Routes
   auto_route: ^1.0.0-beta.10
 
+  ## Languages
+  dependencies:
+  intl: ^0.17.0
+
   ### Others
   youtube_player_flutter: ^7.0.0+7
   webview_flutter: ^2.0.2

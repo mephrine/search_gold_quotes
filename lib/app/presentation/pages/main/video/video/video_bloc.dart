@@ -15,9 +15,7 @@ part 'video_state.dart';
 class VideoBloc extends Bloc<VideoEvent, VideoState> {
   GetVideoList getVideoList;
 
-  VideoBloc({
-    @required GetVideoList videoListUsecase
-  })
+  VideoBloc({@required GetVideoList videoListUsecase})
       : assert(videoListUsecase != null),
         getVideoList = videoListUsecase,
         super(Empty());
@@ -30,12 +28,14 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
     if (event is GetVideoListOnLoaded) {
       yield Loading();
       final videoList = await getVideoList(NoParams());
-      yield videoList.fold((failure) => Error(message: _mapFailureToErrorMessage(failure)), (videoList) => Loaded(videoList: videoList));
+      yield videoList.fold(
+          (failure) => Error(message: _mapFailureToErrorMessage(failure)),
+          (videoList) => Loaded(videoList: videoList));
     }
   }
 
   String _mapFailureToErrorMessage(Failure failure) {
-    switch(failure.runtimeType) {
+    switch (failure.runtimeType) {
       case ServerFailure:
         return SERVER_FAILURE_MESSAGE;
       case ParseFailure:

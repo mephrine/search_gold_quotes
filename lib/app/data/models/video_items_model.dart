@@ -26,7 +26,7 @@ class VideoItemModel extends VideoItem {
     return VideoItemModel(
         title: jsonMap['youtubeTitle'],
         subTitle: jsonMap['youtubeSubTitle'],
-        linkURL: jsonMap['youtubeUrl'],
+        linkURL: jsonMap['youtubeUrl'].toString().split("/").last,
         imagePath: jsonMap['thumbImgUrl']);
   }
 

@@ -15,6 +15,7 @@ import 'package:search_gold_quotes/core/di/injection_container.dart';
 import 'package:search_gold_quotes/core/values/colors.dart';
 import 'package:search_gold_quotes/core/values/dimens.dart';
 import 'package:search_gold_quotes/core/values/strings.dart';
+import 'package:search_gold_quotes/core/extensions/number.dart';
 
 class HomeView extends StatelessWidget {
   @override
@@ -157,7 +158,7 @@ class _TodayGoldPriceItemWidgetState extends State<TodayGoldPriceItemWidget> {
                 fontSize: Dimens.fontTextSmall,
                 color: Theme.of(context).primaryColorDark,
                 fontWeight: FontWeight.bold)),
-        Text(widget.homeGold.price,
+        Text(widget.homeGold.price.toNumberFormat(),
             style: TextStyle(
                 fontSize: Dimens.fontTextTitle,
                 color: Theme.of(context).primaryColorDark,
@@ -197,21 +198,21 @@ class TodayGoldLineChart extends StatefulWidget {
 
 class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
   bool isShowingMainData;
-  int maxPrice;
-  int minPrice;
-  int middlePrice;
+  double maxPrice;
+  double minPrice;
+  double middlePrice;
 
   @override
   void initState() {
     super.initState();
     isShowingMainData = true;
     maxPrice = widget.goldList
-        .map((item) => int.tryParse(item.price) ?? 0)
+        .map((item) => double.tryParse(item.price) ?? 0)
         .reduce((current, next) => current > next ? current : next);
     minPrice = widget.goldList
-        .map((item) => int.tryParse(item.price) ?? 0)
+        .map((item) => double.tryParse(item.price) ?? 0)
         .reduce((current, next) => current < next ? current : next);
-    middlePrice = minPrice + (maxPrice - minPrice) ~/ 2;
+    middlePrice = minPrice + (maxPrice - minPrice) ~/ 2.0;
   }
 
   @override
@@ -266,7 +267,7 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
                     padding: const EdgeInsets.only(
                         right: Dimens.margin, left: Dimens.spacing),
                     child: LineChart(
-                      isShowingMainData ? sampleData1() : sampleData2(),
+                      sampleData1(),
                       swapAnimationDuration: const Duration(milliseconds: 250),
                     ),
                   ),
@@ -276,17 +277,6 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
                 ),
               ],
             ),
-            IconButton(
-              icon: Icon(
-                Icons.refresh,
-                color: Colors.white.withOpacity(isShowingMainData ? 1.0 : 0.5),
-              ),
-              onPressed: () {
-                setState(() {
-                  isShowingMainData = !isShowingMainData;
-                });
-              },
-            )
           ],
         ),
       ),
@@ -330,18 +320,17 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
         leftTitles: SideTitles(
           showTitles: true,
           getTextStyles: (value) => const TextStyle(
-            color: Color(0xff75729e),
+            color: Color(0xff72719b),
             fontWeight: FontWeight.bold,
-            fontSize: 14,
+            fontSize: 16,
           ),
           getTitles: (value) {
-            switch (value.toInt()) {
-              case 1:
-                return '$maxPrice 원';
-              case 2:
-                return '$middlePrice 원';
-              case 3:
-                return '$minPrice 원';
+            if (value == maxPrice) {
+              return '${maxPrice.toInt().toNumberFormat()} 원';
+            } else if (value == middlePrice) {
+              return '${middlePrice.toInt().toNumberFormat()}원';
+            } else if (value == minPrice) {
+              return '${minPrice.toInt().toNumberFormat()}원';
             }
             return '';
           },
@@ -369,16 +358,16 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
       ),
       minX: 0,
       maxX: 14,
-      maxY: 220000,
-      minY: 0,
+      maxY: maxPrice,
+      minY: minPrice - 5000,
       lineBarsData: linesBarData(widget.goldList
-          .map((item) => double.tryParse(item.price) ?? 0.0)
+          .map((item) => (double.tryParse(item.price) ?? 0.0))
           .toList()),
     );
   }
 
   List<LineChartBarData> linesBarData(List<double> priceList) {
-    final LineChartBarData lineChartBarData1 = LineChartBarData(
+    final LineChartBarData lineChartBarData = LineChartBarData(
       spots: [
         FlSpot(1, priceList[0]),
         FlSpot(7, priceList[1]),
@@ -386,7 +375,7 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
       ],
       isCurved: true,
       colors: [
-        const Color(0xff4af699),
+        const Color(0xff27b6fc),
       ],
       barWidth: 8,
       isStrokeCapRound: true,
@@ -397,200 +386,6 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
         show: false,
       ),
     );
-    final LineChartBarData lineChartBarData2 = LineChartBarData(
-      spots: [
-        FlSpot(1, 190000),
-        FlSpot(7, 200000),
-        FlSpot(13, 210000),
-      ],
-      isCurved: true,
-      colors: [
-        const Color(0xffaa4cfc),
-      ],
-      barWidth: 8,
-      isStrokeCapRound: true,
-      dotData: FlDotData(
-        show: false,
-      ),
-      belowBarData: BarAreaData(show: false, colors: [
-        const Color(0x00aa4cfc),
-      ]),
-    );
-    final LineChartBarData lineChartBarData3 = LineChartBarData(
-      spots: [
-        FlSpot(1, 280000),
-        FlSpot(7, 150000),
-        FlSpot(13, 230000),
-      ],
-      isCurved: true,
-      colors: const [
-        Color(0xff27b6fc),
-      ],
-      barWidth: 8,
-      isStrokeCapRound: true,
-      dotData: FlDotData(
-        show: false,
-      ),
-      belowBarData: BarAreaData(
-        show: false,
-      ),
-    );
-    return [
-      lineChartBarData1,
-      lineChartBarData2,
-      lineChartBarData3,
-    ];
-  }
-
-  LineChartData sampleData2() {
-    return LineChartData(
-      lineTouchData: LineTouchData(
-        enabled: false,
-      ),
-      gridData: FlGridData(
-        show: false,
-      ),
-      titlesData: FlTitlesData(
-        bottomTitles: SideTitles(
-          showTitles: true,
-          reservedSize: 22,
-          getTextStyles: (value) => const TextStyle(
-            color: Color(0xff72719b),
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
-          margin: 10,
-          getTitles: (value) {
-            switch (value.toInt()) {
-              case 2:
-                return 'SEPT';
-              case 7:
-                return 'OCT';
-              case 12:
-                return 'DEC';
-            }
-            return '';
-          },
-        ),
-        leftTitles: SideTitles(
-          showTitles: true,
-          getTextStyles: (value) => const TextStyle(
-            color: Color(0xff75729e),
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-          ),
-          getTitles: (value) {
-            switch (value.toInt()) {
-              case 1:
-                return '1m';
-              case 2:
-                return '2m';
-              case 3:
-                return '3m';
-              case 4:
-                return '5m';
-              case 5:
-                return '6m';
-            }
-            return '';
-          },
-          margin: 8,
-          reservedSize: 30,
-        ),
-      ),
-      borderData: FlBorderData(
-          show: true,
-          border: const Border(
-            bottom: BorderSide(
-              color: Color(0xff4e4965),
-              width: 4,
-            ),
-            left: BorderSide(
-              color: Colors.transparent,
-            ),
-            right: BorderSide(
-              color: Colors.transparent,
-            ),
-            top: BorderSide(
-              color: Colors.transparent,
-            ),
-          )),
-      minX: 0,
-      maxX: 14,
-      maxY: 6,
-      minY: 0,
-      lineBarsData: linesBarData2(),
-    );
-  }
-
-  List<LineChartBarData> linesBarData2() {
-    return [
-      LineChartBarData(
-        spots: [
-          FlSpot(1, 1),
-          FlSpot(3, 4),
-          FlSpot(5, 1.8),
-          FlSpot(7, 5),
-          FlSpot(10, 2),
-          FlSpot(12, 2.2),
-          FlSpot(13, 1.8),
-        ],
-        isCurved: true,
-        curveSmoothness: 0,
-        colors: const [
-          Color(0x444af699),
-        ],
-        barWidth: 4,
-        isStrokeCapRound: true,
-        dotData: FlDotData(
-          show: false,
-        ),
-        belowBarData: BarAreaData(
-          show: false,
-        ),
-      ),
-      LineChartBarData(
-        spots: [
-          FlSpot(1, 1),
-          FlSpot(3, 2.8),
-          FlSpot(7, 1.2),
-          FlSpot(10, 2.8),
-          FlSpot(12, 2.6),
-          FlSpot(13, 3.9),
-        ],
-        isCurved: true,
-        colors: const [
-          Color(0x99aa4cfc),
-        ],
-        barWidth: 4,
-        isStrokeCapRound: true,
-        dotData: FlDotData(
-          show: false,
-        ),
-        belowBarData: BarAreaData(show: true, colors: [
-          const Color(0x33aa4cfc),
-        ]),
-      ),
-      LineChartBarData(
-        spots: [
-          FlSpot(1, 3.8),
-          FlSpot(3, 1.9),
-          FlSpot(6, 5),
-          FlSpot(10, 3.3),
-          FlSpot(13, 4.5),
-        ],
-        isCurved: true,
-        curveSmoothness: 0,
-        colors: const [
-          Color(0x4427b6fc),
-        ],
-        barWidth: 2,
-        isStrokeCapRound: true,
-        dotData: FlDotData(show: true),
-        belowBarData: BarAreaData(
-          show: false,
-        ),
-      ),
-    ];
+    return [lineChartBarData];
   }
 }
