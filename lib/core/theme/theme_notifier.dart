@@ -18,6 +18,19 @@ extension ThemeStyles on AppTheme {
         return 'light';
     }
   }
+
+  int modeValue() {
+    switch (this) {
+      case AppTheme.light:
+        return 0;
+      case AppTheme.dark:
+        return 1;
+      case AppTheme.system:
+        return 2;
+      default:
+        return 0;
+    }
+  }
 }
 
 class ThemeNotifier with ChangeNotifier {
@@ -25,24 +38,27 @@ class ThemeNotifier with ChangeNotifier {
   final SharedPreferences preferences;
 
   final darkTheme = ThemeData(
+    //Text color
     primaryColorDark: Colors.white,
+    primaryColorLight: Colors.black,
     primaryColor: Colors.white,
     brightness: Brightness.dark,
     backgroundColor: Colors.black,
     scaffoldBackgroundColor: Colors.black,
     dialogBackgroundColor: Colors.black54,
     bottomAppBarColor: Colors.black,
-    accentColor: Colors.white,
+    accentColor: Colors.black,
   );
 
   final lightTheme = ThemeData(
-    primaryColorLight: Colors.black,
+    primaryColorDark: Colors.black,
+    primaryColorLight: Colors.white,
     primaryColor: Colors.black,
     brightness: Brightness.light,
     backgroundColor: const Color(0xFFE5E5E5),
     scaffoldBackgroundColor: const Color(0xFFE5E5E5),
     dialogBackgroundColor: Colors.white,
-    bottomAppBarColor: Colors.blue,
+    bottomAppBarColor: Colors.white,
     accentColor: Colors.blue,
   );
 

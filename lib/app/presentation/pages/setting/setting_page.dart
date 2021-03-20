@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:search_gold_quotes/app/presentation/style/TextStyles.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/navigation_push_widget.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/separator_widget.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
@@ -82,13 +83,13 @@ class ListItemWidget extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: TextStyle(fontSize: Dimens.fontTextBig),
+                style: TextPrimaryContrastingStyles.bigStyle(context),
               ),
               const Spacer(),
               Icon(
                 Icons.keyboard_arrow_right,
                 size: Dimens.iconSizeTitle,
-                color: Colors.white,
+                color: Theme.of(context).primaryColor,
               ),
             ],
           ),

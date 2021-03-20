@@ -1,8 +1,8 @@
 class Constants {
   static const apiURL = "https://goldnawa-api.devrartes.com";
-  static const apiVersion = "/v1.0";
-  static const appInfoURL = "/api/appVersion";
-  static const famousSayingURL = "/api/famousSaying";
-  static const videoListURL = "/main/video";
-  static const historyURL = "/api/goldPriceHistory";
+  static const apiVersion = "/v1.0/api";
+  static const appInfoURL = "/appVersion";
+  static const famousSayingURL = "/famousSaying";
+  static const videoListURL = "/youtubeList";
+  static const historyURL = "/goldPriceHistory";
 }

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
@@ -9,6 +10,7 @@ import 'package:search_gold_quotes/app/presentation/style/TextStyles.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/message_display.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/navigation_main_scrollable_widget.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
+import 'package:search_gold_quotes/core/platform/device_utils.dart';
 import 'package:search_gold_quotes/core/presentation/routes/router.gr.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
@@ -21,17 +23,12 @@ class VideoView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => container<VideoBloc>(),
-      child: Container(
-        color: Theme.of(context).accentColor,
-        child: SafeArea(
-          child: CustomScrollView(slivers: [
-            NavigationMainScrollableWidget(title: Strings.titleVideo),
-            SliverToBoxAdapter(
-              child: VideoContainer(),
-            )
-          ]),
-        ),
-      ),
+      child: CustomScrollView(slivers: [
+        NavigationMainScrollableWidget(title: Strings.titleVideo),
+        SliverToBoxAdapter(
+          child: VideoContainer(),
+        )
+      ]),
     );
   }
 }
@@ -111,8 +108,7 @@ class _VideoListWidget extends State<VideoListWidget> {
       itemCount: widget.videoList.itemList.length,
       itemBuilder: (context, index) {
         return GestureDetector(
-          child: VideoItemWidget(
-              videoItem: widget.videoList.itemList[index], isDarkTheme: false),
+          child: VideoItemWidget(videoItem: widget.videoList.itemList[index]),
           onTap: () => _pushToVideoPlayerPage(context, index),
         );
       },
@@ -132,55 +128,48 @@ class _VideoListWidget extends State<VideoListWidget> {
 
 class VideoItemWidget extends StatelessWidget {
   final VideoItem videoItem;
-  final bool isDarkTheme;
+  final String placeHolderAsset = 'images/placeholder_white.png';
 
-  VideoItemWidget({@required this.videoItem, @required this.isDarkTheme});
+  VideoItemWidget({@required this.videoItem});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage(videoItem.imagePath),
-                  fit: BoxFit.fitWidth)),
-          height: 200,
-          width: MediaQuery.of(context).size.width,
-          child: Image.asset('images/placeholder_black.png'),
-          // Image.network(
-          //   videoItem.imagePath,
-          //   fit: BoxFit.cover,
-          //   frameBuilder: (ctx, child, frame, wasSynchronouslyLoaded) {
-          //     if (wasSynchronouslyLoaded) return child;
-
-          //     return Stack(children: <Widget>[
-          //       AnimatedOpacity(
-          //         opacity: frame == null ? 1 : 0,
-          //         duration: Duration(seconds: 1),
-          //         child: frame == null
-          //             ? isDarkTheme
-          //                 ? Image.asset('images/placeholder_white.png')
-          //                 : Image.asset('images/placeholder_black.png')
-          //             : null,
-          //       ),
-          //       AnimatedOpacity(
-          //           opacity: frame == null ? 0 : 1,
-          //           duration: Duration(seconds: 1),
-          //           child: frame != null ? child : null),
-          //     ]);
-          //   },
-          // ),
-        ),
+        videoItem.imagePath != null
+            ? CachedNetworkImage(
+                fit: BoxFit.fitWidth,
+                imageUrl: videoItem.imagePath,
+                imageBuilder: (context, imageProvider) => Container(
+                  height: 200,
+                  width: DeviceUtils.screenWidth(context),
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.fitWidth,
+                  )),
+                ),
+                placeholder: (context, url) => Image.asset(placeHolderAsset),
+                errorWidget: (context, url, error) =>
+                    Image.asset(placeHolderAsset),
+              )
+            : Container(
+                height: 200,
+                width: DeviceUtils.screenWidth(context),
+                decoration: new BoxDecoration(
+                    image: new DecorationImage(
+                  image: AssetImage(placeHolderAsset),
+                )),
+              ),
         Text(videoItem.title,
             textAlign: TextAlign.start,
             maxLines: 2,
-            style: TextPrimaryStyles.titleStyle(context)),
+            style: TextPrimaryContrastingStyles.titleStyle(context)),
         Text(videoItem.subTitle,
             textAlign: TextAlign.start,
             maxLines: 2,
-            style: TextPrimaryStyles.defaultStyle(context)),
+            style: TextPrimaryContrastingStyles.defaultStyle(context)),
       ],
     );
   }

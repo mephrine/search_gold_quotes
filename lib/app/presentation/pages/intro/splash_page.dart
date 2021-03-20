@@ -6,6 +6,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:search_gold_quotes/app/presentation/pages/intro/bloc/bloc.dart';
+import 'package:search_gold_quotes/app/presentation/style/TextStyles.dart';
+import 'package:search_gold_quotes/app/presentation/widgets/logo_image_widget.dart';
+import 'package:search_gold_quotes/app/presentation/widgets/lottie_gold_image_widget.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:search_gold_quotes/core/presentation/routes/router.gr.dart';
@@ -37,7 +40,10 @@ class _SplashView extends State<SplashView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [LottieGoldImageWidget(), LogoImageWidget()],
+            children: [
+              LottieGoldImageWidget(onLoaded: () => _dispatchVersion(context)),
+              LogoImageWidget(),
+            ],
           ),
         ),
       );
@@ -48,6 +54,12 @@ class _SplashView extends State<SplashView> {
         _showErrorAlert();
       }
     });
+  }
+
+  void _dispatchVersion(BuildContext context) {
+    SchedulerBinding.instance.addPostFrameCallback((_) =>
+        BlocProvider.of<SplashBloc>(context, listen: false)
+            .add(GetVersionInfoForUpdate()));
   }
 
   void _showErrorAlert() {
@@ -62,7 +74,7 @@ class _SplashView extends State<SplashView> {
             MaterialButton(
                 child: Text(_BUTTON_CONFIRM_TITLE),
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.pop(dialogContext);
                   _push(0);
                 }),
           ],
@@ -78,38 +90,4 @@ class _SplashView extends State<SplashView> {
       return false;
     }, onFailure: (routes) {});
   }
-}
-
-class LottieGoldImageWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Lottie.asset('assets/gold.json',
-        height: 200,
-        // controller: _controller,
-        onLoaded: (composition) => _dispatchVersion(context)
-        // Configure the AnimationController with the duration of the
-        // Lottie file and start the animation.
-        // _controller
-        //   ..duration = composition.duration
-        //   ..forward();
-        // },
-        );
-  }
-}
-
-class LogoImageWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Image.asset(
-      'images/logo.png',
-      width: 50,
-      height: 25,
-    );
-  }
-}
-
-void _dispatchVersion(BuildContext context) {
-  SchedulerBinding.instance.addPostFrameCallback((_) =>
-      BlocProvider.of<SplashBloc>(context, listen: false)
-          .add(GetVersionInfoForUpdate()));
 }

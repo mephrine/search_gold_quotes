@@ -64,7 +64,6 @@ class HistoryTabBar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return TabBar(
-      indicatorColor: Colors.green,
       tabs: [
         Tab(
           text: JewelryType.gold.toSortTitleInScreen(),
@@ -76,9 +75,9 @@ class HistoryTabBar extends StatelessWidget with PreferredSizeWidget {
           text: JewelryType.diamond.toSortTitleInScreen(),
         )
       ],
-      labelColor: Colors.black,
+      labelColor: Theme.of(context).primaryColorDark,
       indicator: DotIndicator(
-        color: Colors.black,
+        color: Theme.of(context).primaryColorDark,
         paintingStyle: PaintingStyle.fill,
         distanceFromCenter: 16,
         radius: 3,
@@ -264,19 +263,16 @@ class HistoryListWidget extends StatelessWidget {
     }
 ]
     ''';
-
-    showPickerModal(context) {
-      new Picker(
-          adapter: PickerDataAdapter<String>(
-              pickerdata: new JsonDecoder().convert(PickerData)),
-          changeToFirst: true,
-          textAlign: TextAlign.left,
-          columnPadding: const EdgeInsets.all(8.0),
-          onConfirm: (Picker picker, List value) {
-            print(value.toString());
-            print(picker.getSelectedValues());
-          }).showModal(context);
-    }
+    new Picker(
+        adapter: PickerDataAdapter<String>(
+            pickerdata: new JsonDecoder().convert(PickerData)),
+        changeToFirst: true,
+        textAlign: TextAlign.left,
+        columnPadding: const EdgeInsets.all(8.0),
+        onConfirm: (Picker picker, List value) {
+          print(value.toString());
+          print(picker.getSelectedValues());
+        }).showModal(context);
   }
 }
 

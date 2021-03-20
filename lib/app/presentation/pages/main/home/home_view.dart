@@ -155,12 +155,12 @@ class _TodayGoldPriceItemWidgetState extends State<TodayGoldPriceItemWidget> {
         Text(widget.homeGold.date,
             style: TextStyle(
                 fontSize: Dimens.fontTextSmall,
-                color: Colors.blueAccent,
+                color: Theme.of(context).primaryColorDark,
                 fontWeight: FontWeight.bold)),
         Text(widget.homeGold.price,
             style: TextStyle(
                 fontSize: Dimens.fontTextTitle,
-                color: Colors.blueAccent,
+                color: Theme.of(context).primaryColorDark,
                 fontWeight: FontWeight.bold)),
       ],
     );

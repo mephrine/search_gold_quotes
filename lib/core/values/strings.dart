@@ -8,6 +8,10 @@ class Strings {
   static const titleOpenSourceLicense = '오픈소스 라이선스';
   static const titleVersionInfo = '버전정보';
 
+  static const titleThemeLight = '밝은 모드';
+  static const titleThemeDark = '어두운 모드';
+  static const titleThemeSystem = '시스템 모드';
+
   static const videoPlayerTitleDescription = '제목';
   static const videoPlayerChannelDescription = '채널';
 

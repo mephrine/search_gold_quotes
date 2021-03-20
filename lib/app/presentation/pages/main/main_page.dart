@@ -85,7 +85,8 @@ class _MainView extends State<MainView> with SingleTickerProviderStateMixin {
         initialActiveIndex: 0,
         onTap: (int i) => changeIndex(i),
         color: Theme.of(context).primaryColor,
-        backgroundColor: Theme.of(context).backgroundColor,
+        activeColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).bottomAppBarColor,
       ),
     );
   }
