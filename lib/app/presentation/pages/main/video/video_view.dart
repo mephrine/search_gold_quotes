@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:search_gold_quotes/app/domain/entities/video_items.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/video/video/video_bloc.dart';
 import 'package:search_gold_quotes/app/presentation/style/TextStyles.dart';
@@ -125,9 +127,48 @@ class VideoListWidget extends StatefulWidget {
 }
 
 class _VideoListWidget extends State<VideoListWidget> {
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshController.refreshCompleted();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
+    return
+        // SmartRefresher(
+        //   enablePullDown: true,
+        //   enablePullUp: true,
+
+        // header: WaterDropHeader(
+        //  refresh: ,
+        // ),
+        // footer: CustomFooter(
+        //   builder: (BuildContext context, LoadStatus mode) {
+        //     Widget body;
+        //     if (mode == LoadStatus.idle) {
+        //       body = Text("pull up load");
+        //     } else if (mode == LoadStatus.loading) {
+        //       body = CupertinoActivityIndicator();
+        //     } else if (mode == LoadStatus.failed) {
+        //       body = Text("Load Failed!Click retry!");
+        //     } else if (mode == LoadStatus.canLoading) {
+        //       body = Text("release to load more");
+        //     } else {
+        //       body = Text("No more Data");
+        //     }
+        //     return Container(
+        //       height: 55.0,
+        //       child: Center(child: body),
+        //     );
+        //   },
+        // ),
+        // controller: _refreshController,
+        // onRefresh: _reloadVideoData,
+        ListView.separated(
       padding: const EdgeInsets.all(Dimens.margin),
       shrinkWrap: true,
       itemCount: widget.videoList.itemList.length,
@@ -140,7 +181,15 @@ class _VideoListWidget extends State<VideoListWidget> {
       separatorBuilder: (context, index) {
         return Divider();
       },
+      // ),
     );
+  }
+
+  void _reloadVideoData() {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      BlocProvider.of<VideoBloc>(context, listen: false)
+          .add(GetVideoListOnLoaded());
+    });
   }
 
   void _pushToVideoPlayerPage(BuildContext context, int index) {
@@ -164,38 +213,40 @@ class VideoItemWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        videoItem.imagePath != null
-            ? CachedNetworkImage(
-                fit: BoxFit.fitWidth,
-                imageUrl: videoItem.imagePath,
-                imageBuilder: (context, imageProvider) => Container(
-                  height: 200,
-                  width: DeviceUtils.screenWidth(context),
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                    image: imageProvider,
+        Hero(
+            tag: videoItem.linkURL,
+            child: videoItem.imagePath != null
+                ? CachedNetworkImage(
                     fit: BoxFit.fitWidth,
+                    imageUrl: videoItem.imagePath,
+                    imageBuilder: (context, imageProvider) => Container(
+                      height: 200,
+                      width: DeviceUtils.screenWidth(context),
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.fitWidth,
+                      )),
+                    ),
+                    placeholder: (context, url) => Image.asset(
+                        themeService.getThemeIsDark()
+                            ? placeHolderDarkAsset
+                            : placeHolderLightAsset),
+                    errorWidget: (context, url, error) => Image.asset(
+                        themeService.getThemeIsDark()
+                            ? placeHolderDarkAsset
+                            : placeHolderLightAsset),
+                  )
+                : Container(
+                    height: 200,
+                    width: DeviceUtils.screenWidth(context),
+                    decoration: new BoxDecoration(
+                        image: new DecorationImage(
+                      image: AssetImage(themeService.getThemeIsDark()
+                          ? placeHolderDarkAsset
+                          : placeHolderLightAsset),
+                    )),
                   )),
-                ),
-                placeholder: (context, url) => Image.asset(
-                    themeService.getThemeIsDark()
-                        ? placeHolderDarkAsset
-                        : placeHolderLightAsset),
-                errorWidget: (context, url, error) => Image.asset(
-                    themeService.getThemeIsDark()
-                        ? placeHolderDarkAsset
-                        : placeHolderLightAsset),
-              )
-            : Container(
-                height: 200,
-                width: DeviceUtils.screenWidth(context),
-                decoration: new BoxDecoration(
-                    image: new DecorationImage(
-                  image: AssetImage(themeService.getThemeIsDark()
-                      ? placeHolderDarkAsset
-                      : placeHolderLightAsset),
-                )),
-              ),
         Text(videoItem.title,
             textAlign: TextAlign.start,
             maxLines: 2,

@@ -279,9 +279,6 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
           ),
-          // _isLightTheme()
-          //             ? Palette.chartBackgroundLightColor
-          //             : Palette.chartBackgroundDarkColor,
         ),
         child: Stack(
           children: <Widget>[
