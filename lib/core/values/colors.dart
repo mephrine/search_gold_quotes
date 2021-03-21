@@ -18,4 +18,14 @@ class Palette {
   static const Color naviTitleColor = Colors.white;
   static const Color textTitleColor = Colors.black;
   static const Color textSubTitleColor = Colors.grey;
+
+  static const List<Color> chartBackgroundLightColor = [
+    Color(0xFFaccbee),
+    Color(0xFFdfe9f3),
+  ];
+
+  static const List<Color> chartBackgroundDarkColor = [
+    Color(0xFF868f96),
+    Color(0xFF596164),
+  ];
 }

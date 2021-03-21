@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:flutter/foundation.dart' as foundation;
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:package_info/package_info.dart';
 
@@ -17,4 +20,9 @@ class DeviceUtils {
 
   static double screenHeight(BuildContext context) =>
       screenSize(context).height;
+
+  static bool isDarkTheme =
+      (SchedulerBinding.instance.window.platformBrightness ??
+              Brightness.light) ==
+          Brightness.dark;
 }

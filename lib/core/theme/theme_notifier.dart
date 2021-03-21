@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
+import 'package:search_gold_quotes/core/platform/device_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum AppTheme { system, light, dark }
@@ -55,8 +56,8 @@ class ThemeNotifier with ChangeNotifier {
     primaryColorLight: Colors.white,
     primaryColor: Colors.black,
     brightness: Brightness.light,
-    backgroundColor: const Color(0xFFE5E5E5),
-    scaffoldBackgroundColor: const Color(0xFFE5E5E5),
+    backgroundColor: Colors.white,
+    scaffoldBackgroundColor: Colors.white,
     dialogBackgroundColor: Colors.white,
     bottomAppBarColor: Colors.white,
     accentColor: Colors.blue,
@@ -84,8 +85,7 @@ class ThemeNotifier with ChangeNotifier {
 
   AppTheme _getSystemAppTheme() {
     try {
-      var brightness = SchedulerBinding.instance.window.platformBrightness;
-      return brightness == Brightness.light ? AppTheme.light : AppTheme.dark;
+      return DeviceUtils.isDarkTheme ? AppTheme.dark : AppTheme.light;
     } catch (nullPointException) {
       return AppTheme.light;
     }

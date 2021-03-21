@@ -4,18 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:search_gold_quotes/app/domain/entities/home_data.dart';
 import 'package:search_gold_quotes/app/domain/entities/home_gold.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/home/home/home_bloc.dart';
 import 'package:search_gold_quotes/app/presentation/style/TextStyles.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/message_display.dart';
-import 'package:search_gold_quotes/app/presentation/widgets/navigation_main_scrollable_widget.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/navigation_main_widget.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
+import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
 import 'package:search_gold_quotes/core/values/colors.dart';
 import 'package:search_gold_quotes/core/values/dimens.dart';
 import 'package:search_gold_quotes/core/values/strings.dart';
 import 'package:search_gold_quotes/core/extensions/number.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomeView extends StatelessWidget {
   @override
@@ -67,8 +69,55 @@ class _LoadingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //Todo.
-    return Container();
+    return Shimmer.fromColors(
+        baseColor: Colors.grey[300],
+        highlightColor: Colors.grey[100],
+        enabled: true,
+        child: Padding(
+          padding: const EdgeInsets.only(right: 16.0, left: 16.0),
+          child: Column(children: [
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              color: Colors.white,
+              width: double.infinity,
+              height: 20,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              color: Colors.white,
+              width: double.infinity,
+              height: 14,
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Expanded(
+              child: Container(
+                color: Colors.white,
+                width: double.infinity,
+                height: double.infinity,
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Positioned(
+                bottom: 0.0,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                      0.0, 0.0, 0.0, Dimens.mainTabBarCurveMargin),
+                  child: Container(
+                    color: Colors.white,
+                    width: double.infinity,
+                    height: 100,
+                  ),
+                )),
+          ]),
+        ));
   }
 }
 
@@ -79,35 +128,35 @@ class _HomeLoadedWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      SizedBox(
-        height: 20,
-      ),
-      FamousQuotesAnimationWidget(
-        famousQuotes: homeData.famousQuotes,
-      ),
-      SizedBox(
-        height: 20,
-      ),
-      Text(homeData.referenceSiteName,
-          style: TextPrimaryContrastingStyles.defaultStyle(context)),
-      SizedBox(
-        height: 30,
-      ),
-      Expanded(
-        child: Padding(
-          padding: const EdgeInsets.only(right: 16.0, left: 6.0),
+    return Padding(
+      padding: const EdgeInsets.only(right: 16.0, left: 16.0),
+      child: Column(children: [
+        SizedBox(
+          height: 20,
+        ),
+        FamousQuotesAnimationWidget(
+          famousQuotes: homeData.famousQuotes,
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Text(homeData.referenceSiteName,
+            style: TextPrimaryContrastingStyles.defaultStyle(context)),
+        SizedBox(
+          height: 30,
+        ),
+        Expanded(
           child: TodayGoldLineChart(goldList: homeData.goldList),
         ),
-      ),
-      SizedBox(
-        height: 30,
-      ),
-      Positioned(
-        bottom: 0.0,
-        child: TodayGoldPriceWidget(goldList: homeData.goldList),
-      ),
-    ]);
+        SizedBox(
+          height: 30,
+        ),
+        Positioned(
+          bottom: 0.0,
+          child: TodayGoldPriceWidget(goldList: homeData.goldList),
+        ),
+      ]),
+    );
   }
 }
 
@@ -217,19 +266,22 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeNotifier themeService = Provider.of<ThemeNotifier>(context);
     return AspectRatio(
       aspectRatio: 1.23,
       child: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(18)),
           gradient: LinearGradient(
-            colors: [
-              Color(0xff2c274c),
-              Color(0xff46426c),
-            ],
+            colors: (themeService.getThemeIsDark() ?? false)
+                ? Palette.chartBackgroundDarkColor
+                : Palette.chartBackgroundLightColor,
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
           ),
+          // _isLightTheme()
+          //             ? Palette.chartBackgroundLightColor
+          //             : Palette.chartBackgroundDarkColor,
         ),
         child: Stack(
           children: <Widget>[
@@ -239,10 +291,10 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
                 const SizedBox(
                   height: 37,
                 ),
-                const Text(
+                Text(
                   '2021',
                   style: TextStyle(
-                    color: Color(0xff827daa),
+                    color: Theme.of(context).primaryColor,
                     fontSize: 16,
                   ),
                   textAlign: TextAlign.center,
@@ -250,10 +302,10 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
                 const SizedBox(
                   height: 4,
                 ),
-                const Text(
+                Text(
                   '오늘의 시세',
                   style: TextStyle(
-                      color: Colors.white,
+                      color: Theme.of(context).primaryColor,
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 2),
@@ -299,8 +351,8 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
         bottomTitles: SideTitles(
           showTitles: true,
           reservedSize: 22,
-          getTextStyles: (value) => const TextStyle(
-            color: Color(0xff72719b),
+          getTextStyles: (value) => TextStyle(
+            color: Theme.of(context).primaryColor,
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
@@ -319,8 +371,8 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
         ),
         leftTitles: SideTitles(
           showTitles: true,
-          getTextStyles: (value) => const TextStyle(
-            color: Color(0xff72719b),
+          getTextStyles: (value) => TextStyle(
+            color: Theme.of(context).primaryColor,
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
@@ -340,9 +392,9 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
       ),
       borderData: FlBorderData(
         show: true,
-        border: const Border(
+        border: Border(
           bottom: BorderSide(
-            color: Color(0xff4e4965),
+            color: Theme.of(context).primaryColor,
             width: 4,
           ),
           left: BorderSide(
@@ -375,7 +427,7 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
       ],
       isCurved: true,
       colors: [
-        const Color(0xff27b6fc),
+        Colors.redAccent,
       ],
       barWidth: 8,
       isStrokeCapRound: true,

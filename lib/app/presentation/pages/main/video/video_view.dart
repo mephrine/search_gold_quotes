@@ -70,23 +70,48 @@ class _VideoContainer extends State<VideoContainer> {
 class LoadingListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 200.0,
-      height: 100.0,
-      child: Shimmer.fromColors(
-        baseColor: Colors.red,
-        highlightColor: Colors.yellow,
-        child: Text(
-          'Shimmer',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 40.0,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300],
+      highlightColor: Colors.grey[100],
+      enabled: true,
+      child: ListView.separated(
+        padding: const EdgeInsets.all(Dimens.margin),
+        shrinkWrap: true,
+        itemCount: 5,
+        itemBuilder: (context, index) {
+          return LoadingListItemWidget();
+        },
+        separatorBuilder: (context, index) {
+          return Divider();
+        },
       ),
     );
-    ;
+  }
+}
+
+class LoadingListItemWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(height: 200, width: double.infinity, color: Colors.white),
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 5.0),
+        ),
+        Container(
+            width: DeviceUtils.screenWidth(context),
+            height: 44,
+            color: Colors.white),
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 3.0),
+        ),
+        Container(
+            width: DeviceUtils.screenWidth(context) / 2,
+            height: 22,
+            color: Colors.white),
+      ],
+    );
   }
 }
 
@@ -128,12 +153,14 @@ class _VideoListWidget extends State<VideoListWidget> {
 
 class VideoItemWidget extends StatelessWidget {
   final VideoItem videoItem;
-  final String placeHolderAsset = 'images/placeholder_white.png';
+  final String placeHolderDarkAsset = 'images/placeholder_white.png';
+  final String placeHolderLightAsset = 'images/placeholder_black.png';
 
   VideoItemWidget({@required this.videoItem});
 
   @override
   Widget build(BuildContext context) {
+    var themeService = Provider.of<ThemeNotifier>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -150,16 +177,23 @@ class VideoItemWidget extends StatelessWidget {
                     fit: BoxFit.fitWidth,
                   )),
                 ),
-                placeholder: (context, url) => Image.asset(placeHolderAsset),
-                errorWidget: (context, url, error) =>
-                    Image.asset(placeHolderAsset),
+                placeholder: (context, url) => Image.asset(
+                    themeService.getThemeIsDark()
+                        ? placeHolderDarkAsset
+                        : placeHolderLightAsset),
+                errorWidget: (context, url, error) => Image.asset(
+                    themeService.getThemeIsDark()
+                        ? placeHolderDarkAsset
+                        : placeHolderLightAsset),
               )
             : Container(
                 height: 200,
                 width: DeviceUtils.screenWidth(context),
                 decoration: new BoxDecoration(
                     image: new DecorationImage(
-                  image: AssetImage(placeHolderAsset),
+                  image: AssetImage(themeService.getThemeIsDark()
+                      ? placeHolderDarkAsset
+                      : placeHolderLightAsset),
                 )),
               ),
         Text(videoItem.title,

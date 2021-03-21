@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:search_gold_quotes/app/domain/entities/history_jewelry.dart';
 import 'package:search_gold_quotes/app/domain/usecases/get_searched_price_history.dart';
+import 'package:search_gold_quotes/core/error/error_messages.dart';
 import 'package:search_gold_quotes/core/error/failures.dart';
 
 part 'history_event.dart';
@@ -39,6 +40,9 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   }
 
   String failureToErrorMessage(Failure failure) {
-    return '일시적인 오류가 발생했습니다. 다시 시도해주세요.';
+    if (failure is ServerFailure) {
+      return SERVER_FAILURE_MESSAGE;
+    }
+    return PARSE_FAILURE_MESSAGE;
   }
 }
