@@ -5,7 +5,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:search_gold_quotes/app/domain/entities/video_items.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/video/video/video_bloc.dart';
 import 'package:search_gold_quotes/app/presentation/style/TextStyles.dart';
@@ -127,65 +126,67 @@ class VideoListWidget extends StatefulWidget {
 }
 
 class _VideoListWidget extends State<VideoListWidget> {
-  RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
+  // RefreshController _refreshController =
+  //     RefreshController(initialRefresh: false);
 
   @override
   void initState() {
     super.initState();
-    _refreshController.refreshCompleted();
+    // _refreshController.refreshCompleted();
   }
 
   @override
   Widget build(BuildContext context) {
-    return
-        // SmartRefresher(
-        //   enablePullDown: true,
-        //   enablePullUp: true,
+    return RefreshIndicator(
+        child: ListView.separated(
+          padding: const EdgeInsets.all(Dimens.margin),
+          shrinkWrap: true,
+          itemCount: widget.videoList.itemList.length,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              child:
+                  VideoItemWidget(videoItem: widget.videoList.itemList[index]),
+              onTap: () => _pushToVideoPlayerPage(context, index),
+            );
+          },
+          separatorBuilder: (context, index) {
+            return Divider();
+          },
+          // ),
+        ),
+        onRefresh: () => _reloadVideoData());
+    // SmartRefresher(
+    //   enablePullDown: true,
+    //   enablePullUp: true,
 
-        // header: WaterDropHeader(
-        //  refresh: ,
-        // ),
-        // footer: CustomFooter(
-        //   builder: (BuildContext context, LoadStatus mode) {
-        //     Widget body;
-        //     if (mode == LoadStatus.idle) {
-        //       body = Text("pull up load");
-        //     } else if (mode == LoadStatus.loading) {
-        //       body = CupertinoActivityIndicator();
-        //     } else if (mode == LoadStatus.failed) {
-        //       body = Text("Load Failed!Click retry!");
-        //     } else if (mode == LoadStatus.canLoading) {
-        //       body = Text("release to load more");
-        //     } else {
-        //       body = Text("No more Data");
-        //     }
-        //     return Container(
-        //       height: 55.0,
-        //       child: Center(child: body),
-        //     );
-        //   },
-        // ),
-        // controller: _refreshController,
-        // onRefresh: _reloadVideoData,
-        ListView.separated(
-      padding: const EdgeInsets.all(Dimens.margin),
-      shrinkWrap: true,
-      itemCount: widget.videoList.itemList.length,
-      itemBuilder: (context, index) {
-        return GestureDetector(
-          child: VideoItemWidget(videoItem: widget.videoList.itemList[index]),
-          onTap: () => _pushToVideoPlayerPage(context, index),
-        );
-      },
-      separatorBuilder: (context, index) {
-        return Divider();
-      },
-      // ),
-    );
+    // header: WaterDropHeader(
+    //  refresh: ,
+    // ),
+    // footer: CustomFooter(
+    //   builder: (BuildContext context, LoadStatus mode) {
+    //     Widget body;
+    //     if (mode == LoadStatus.idle) {
+    //       body = Text("pull up load");
+    //     } else if (mode == LoadStatus.loading) {
+    //       body = CupertinoActivityIndicator();
+    //     } else if (mode == LoadStatus.failed) {
+    //       body = Text("Load Failed!Click retry!");
+    //     } else if (mode == LoadStatus.canLoading) {
+    //       body = Text("release to load more");
+    //     } else {
+    //       body = Text("No more Data");
+    //     }
+    //     return Container(
+    //       height: 55.0,
+    //       child: Center(child: body),
+    //     );
+    //   },
+    // ),
+    // controller: _refreshController,
+    // onRefresh: _reloadVideoData,
   }
 
-  void _reloadVideoData() {
+  Future<void> _reloadVideoData() async {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<VideoBloc>(context, listen: false)
           .add(GetVideoListOnLoaded());
