@@ -48,7 +48,7 @@ class HistoryView extends StatelessWidget {
                       jewelryType: JewelryType.gold,
                     ),
                     HistoryListContainer(jewelryType: JewelryType.platinum),
-                    HistoryListContainer(jewelryType: JewelryType.diamond),
+                    HistoryListContainer(jewelryType: JewelryType.silver),
                   ]),
                 ),
               ),
@@ -75,7 +75,7 @@ class HistoryTabBar extends StatelessWidget with PreferredSizeWidget {
           text: JewelryType.platinum.toSortTitleInScreen(),
         ),
         Tab(
-          text: JewelryType.diamond.toSortTitleInScreen(),
+          text: JewelryType.silver.toSortTitleInScreen(),
         )
       ],
       labelColor: Theme.of(context).primaryColorDark,

@@ -20,7 +20,7 @@ class GetSearchedPriceHistory extends UseCase<HistoryJewelryList, Params> {
 }
 
 class Params extends Equatable {
-  // gold, platinum, diamond
+  // gold, platinum, silver
   final JewelryType jewelryType;
 
   // daily, modthly, yearly
@@ -84,7 +84,7 @@ extension ExchangeStateParams on ExchangeState {
   }
 }
 
-enum JewelryType { gold, platinum, diamond }
+enum JewelryType { gold, platinum, silver }
 
 extension JewelryTypeParams on JewelryType {
   String toParams() {
@@ -97,8 +97,8 @@ extension JewelryTypeParams on JewelryType {
         return Strings.jewelryGold;
       case JewelryType.platinum:
         return Strings.jewelryPlatinum;
-      case JewelryType.diamond:
-        return Strings.jewelryDiamond;
+      case JewelryType.silver:
+        return Strings.jewelrySilver;
     }
   }
 }

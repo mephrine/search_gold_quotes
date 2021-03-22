@@ -17,7 +17,7 @@ class Strings {
 
   static const jewelryGold = '금';
   static const jewelryPlatinum = '백금';
-  static const jewelryDiamond = '다이아몬드';
+  static const jewelrySilver = '은';
 
   static const sortPeriodDaily = '일별';
   static const sortPeriodMontly = '월별';

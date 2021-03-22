@@ -104,14 +104,14 @@ void main() {
       expect(params.toRequestURL(Constants.historyURL), requestURL);
     });
 
-    test('일일 다이아 시세 판매 URL 확인', () async {
+    test('일일 은 시세 판매 URL 확인', () async {
       // arrange
       final params = Params(
           period: Period.daily,
           exchangeState: ExchangeState.sell,
-          jewelryType: JewelryType.diamond);
+          jewelryType: JewelryType.silver);
 
-      final requestURL = Constants.historyURL + "/diamond/sell/daily";
+      final requestURL = Constants.historyURL + "/silver/sell/daily";
 
       // assert
       expect(params.toRequestURL(Constants.historyURL), requestURL);
