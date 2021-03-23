@@ -25,7 +25,8 @@ class VideoView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return VideoContainer();
+    return BlocProvider(
+        create: (_) => container<VideoBloc>(), child: VideoPullRefreshWidget());
   }
 }
 
@@ -44,6 +45,7 @@ class _VideoPullRefreshWidgetState extends State<VideoPullRefreshWidget> {
   void initState() {
     super.initState();
     _refreshController.refreshCompleted();
+    _dispatchVideoData();
   }
 
   @override
@@ -56,18 +58,17 @@ class _VideoPullRefreshWidgetState extends State<VideoPullRefreshWidget> {
   Widget build(BuildContext context) {
     return SmartRefresher(
         enablePullDown: true,
-        enablePullUp: true,
+        enablePullUp: false,
         header: ClassicHeader(),
         controller: _refreshController,
         onRefresh: _dispatchVideoData,
-        child: BlocProvider(
-          create: (_) => container<VideoBloc>(),
-          child: CustomScrollView(slivers: [
+        child: CustomScrollView(
+          slivers: [
             NavigationMainScrollableWidget(title: Strings.titleVideo),
             SliverToBoxAdapter(
               child: VideoContainer(),
             )
-          ]),
+          ],
         ));
   }
 
@@ -85,19 +86,6 @@ class VideoContainer extends StatefulWidget {
 }
 
 class _VideoContainer extends State<VideoContainer> {
-  @override
-  void initState() {
-    super.initState();
-    // _refreshController.refreshCompleted();
-    _dispatchVideoData();
-  }
-
-  @override
-  void dispose() {
-    // _refreshController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<VideoBloc, VideoState>(builder: (bloc, state) {
