@@ -31,6 +31,11 @@ class VideoBloc extends Bloc<VideoEvent, VideoState> {
       yield videoList.fold(
           (failure) => Error(message: _mapFailureToErrorMessage(failure)),
           (videoList) => Loaded(videoList: videoList));
+    } else if (event is RefreshVideoList) {
+      final videoList = await getVideoList(NoParams());
+      yield videoList.fold(
+          (failure) => Error(message: _mapFailureToErrorMessage(failure)),
+          (videoList) => Loaded(videoList: videoList));
     }
   }
 
