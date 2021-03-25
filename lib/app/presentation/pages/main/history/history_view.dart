@@ -25,35 +25,44 @@ import 'bloc/history_bloc.dart';
 class HistoryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => container<HistoryBloc>(),
-      child: DefaultTabController(
-          length: 3,
-          child: Container(
-            color: Theme.of(context).accentColor,
-            child: SafeArea(
-              child: NestedScrollView(
-                headerSliverBuilder: (context, innerBoxIsScrolled) {
-                  return [
-                    NavigationMainScrollableWidget(title: Strings.titleHistory),
-                    // SliverToBoxAdapter(
-                    //   child: HistoryTabBar(),
-                    // )
-                  ];
-                },
-                body: Scaffold(
-                  appBar: HistoryTabBar(),
-                  body: TabBarView(children: [
-                    HistoryListContainer(
+    return DefaultTabController(
+      length: 3,
+      child: Container(
+        color: Theme.of(context).accentColor,
+        child: SafeArea(
+          child: NestedScrollView(
+            headerSliverBuilder: (context, innerBoxIsScrolled) {
+              return [
+                NavigationMainScrollableWidget(title: Strings.titleHistory),
+                // SliverToBoxAdapter(
+                //   child: HistoryTabBar(),
+                // )
+              ];
+            },
+            body: Scaffold(
+              appBar: HistoryTabBar(),
+              body: TabBarView(children: [
+                BlocProvider(
+                    create: (_) => container<HistoryBloc>(),
+                    child: HistoryListContainer(
+                      key: PageStorageKey("gold"),
                       jewelryType: JewelryType.gold,
-                    ),
-                    HistoryListContainer(jewelryType: JewelryType.platinum),
-                    HistoryListContainer(jewelryType: JewelryType.silver),
-                  ]),
-                ),
-              ),
+                    )),
+                BlocProvider(
+                    create: (_) => container<HistoryBloc>(),
+                    child: HistoryListContainer(
+                        key: PageStorageKey("platinum"),
+                        jewelryType: JewelryType.platinum)),
+                BlocProvider(
+                    create: (_) => container<HistoryBloc>(),
+                    child: HistoryListContainer(
+                        key: PageStorageKey("sliver"),
+                        jewelryType: JewelryType.silver)),
+              ]),
             ),
-          )),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -98,7 +107,8 @@ class HistoryListContainer extends StatefulWidget {
   _HistoryListContainerState createState() => _HistoryListContainerState();
 }
 
-class _HistoryListContainerState extends State<HistoryListContainer> {
+class _HistoryListContainerState extends State<HistoryListContainer>
+    with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
     super.initState();
@@ -124,13 +134,15 @@ class _HistoryListContainerState extends State<HistoryListContainer> {
 
   void _dispatchInitHistoryData() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      BlocProvider.of<HistoryBloc>(context, listen: false).add(
-          GetSearchedHistoryList(
-              period: Period.daily,
-              exchangeState: ExchangeState.buy,
-              jewelryType: widget.jewelryType));
+      context.read<HistoryBloc>().add(GetSearchedHistoryList(
+          period: Period.daily,
+          exchangeState: ExchangeState.buy,
+          jewelryType: widget.jewelryType));
     });
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class _LoadingListWidget extends StatelessWidget {
@@ -156,7 +168,8 @@ class _LoadingListWidget extends StatelessWidget {
                       label: Text(
                           '${Period.daily.toSortTitleInScreen()}' +
                               '${ExchangeState.buy.toSortTitleInScreen()}',
-                          style: TextPrimaryStyles.defaultStyle(context))),
+                          style: TextPrimaryContrastingStyles.defaultStyle(
+                              context))),
                 ),
                 Container(
                   width: double.infinity,
@@ -222,7 +235,8 @@ class HistoryListWidget extends StatelessWidget {
                     label: Text(
                         '${period.toSortTitleInScreen()}' +
                             '${exchangeState.toSortTitleInScreen()}',
-                        style: TextPrimaryStyles.defaultStyle(context))),
+                        style: TextPrimaryContrastingStyles.defaultStyle(
+                            context))),
               ),
               HistoryLineChart(historyList: historyList.historyList)
             ],
@@ -231,7 +245,11 @@ class HistoryListWidget extends StatelessWidget {
 
         return HistoryItemWidget(historyItem: historyList.historyList[index]);
       },
-      separatorBuilder: (context, index) => Divider(),
+      separatorBuilder: (context, index) => index != 0
+          ? Divider(color: Theme.of(context).primaryColor)
+          : Container(
+              height: 30,
+            ),
       itemCount: historyList.historyList.length,
       shrinkWrap: true,
       scrollDirection: Axis.vertical,
@@ -263,35 +281,36 @@ class HistoryListWidget extends StatelessWidget {
             pickerdata: new JsonDecoder().convert(PickerData)),
         changeToFirst: true,
         textAlign: TextAlign.left,
+        headercolor: Colors.white,
+        containerColor: Colors.white,
+        confirmText: Strings.confirm,
+        cancelText: Strings.cancel,
         columnPadding: const EdgeInsets.all(8.0),
         onConfirm: (Picker picker, List value) {
           print(value.toString());
           print(picker.getSelectedValues());
-          _dispatchInitHistoryData(context, picker.getSelectedValues());
+          _dispatchInitHistoryData(context, value);
         }).showModal(context);
   }
 
   void _dispatchInitHistoryData(
       BuildContext context, List<int> selectedValues) {
-    Period period = Period.daily;
-    if (selectedValues.first == 1) {
-      period = Period.monthly;
-    } else if (selectedValues.first == 2) {
-      period = Period.monthly;
-    }
-
     ExchangeState exchangeState = ExchangeState.buy;
-    if (selectedValues.last == 1) {
+    if (selectedValues.first == 1) {
       exchangeState = ExchangeState.sell;
     }
 
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      BlocProvider.of<HistoryBloc>(context, listen: false).add(
-          GetSearchedHistoryList(
-              period: period,
-              exchangeState: exchangeState,
-              jewelryType: jewelryType));
-    });
+    Period period = Period.daily;
+    if (selectedValues.last == 1) {
+      period = Period.monthly;
+    } else if (selectedValues.last == 2) {
+      period = Period.yearly;
+    }
+
+    context.read<HistoryBloc>().add(GetSearchedHistoryList(
+        period: period,
+        exchangeState: exchangeState,
+        jewelryType: jewelryType));
   }
 }
 
@@ -315,17 +334,18 @@ class HistoryItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 40.0,
       child: Row(
         children: [
           Expanded(
             child: Text(
               historyItem.date,
-              style: TextPrimaryStyles.defaultStyle(context),
+              style: TextPrimaryContrastingStyles.defaultStyle(context),
             ),
           ),
           Text(
-            '${historyItem.price}',
-            style: TextPrimaryStyles.defaultStyle(context),
+            '${historyItem.price.toNumberFormat()}원',
+            style: TextPrimaryContrastingStyles.defaultStyle(context),
           )
         ],
       ),

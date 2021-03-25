@@ -58,7 +58,6 @@ dependencies:
   shimmer: ^1.1.2
   flutter_screenutil: ^4.0.3+2
   lottie: ^0.7.0+1
-  pull_to_refresh: ^1.6.4
   cached_network_image: ^2.5.1
 
   ### Platform

@@ -25,4 +25,7 @@ class Strings {
 
   static const sortExchangeStateBuy = '판매가';
   static const sortExchangeStateSell = '구매가';
+
+  static const confirm = '적용';
+  static const cancel = '취소';
 }
