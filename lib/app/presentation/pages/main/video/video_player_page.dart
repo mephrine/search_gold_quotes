@@ -108,7 +108,9 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
           const SizedBox(width: 8.0),
           Expanded(
             child: Text(
-              _controller.metadata.title,
+              _controller.metadata.title == null
+                  ? Strings.titleVideo
+                  : _controller.metadata.title,
               style: TextPrimaryContrastingStyles.titleStyle(context),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,

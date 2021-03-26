@@ -122,10 +122,14 @@ class _HistoryListContainerState extends State<HistoryListContainer>
         return _LoadingListWidget();
       } else if (state is Loaded) {
         return HistoryListWidget(
-            jewelryType: widget.jewelryType,
-            period: state.period,
-            exchangeState: state.exchangeState,
-            historyList: state.historyList);
+          jewelryType: widget.jewelryType,
+          period: state.period,
+          exchangeState: state.exchangeState,
+          historyList: state.historyList,
+          maxPrice: state.maxPrice,
+          middlePrice: state.middlePrice,
+          minPrice: state.minPrice,
+        );
       } else if (state is Error) {
         return _ErrorWidget(errorMessage: state.errorMessage);
       }
@@ -208,13 +212,19 @@ class HistoryListWidget extends StatelessWidget {
   final Period period;
   final ExchangeState exchangeState;
   final HistoryJewelryList historyList;
+  final double maxPrice;
+  final double minPrice;
+  final double middlePrice;
 
   const HistoryListWidget(
       {Key key,
       @required this.jewelryType,
       @required this.period,
       @required this.exchangeState,
-      @required this.historyList})
+      @required this.historyList,
+      @required this.maxPrice,
+      @required this.minPrice,
+      @required this.middlePrice})
       : super(key: key);
 
   @override
@@ -238,7 +248,12 @@ class HistoryListWidget extends StatelessWidget {
                         style: TextPrimaryContrastingStyles.defaultStyle(
                             context))),
               ),
-              HistoryLineChart(historyList: historyList.historyList)
+              HistoryLineChart(
+                historyList: historyList.historyList,
+                maxPrice: maxPrice,
+                middlePrice: middlePrice,
+                minPrice: minPrice,
+              )
             ],
           );
         }
@@ -353,33 +368,17 @@ class HistoryItemWidget extends StatelessWidget {
   }
 }
 
-class HistoryLineChart extends StatefulWidget {
+class HistoryLineChart extends StatelessWidget {
   final List<HistoryJewelry> historyList;
+  final double maxPrice;
+  final double minPrice;
+  final double middlePrice;
 
-  HistoryLineChart({@required this.historyList});
-
-  @override
-  State<StatefulWidget> createState() => _HistoryLineChartState();
-}
-
-class _HistoryLineChartState extends State<HistoryLineChart> {
-  bool isShowingMainData;
-  double maxPrice;
-  double minPrice;
-  double middlePrice;
-
-  @override
-  void initState() {
-    super.initState();
-    isShowingMainData = true;
-    maxPrice = widget.historyList
-        .map((item) => double.tryParse(item.price) ?? 0)
-        .reduce((current, next) => current > next ? current : next);
-    minPrice = widget.historyList
-        .map((item) => double.tryParse(item.price) ?? 0)
-        .reduce((current, next) => current < next ? current : next);
-    middlePrice = minPrice + (maxPrice - minPrice) ~/ 2.0;
-  }
+  HistoryLineChart(
+      {@required this.historyList,
+      @required this.maxPrice,
+      @required this.minPrice,
+      @required this.middlePrice});
 
   @override
   Widget build(BuildContext context) {
@@ -433,7 +432,7 @@ class _HistoryLineChartState extends State<HistoryLineChart> {
                     padding: const EdgeInsets.only(
                         right: Dimens.margin, left: Dimens.spacing),
                     child: LineChart(
-                      sampleData1(),
+                      historyLineChartData(context),
                       swapAnimationDuration: const Duration(milliseconds: 250),
                     ),
                   ),
@@ -449,7 +448,7 @@ class _HistoryLineChartState extends State<HistoryLineChart> {
     );
   }
 
-  LineChartData sampleData1() {
+  LineChartData historyLineChartData(BuildContext context) {
     return LineChartData(
       lineTouchData: LineTouchData(
         touchTooltipData: LineTouchTooltipData(
@@ -526,7 +525,7 @@ class _HistoryLineChartState extends State<HistoryLineChart> {
       maxX: 14,
       maxY: maxPrice,
       minY: minPrice - 5000,
-      lineBarsData: linesBarData(widget.historyList
+      lineBarsData: linesBarData(historyList
           .map((item) => (double.tryParse(item.price) ?? 0.0))
           .toList()),
     );

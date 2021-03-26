@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -35,8 +36,25 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
           (result) => Loaded(
               period: event.period,
               exchangeState: event.exchangeState,
-              historyList: result));
+              historyList: result,
+              maxPrice: getMaxPrice(result),
+              minPrice: getMinPrice(result),
+              middlePrice: getMiddlePrice(result)));
     }
+  }
+
+  double getMaxPrice(HistoryJewelryList historyList) => historyList.historyList
+      .map((item) => double.tryParse(item.price) ?? 0)
+      .reduce((current, next) => current > next ? current : next);
+
+  double getMinPrice(HistoryJewelryList historyList) => historyList.historyList
+      .map((item) => double.tryParse(item.price) ?? 0)
+      .reduce((current, next) => current < next ? current : next);
+
+  double getMiddlePrice(HistoryJewelryList historyList) {
+    final minPrice = getMinPrice(historyList);
+    final maxPrice = getMaxPrice(historyList);
+    return minPrice + (maxPrice - minPrice) ~/ 2.0;
   }
 
   String failureToErrorMessage(Failure failure) {
