@@ -249,11 +249,11 @@ class HistoryListWidget extends StatelessWidget {
                             context))),
               ),
               HistoryLineChart(
-                historyList: historyList.historyList,
-                maxPrice: maxPrice,
-                middlePrice: middlePrice,
-                minPrice: minPrice,
-              )
+                  historyList: historyList.historyList,
+                  maxPrice: maxPrice,
+                  middlePrice: middlePrice,
+                  minPrice: minPrice,
+                  chartTitle: jewelryType.toSortTitleInScreen())
             ],
           );
         }
@@ -373,12 +373,14 @@ class HistoryLineChart extends StatelessWidget {
   final double maxPrice;
   final double minPrice;
   final double middlePrice;
+  final String chartTitle;
 
   HistoryLineChart(
       {@required this.historyList,
       @required this.maxPrice,
       @required this.minPrice,
-      @required this.middlePrice});
+      @required this.middlePrice,
+      @required this.chartTitle});
 
   @override
   Widget build(BuildContext context) {
@@ -416,7 +418,7 @@ class HistoryLineChart extends StatelessWidget {
                   height: 4,
                 ),
                 Text(
-                  '오늘의 시세',
+                  chartTitle,
                   style: TextStyle(
                       color: Theme.of(context).primaryColor,
                       fontSize: 32,
