@@ -165,10 +165,11 @@ class _VideoListWidgetState extends State<_VideoListWidget> {
   }
 
   void _pushToVideoPlayerPage(BuildContext context, int index) {
-    context.router.push(VideoPlayerPage(
-        youtubeIDList:
-            widget.videoList.itemList.map((item) => item.linkURL).toList(),
-        startIndex: index));
+    context.rootNavigator.push(AppRoute.videoPlayerPage,
+        arguments: VideoPlayerPageArguments(
+            youtubeIDList:
+                widget.videoList.itemList.map((item) => item.linkURL).toList(),
+            startIndex: index));
   }
 
   Future<void> _onRefresh() async {

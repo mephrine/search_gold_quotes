@@ -34,7 +34,7 @@ class NavigationMainWidget extends StatelessWidget with PreferredSizeWidget {
   }
 
   void presentToSettingPage(BuildContext context) {
-    context.router.push(SettingPage());
+    context.rootNavigator.push(AppRoute.settingPage);
   }
 
   @override

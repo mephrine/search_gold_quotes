@@ -17,7 +17,7 @@ class NavigationPushWidget extends StatelessWidget with PreferredSizeWidget {
           padding: EdgeInsets.fromLTRB(Dimens.margin, 0, 0, 0),
           child: Icon(Icons.arrow_back_outlined,
               color: Palette.iconColor, size: Dimens.iconSizeTitle),
-          onPressed: () => context.router.pop()),
+          onPressed: () => context.rootNavigator.pop()),
       title: Text(
         title,
         style: TextStyle(

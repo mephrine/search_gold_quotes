@@ -82,8 +82,11 @@ class _SplashView extends State<SplashView> {
   void _push(int delaySeconds) async {
     // Timer(
     //     Duration(seconds: delaySeconds),
-    context.router.pushAndRemoveUntil(MainPage(), predicate: (routes) {
-      return false;
-    }, onFailure: (routes) {});
+    context.rootNavigator
+        .pushAndRemoveUntil(AppRoute.mainPage, (route) => false);
+    // context.rootNavigator.pushAndRemoveUntil(AppRoute.mainPage,
+    //     predicate: (routes) {
+    //   return false;
+    // }, onFailure: (routes) {});
   }
 }

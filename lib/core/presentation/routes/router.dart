@@ -8,7 +8,7 @@ import 'package:search_gold_quotes/app/presentation/pages/setting/theme_page.dar
 import 'package:search_gold_quotes/app/presentation/pages/setting/version_info_page.dart';
 
 @AdaptiveAutoRouter(
-  routesClassName: 'App,Route',
+  routesClassName: 'AppRoute',
   routes: <AutoRoute>[
     AutoRoute(page: SplashPage, initial: true),
     AutoRoute(page: MainPage),
