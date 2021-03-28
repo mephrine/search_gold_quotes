@@ -47,7 +47,7 @@ class ThemeNotifier with ChangeNotifier {
     backgroundColor: Colors.black,
     indicatorColor: Colors.white,
     scaffoldBackgroundColor: Colors.black,
-    dialogBackgroundColor: Colors.black54,
+    // dialogBackgroundColor: Colors.black54,
     bottomAppBarColor: Colors.black,
     accentColor: Colors.black,
   );
@@ -60,7 +60,7 @@ class ThemeNotifier with ChangeNotifier {
     backgroundColor: Colors.white,
     indicatorColor: Colors.blue,
     scaffoldBackgroundColor: Colors.white,
-    dialogBackgroundColor: Colors.white,
+    // dialogBackgroundColor: Colors.white,
     bottomAppBarColor: Colors.white,
     accentColor: Colors.blue,
   );
