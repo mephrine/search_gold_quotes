@@ -55,15 +55,18 @@ class SettingView extends StatelessWidget {
   }
 
   void _pushToThemePage(BuildContext context, String title) {
-    context.router.push(ThemePage(title: title));
+    context.rootNavigator
+        .push(AppRoute.themePage, arguments: ThemePageArguments(title: title));
   }
 
   void _pushToOpenSourceLicensePage(BuildContext context, String title) {
-    context.router.push(OpenSourceLicensePage(title: title));
+    context.rootNavigator.push(AppRoute.openSourceLicensePage,
+        arguments: OpenSourceLicensePageArguments(title: title));
   }
 
   void _pushToVersionInfoPage(BuildContext context, String title) {
-    context.router.push(VersionInfoPage(title: title));
+    context.rootNavigator.push(AppRoute.versionInfoPage,
+        arguments: VersionInfoPageArguments(title: title));
   }
 }
 

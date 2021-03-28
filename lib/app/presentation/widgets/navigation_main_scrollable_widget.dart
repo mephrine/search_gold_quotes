@@ -37,7 +37,7 @@ class NavigationMainScrollableWidget extends StatelessWidget
   }
 
   void presentToSettingPage(BuildContext context) {
-    context.router.push(SettingPage());
+    context.rootNavigator.push(AppRoute.settingPage);
   }
 
   @override

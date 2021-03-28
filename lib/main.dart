@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:search_gold_quotes/app/presentation/pages/intro/splash_page.dart';
 import 'core/di/injection_container.dart' as di;
 import 'core/presentation/routes/router.gr.dart';
 import 'core/theme/theme_notifier.dart';
@@ -11,7 +13,7 @@ void main() async {
 }
 
 class Main extends StatelessWidget {
-  final _appRouter = AppRouter();
+  // final _appRouter = AppRouter();
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +24,18 @@ class Main extends StatelessWidget {
         return MaterialApp(
           theme: themeService.getTheme(),
           debugShowCheckedModeBanner: false,
-          home: MaterialApp.router(
-            routerDelegate: _appRouter.delegate(),
-            routeInformationParser: _appRouter.defaultRouteParser(),
+          builder: ExtendedNavigator.builder(
+            router: AppRouter(),
+            builder: (context, extendedNav) => Theme(
+              data: themeService.getTheme(),
+              child: extendedNav,
+            ),
           ),
+          home: SplashView(),
+          // MaterialApp.router(
+          // routerDelegate: _appRouter .delegate(),
+          // routeInformationParser: _appRouter.defaultRouteParser(),
+          // ),
         );
       }),
     );
