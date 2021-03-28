@@ -9,13 +9,10 @@ import 'package:search_gold_quotes/core/usecases/usecase.dart';
 class GetVideoList extends UseCase<VideoList, NoParams> {
   final VideoRepository repository;
 
-  GetVideoList({
-    @required this.repository
-  });
+  GetVideoList({@required this.repository});
 
   @override
-  Future<Either<Failure, VideoList>> call(NoParams parms) async {
+  Future<Either<Failure, VideoList>> call(NoParams params) async {
     return await repository.getVideoList();
   }
-
 }

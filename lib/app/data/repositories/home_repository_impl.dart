@@ -13,11 +13,10 @@ class HomeRepositoryImpl extends HomeRepository {
   final HomeDataRemoteDataSource remoteDataSource;
   final HomeDataLocalDataSource localDataSource;
 
-  HomeRepositoryImpl({
-    @required this.networkInfo,
-    @required this.remoteDataSource,
-    @required this.localDataSource
-  });
+  HomeRepositoryImpl(
+      {@required this.networkInfo,
+      @required this.remoteDataSource,
+      @required this.localDataSource});
 
   @override
   Future<Either<Failure, HomeData>> getHomeData() async {

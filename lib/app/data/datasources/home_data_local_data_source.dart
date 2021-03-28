@@ -11,17 +11,16 @@ abstract class HomeDataLocalDataSource {
 }
 
 const String CACHED_MAIN_DATA = "CACHED_MAIN_DATA";
+
 class HomeDataLocalDataSourceImpl implements HomeDataLocalDataSource {
   final SharedPreferences sharedPreferences;
 
-  HomeDataLocalDataSourceImpl({
-    @required this.sharedPreferences
-  });
+  HomeDataLocalDataSourceImpl({@required this.sharedPreferences});
 
   @override
   Future<HomeDataModel> getLastHomeData() {
     final jsonString = sharedPreferences.getString(CACHED_MAIN_DATA);
-    if(jsonString != null) {
+    if (jsonString != null) {
       return Future.value(HomeDataModel.fromJson(json.decode(jsonString)));
     }
     throw CacheException();
@@ -32,5 +31,4 @@ class HomeDataLocalDataSourceImpl implements HomeDataLocalDataSource {
     final jsonString = json.encode(homeDataModel).toString();
     return await sharedPreferences.setString(CACHED_MAIN_DATA, jsonString);
   }
-
 }

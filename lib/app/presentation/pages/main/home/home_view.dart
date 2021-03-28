@@ -4,21 +4,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:search_gold_quotes/app/domain/entities/home_data.dart';
 import 'package:search_gold_quotes/app/domain/entities/home_gold.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/home/home/home_bloc.dart';
 import 'package:search_gold_quotes/app/presentation/style/TextStyles.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/message_display.dart';
+import 'package:search_gold_quotes/app/presentation/widgets/navigation_main_widget.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
-import 'package:search_gold_quotes/core/values/dimens.dart' as dimens;
+import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
+import 'package:search_gold_quotes/core/values/colors.dart';
+import 'package:search_gold_quotes/core/values/dimens.dart';
+import 'package:search_gold_quotes/core/values/strings.dart';
+import 'package:search_gold_quotes/core/extensions/number.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => container<HomeBloc>(),
-      child: HomeContainer(),
-    );
+        create: (_) => container<HomeBloc>(),
+        child: Scaffold(
+          appBar: NavigationMainWidget(title: Strings.titleHome),
+          body: HomeContainer(),
+        ));
   }
 }
 
@@ -60,8 +69,55 @@ class _LoadingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //Todo.
-    return Container();
+    return Shimmer.fromColors(
+        baseColor: Colors.grey[300],
+        highlightColor: Colors.grey[100],
+        enabled: true,
+        child: Padding(
+          padding: const EdgeInsets.only(right: 16.0, left: 16.0),
+          child: Column(children: [
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              color: Colors.white,
+              width: double.infinity,
+              height: 20,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              color: Colors.white,
+              width: double.infinity,
+              height: 14,
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Expanded(
+              child: Container(
+                color: Colors.white,
+                width: double.infinity,
+                height: double.infinity,
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Positioned(
+                bottom: 0.0,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                      0.0, 0.0, 0.0, Dimens.mainTabBarCurveMargin),
+                  child: Container(
+                    color: Colors.white,
+                    width: double.infinity,
+                    height: 100,
+                  ),
+                )),
+          ]),
+        ));
   }
 }
 
@@ -72,35 +128,35 @@ class _HomeLoadedWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      SizedBox(
-        height: 20,
-      ),
-      FamousQuotesAnimationWidget(
-        famousQuotes: homeData.famousQuotes,
-      ),
-      SizedBox(
-        height: 20,
-      ),
-      Text(homeData.referenceSiteName,
-          style: TextPrimaryContrastingStyles.defaultStyle(context)),
-      SizedBox(
-        height: 30,
-      ),
-      Expanded(
-        child: Padding(
-          padding: const EdgeInsets.only(right: 16.0, left: 6.0),
+    return Padding(
+      padding: const EdgeInsets.only(right: 16.0, left: 16.0),
+      child: Column(children: [
+        SizedBox(
+          height: 20,
+        ),
+        FamousQuotesAnimationWidget(
+          famousQuotes: homeData.famousQuotes,
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Text(homeData.referenceSiteName,
+            style: TextPrimaryContrastingStyles.defaultStyle(context)),
+        SizedBox(
+          height: 30,
+        ),
+        Expanded(
           child: TodayGoldLineChart(goldList: homeData.goldList),
         ),
-      ),
-      SizedBox(
-        height: 30,
-      ),
-      Positioned(
-        bottom: 0.0,
-        child: TodayGoldPriceWidget(goldList: homeData.goldList),
-      ),
-    ]);
+        SizedBox(
+          height: 30,
+        ),
+        Positioned(
+          bottom: 0.0,
+          child: TodayGoldPriceWidget(goldList: homeData.goldList),
+        ),
+      ]),
+    );
   }
 }
 
@@ -121,7 +177,7 @@ class TodayGoldPriceWidget extends StatelessWidget {
         ],
       ),
       margin: EdgeInsets.fromLTRB(
-          dimens.margin, 0, dimens.margin, dimens.mainTabBarCurveMargin),
+          Dimens.margin, 0, Dimens.margin, Dimens.mainTabBarCurveMargin),
     );
   }
 }
@@ -143,18 +199,18 @@ class _TodayGoldPriceItemWidgetState extends State<TodayGoldPriceItemWidget> {
       children: [
         Text(widget.homeGold.day,
             style: TextStyle(
-                fontSize: dimens.fontTextBig,
+                fontSize: Dimens.fontTextBig,
                 color: Colors.redAccent,
                 fontWeight: FontWeight.bold)),
         Text(widget.homeGold.date,
             style: TextStyle(
-                fontSize: dimens.fontTextSmall,
-                color: Colors.blueAccent,
+                fontSize: Dimens.fontTextSmall,
+                color: Theme.of(context).primaryColorDark,
                 fontWeight: FontWeight.bold)),
-        Text(widget.homeGold.price,
+        Text(widget.homeGold.price.toNumberFormat(),
             style: TextStyle(
-                fontSize: dimens.fontTextTitle,
-                color: Colors.blueAccent,
+                fontSize: Dimens.fontTextTitle,
+                color: Theme.of(context).primaryColorDark,
                 fontWeight: FontWeight.bold)),
       ],
     );
@@ -191,35 +247,35 @@ class TodayGoldLineChart extends StatefulWidget {
 
 class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
   bool isShowingMainData;
-  int maxPrice;
-  int minPrice;
-  int middlePrice;
+  double maxPrice;
+  double minPrice;
+  double middlePrice;
 
   @override
   void initState() {
     super.initState();
     isShowingMainData = true;
     maxPrice = widget.goldList
-        .map((item) => int.tryParse(item.price) ?? 0)
+        .map((item) => double.tryParse(item.price) ?? 0)
         .reduce((current, next) => current > next ? current : next);
     minPrice = widget.goldList
-        .map((item) => int.tryParse(item.price) ?? 0)
+        .map((item) => double.tryParse(item.price) ?? 0)
         .reduce((current, next) => current < next ? current : next);
-    middlePrice = minPrice + (maxPrice - minPrice) ~/ 2;
+    middlePrice = minPrice + (maxPrice - minPrice) ~/ 2.0;
   }
 
   @override
   Widget build(BuildContext context) {
+    ThemeNotifier themeService = Provider.of<ThemeNotifier>(context);
     return AspectRatio(
       aspectRatio: 1.23,
       child: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(18)),
           gradient: LinearGradient(
-            colors: [
-              Color(0xff2c274c),
-              Color(0xff46426c),
-            ],
+            colors: (themeService.getThemeIsDark() ?? false)
+                ? Palette.chartBackgroundDarkColor
+                : Palette.chartBackgroundLightColor,
             begin: Alignment.bottomCenter,
             end: Alignment.topCenter,
           ),
@@ -232,10 +288,10 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
                 const SizedBox(
                   height: 37,
                 ),
-                const Text(
+                Text(
                   '2021',
                   style: TextStyle(
-                    color: Color(0xff827daa),
+                    color: Theme.of(context).primaryColor,
                     fontSize: 16,
                   ),
                   textAlign: TextAlign.center,
@@ -243,10 +299,10 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
                 const SizedBox(
                   height: 4,
                 ),
-                const Text(
+                Text(
                   '오늘의 시세',
                   style: TextStyle(
-                      color: Colors.white,
+                      color: Theme.of(context).primaryColor,
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 2),
@@ -258,9 +314,9 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(
-                        right: dimens.margin, left: dimens.spacing),
+                        right: Dimens.margin, left: Dimens.spacing),
                     child: LineChart(
-                      isShowingMainData ? sampleData1() : sampleData2(),
+                      sampleData1(),
                       swapAnimationDuration: const Duration(milliseconds: 250),
                     ),
                   ),
@@ -270,17 +326,6 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
                 ),
               ],
             ),
-            IconButton(
-              icon: Icon(
-                Icons.refresh,
-                color: Colors.white.withOpacity(isShowingMainData ? 1.0 : 0.5),
-              ),
-              onPressed: () {
-                setState(() {
-                  isShowingMainData = !isShowingMainData;
-                });
-              },
-            )
           ],
         ),
       ),
@@ -303,8 +348,8 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
         bottomTitles: SideTitles(
           showTitles: true,
           reservedSize: 22,
-          getTextStyles: (value) => const TextStyle(
-            color: Color(0xff72719b),
+          getTextStyles: (value) => TextStyle(
+            color: Theme.of(context).primaryColor,
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
@@ -323,19 +368,18 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
         ),
         leftTitles: SideTitles(
           showTitles: true,
-          getTextStyles: (value) => const TextStyle(
-            color: Color(0xff75729e),
+          getTextStyles: (value) => TextStyle(
+            color: Theme.of(context).primaryColor,
             fontWeight: FontWeight.bold,
-            fontSize: 14,
+            fontSize: 16,
           ),
           getTitles: (value) {
-            switch (value.toInt()) {
-              case 1:
-                return '$maxPrice 원';
-              case 2:
-                return '$middlePrice 원';
-              case 3:
-                return '$minPrice 원';
+            if (value == maxPrice) {
+              return '${maxPrice.toInt().toNumberFormat()} 원';
+            } else if (value == middlePrice) {
+              return '${middlePrice.toInt().toNumberFormat()}원';
+            } else if (value == minPrice) {
+              return '${minPrice.toInt().toNumberFormat()}원';
             }
             return '';
           },
@@ -345,9 +389,9 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
       ),
       borderData: FlBorderData(
         show: true,
-        border: const Border(
+        border: Border(
           bottom: BorderSide(
-            color: Color(0xff4e4965),
+            color: Theme.of(context).primaryColor,
             width: 4,
           ),
           left: BorderSide(
@@ -363,16 +407,16 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
       ),
       minX: 0,
       maxX: 14,
-      maxY: 220000,
-      minY: 0,
+      maxY: maxPrice,
+      minY: minPrice - 5000,
       lineBarsData: linesBarData(widget.goldList
-          .map((item) => double.tryParse(item.price) ?? 0.0)
+          .map((item) => (double.tryParse(item.price) ?? 0.0))
           .toList()),
     );
   }
 
   List<LineChartBarData> linesBarData(List<double> priceList) {
-    final LineChartBarData lineChartBarData1 = LineChartBarData(
+    final LineChartBarData lineChartBarData = LineChartBarData(
       spots: [
         FlSpot(1, priceList[0]),
         FlSpot(7, priceList[1]),
@@ -380,7 +424,7 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
       ],
       isCurved: true,
       colors: [
-        const Color(0xff4af699),
+        Colors.redAccent,
       ],
       barWidth: 8,
       isStrokeCapRound: true,
@@ -391,200 +435,6 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
         show: false,
       ),
     );
-    final LineChartBarData lineChartBarData2 = LineChartBarData(
-      spots: [
-        FlSpot(1, 190000),
-        FlSpot(7, 200000),
-        FlSpot(13, 210000),
-      ],
-      isCurved: true,
-      colors: [
-        const Color(0xffaa4cfc),
-      ],
-      barWidth: 8,
-      isStrokeCapRound: true,
-      dotData: FlDotData(
-        show: false,
-      ),
-      belowBarData: BarAreaData(show: false, colors: [
-        const Color(0x00aa4cfc),
-      ]),
-    );
-    final LineChartBarData lineChartBarData3 = LineChartBarData(
-      spots: [
-        FlSpot(1, 280000),
-        FlSpot(7, 150000),
-        FlSpot(13, 230000),
-      ],
-      isCurved: true,
-      colors: const [
-        Color(0xff27b6fc),
-      ],
-      barWidth: 8,
-      isStrokeCapRound: true,
-      dotData: FlDotData(
-        show: false,
-      ),
-      belowBarData: BarAreaData(
-        show: false,
-      ),
-    );
-    return [
-      lineChartBarData1,
-      lineChartBarData2,
-      lineChartBarData3,
-    ];
-  }
-
-  LineChartData sampleData2() {
-    return LineChartData(
-      lineTouchData: LineTouchData(
-        enabled: false,
-      ),
-      gridData: FlGridData(
-        show: false,
-      ),
-      titlesData: FlTitlesData(
-        bottomTitles: SideTitles(
-          showTitles: true,
-          reservedSize: 22,
-          getTextStyles: (value) => const TextStyle(
-            color: Color(0xff72719b),
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
-          margin: 10,
-          getTitles: (value) {
-            switch (value.toInt()) {
-              case 2:
-                return 'SEPT';
-              case 7:
-                return 'OCT';
-              case 12:
-                return 'DEC';
-            }
-            return '';
-          },
-        ),
-        leftTitles: SideTitles(
-          showTitles: true,
-          getTextStyles: (value) => const TextStyle(
-            color: Color(0xff75729e),
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-          ),
-          getTitles: (value) {
-            switch (value.toInt()) {
-              case 1:
-                return '1m';
-              case 2:
-                return '2m';
-              case 3:
-                return '3m';
-              case 4:
-                return '5m';
-              case 5:
-                return '6m';
-            }
-            return '';
-          },
-          margin: 8,
-          reservedSize: 30,
-        ),
-      ),
-      borderData: FlBorderData(
-          show: true,
-          border: const Border(
-            bottom: BorderSide(
-              color: Color(0xff4e4965),
-              width: 4,
-            ),
-            left: BorderSide(
-              color: Colors.transparent,
-            ),
-            right: BorderSide(
-              color: Colors.transparent,
-            ),
-            top: BorderSide(
-              color: Colors.transparent,
-            ),
-          )),
-      minX: 0,
-      maxX: 14,
-      maxY: 6,
-      minY: 0,
-      lineBarsData: linesBarData2(),
-    );
-  }
-
-  List<LineChartBarData> linesBarData2() {
-    return [
-      LineChartBarData(
-        spots: [
-          FlSpot(1, 1),
-          FlSpot(3, 4),
-          FlSpot(5, 1.8),
-          FlSpot(7, 5),
-          FlSpot(10, 2),
-          FlSpot(12, 2.2),
-          FlSpot(13, 1.8),
-        ],
-        isCurved: true,
-        curveSmoothness: 0,
-        colors: const [
-          Color(0x444af699),
-        ],
-        barWidth: 4,
-        isStrokeCapRound: true,
-        dotData: FlDotData(
-          show: false,
-        ),
-        belowBarData: BarAreaData(
-          show: false,
-        ),
-      ),
-      LineChartBarData(
-        spots: [
-          FlSpot(1, 1),
-          FlSpot(3, 2.8),
-          FlSpot(7, 1.2),
-          FlSpot(10, 2.8),
-          FlSpot(12, 2.6),
-          FlSpot(13, 3.9),
-        ],
-        isCurved: true,
-        colors: const [
-          Color(0x99aa4cfc),
-        ],
-        barWidth: 4,
-        isStrokeCapRound: true,
-        dotData: FlDotData(
-          show: false,
-        ),
-        belowBarData: BarAreaData(show: true, colors: [
-          const Color(0x33aa4cfc),
-        ]),
-      ),
-      LineChartBarData(
-        spots: [
-          FlSpot(1, 3.8),
-          FlSpot(3, 1.9),
-          FlSpot(6, 5),
-          FlSpot(10, 3.3),
-          FlSpot(13, 4.5),
-        ],
-        isCurved: true,
-        curveSmoothness: 0,
-        colors: const [
-          Color(0x4427b6fc),
-        ],
-        barWidth: 2,
-        isStrokeCapRound: true,
-        dotData: FlDotData(show: true),
-        belowBarData: BarAreaData(
-          show: false,
-        ),
-      ),
-    ];
+    return [lineChartBarData];
   }
 }

@@ -1,7 +1,7 @@
 part of 'video_bloc.dart';
 
 @immutable
-abstract class VideoState extends Equatable{}
+abstract class VideoState extends Equatable {}
 
 class InitialVideoState extends VideoState {
   @override
@@ -15,15 +15,11 @@ class Loading extends InitialVideoState {}
 class Loaded extends InitialVideoState {
   final VideoList videoList;
 
-  Loaded({
-    @required this.videoList
-  });
+  Loaded({@required this.videoList});
 }
 
 class Error extends InitialVideoState {
   final String message;
 
-  Error({
-    @required this.message
-  });
+  Error({@required this.message});
 }

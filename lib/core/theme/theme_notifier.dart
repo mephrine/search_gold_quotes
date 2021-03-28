@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
+import 'package:search_gold_quotes/core/platform/device_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum AppTheme { system, light, dark }
@@ -18,6 +19,19 @@ extension ThemeStyles on AppTheme {
         return 'light';
     }
   }
+
+  int modeValue() {
+    switch (this) {
+      case AppTheme.light:
+        return 0;
+      case AppTheme.dark:
+        return 1;
+      case AppTheme.system:
+        return 2;
+      default:
+        return 0;
+    }
+  }
 }
 
 class ThemeNotifier with ChangeNotifier {
@@ -25,25 +39,31 @@ class ThemeNotifier with ChangeNotifier {
   final SharedPreferences preferences;
 
   final darkTheme = ThemeData(
-    primaryColorDark: Colors.grey,
+    //Text color
+    primaryColorDark: Colors.white,
+    primaryColorLight: Colors.black,
     primaryColor: Colors.white,
     brightness: Brightness.dark,
     backgroundColor: Colors.black,
+    indicatorColor: Colors.white,
     scaffoldBackgroundColor: Colors.black,
     dialogBackgroundColor: Colors.black54,
     bottomAppBarColor: Colors.black,
-    accentColor: Colors.white,
+    accentColor: Colors.black,
   );
 
   final lightTheme = ThemeData(
-      primaryColorLight: Colors.grey,
-      primaryColor: Colors.black,
-      brightness: Brightness.light,
-      backgroundColor: const Color(0xFFE5E5E5),
-      scaffoldBackgroundColor: const Color(0xFFE5E5E5),
-      dialogBackgroundColor: Colors.white,
-      bottomAppBarColor: Colors.blue,
-      accentColor: Colors.blue,);
+    primaryColorDark: Colors.black,
+    primaryColorLight: Colors.white,
+    primaryColor: Colors.black,
+    brightness: Brightness.light,
+    backgroundColor: Colors.white,
+    indicatorColor: Colors.blue,
+    scaffoldBackgroundColor: Colors.white,
+    dialogBackgroundColor: Colors.white,
+    bottomAppBarColor: Colors.white,
+    accentColor: Colors.blue,
+  );
 
   ThemeData _themeData;
 
@@ -67,8 +87,7 @@ class ThemeNotifier with ChangeNotifier {
 
   AppTheme _getSystemAppTheme() {
     try {
-      var brightness = SchedulerBinding.instance.window.platformBrightness;
-      return brightness == Brightness.light ? AppTheme.light : AppTheme.dark;
+      return DeviceUtils.isDarkTheme ? AppTheme.dark : AppTheme.light;
     } catch (nullPointException) {
       return AppTheme.light;
     }

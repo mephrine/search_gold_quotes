@@ -15,9 +15,10 @@ class Empty extends SplashInitial {}
 class Loading extends SplashInitial {}
 
 class Loaded extends SplashInitial {
-  final VersionInfo versionInfo;
+  final bool needsForceUpdate;
+  final String updateMessage;
 
-  Loaded({@required this.versionInfo});
+  Loaded({@required this.needsForceUpdate, @required this.updateMessage});
 }
 
 class Error extends SplashInitial {

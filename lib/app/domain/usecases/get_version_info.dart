@@ -6,15 +6,13 @@ import 'package:search_gold_quotes/core/error/failures.dart';
 import 'package:search_gold_quotes/core/usecases/no_params.dart';
 import 'package:search_gold_quotes/core/usecases/usecase.dart';
 
-class GetVersionInfo extends UseCase<VersionInfo, NoParams>  {
+class GetVersionInfo extends UseCase<VersionInfo, NoParams> {
   VersionRepository repository;
 
-  GetVersionInfo({
-    @required this.repository
-  });
+  GetVersionInfo({@required this.repository});
 
   @override
-  Future<Either<Failure, VersionInfo>> call(NoParams parms) async {
+  Future<Either<Failure, VersionInfo>> call(NoParams params) async {
     return await repository.getVersionInfo();
   }
 }

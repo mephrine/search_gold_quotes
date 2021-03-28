@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:connectivity/connectivity.dart';
@@ -31,18 +30,20 @@ void main() {
     test('check correct url', () async {
       // arrange
       when(mockHttpClient.get(any)).thenAnswer((realInvocation) async =>
-          Response(statusCode: 200, data: json.decode(fixture('version_info.json'))));
+          Response(
+              statusCode: 200,
+              data: json.decode(fixture('version_info.json'))));
 
       // act
       remoteDataSource.getVersionInfo();
       // assert
-      verify(mockHttpClient.get(appInfoURL));
+      verify(mockHttpClient.get(Constants.appInfoURL));
     });
 
     test('should return version info when the response code is 200', () async {
       // arrange
-      when(mockHttpClient.get(any)).thenAnswer((_) async =>
-          Response(statusCode: 200, data: json.decode(fixture('version_info.json'))));
+      when(mockHttpClient.get(any)).thenAnswer((_) async => Response(
+          statusCode: 200, data: json.decode(fixture('version_info.json'))));
       // act
       final result = await remoteDataSource.getVersionInfo();
 
@@ -51,7 +52,9 @@ void main() {
       expect(result, versionInfoModel);
     });
 
-    test('should return version info when the response code is 200 and invalid json', () async {
+    test(
+        'should return version info when the response code is 200 and invalid json',
+        () async {
       // arrange
       when(mockHttpClient.get(any)).thenAnswer((realInvocation) async =>
           Response(statusCode: 200, data: json.decode(fixture('trivia.json'))));
@@ -63,10 +66,12 @@ void main() {
       verify(mockHttpClient.get(any));
     });
 
-    test('should return Parse Exception the response code is 200 and data is null', () async {
+    test(
+        'should return Parse Exception the response code is 200 and data is null',
+        () async {
       // arrange
-      when(mockHttpClient.get(any)).thenAnswer((realInvocation) async =>
-          Response(statusCode: 200, data: null));
+      when(mockHttpClient.get(any)).thenAnswer(
+          (realInvocation) async => Response(statusCode: 200, data: null));
 
       // act
       final call = remoteDataSource.getVersionInfo;
@@ -77,15 +82,14 @@ void main() {
     });
 
     test('should return Failure when the response code is 500', () async {
-        // arrange
-      when(mockHttpClient.get(any))
-          .thenAnswer((_) async => Response(statusCode: 500, statusMessage: 'Server Error'));
-        // act
+      // arrange
+      when(mockHttpClient.get(any)).thenAnswer((_) async =>
+          Response(statusCode: 500, statusMessage: 'Server Error'));
+      // act
       final call = remoteDataSource.getVersionInfo();
 
-        // assert
+      // assert
       expect(() => call, throwsA(isInstanceOf<ServerException>()));
-     });
-
+    });
   });
 }

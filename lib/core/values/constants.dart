@@ -1,7 +1,8 @@
-import 'package:dio/dio.dart';
-
-const apiURL = "https://goldnawa-api.devrartes.com";
-const apiVersion = "/v1.0";
-const appInfoURL = "/api/appVersion";
-const famousSayingURL = "/api/famousSaying";
-const videoListURL = "/main/video";
+class Constants {
+  static const apiURL = "https://goldnawa-api.devrartes.com";
+  static const apiVersion = "/v1.0/api";
+  static const appInfoURL = "/appVersion";
+  static const famousSayingURL = "/famousSaying";
+  static const videoListURL = "/youtubeList";
+  static const historyURL = "/goldPriceHistory";
+}

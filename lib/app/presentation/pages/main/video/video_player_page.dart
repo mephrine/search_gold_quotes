@@ -2,9 +2,10 @@ import 'package:meta/meta.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:search_gold_quotes/app/presentation/style/TextStyles.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/navigation_push_widget.dart';
 import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
-import 'package:search_gold_quotes/core/values/strings.dart' as strings;
+import 'package:search_gold_quotes/core/values/strings.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoPlayerPage extends StatelessWidget {
@@ -16,10 +17,10 @@ class VideoPlayerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeService = Provider.of<ThemeNotifier>(context);
-    return _VideoPlayerView(
-        youtubeIDList: youtubeIDList,
-        index: startIndex,
-        themeData: themeService.getTheme());
+    return MaterialApp(
+      theme: themeService.getTheme(),
+      home: _VideoPlayerView(youtubeIDList: youtubeIDList, index: startIndex),
+    );
   }
 }
 
@@ -28,12 +29,8 @@ class VideoPlayerPage extends StatelessWidget {
 class _VideoPlayerView extends StatefulWidget {
   final List<String> youtubeIDList;
   int index;
-  final ThemeData themeData;
 
-  _VideoPlayerView(
-      {@required this.youtubeIDList,
-      @required this.index,
-      @required this.themeData});
+  _VideoPlayerView({@required this.youtubeIDList, @required this.index});
 
   @override
   _VideoPlayerViewState createState() => _VideoPlayerViewState();
@@ -106,15 +103,15 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
       player: YoutubePlayer(
         controller: _controller,
         showVideoProgressIndicator: true,
-        progressIndicatorColor: Colors.blueAccent,
+        progressIndicatorColor: Theme.of(context).accentColor,
         topActions: <Widget>[
           const SizedBox(width: 8.0),
           Expanded(
             child: Text(
-              _controller.metadata.title,
-              style: const TextStyle(
-                fontSize: 18.0,
-              ),
+              _controller.metadata.title == null
+                  ? Strings.titleVideo
+                  : _controller.metadata.title,
+              style: TextPrimaryContrastingStyles.titleStyle(context),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),
@@ -122,7 +119,7 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
           IconButton(
             icon: Icon(
               Icons.settings,
-              color: widget.themeData.primaryColor,
+              color: Theme.of(context).primaryColor,
               size: 25.0,
             ),
             onPressed: () {
@@ -152,10 +149,10 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   _space,
-                  _text(strings.videoPlayerTitleDescription,
+                  _text(Strings.videoPlayerTitleDescription,
                       _videoMetaData.title),
                   _space,
-                  _text(strings.videoPlayerChannelDescription,
+                  _text(Strings.videoPlayerChannelDescription,
                       _videoMetaData.author),
                   _space,
                   Row(
@@ -197,7 +194,7 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
                       ),
                       FullScreenButton(
                         controller: _controller,
-                        color: widget.themeData.primaryColor,
+                        color: Theme.of(context).primaryColor,
                       ),
                       IconButton(
                         icon: const Icon(Icons.skip_next),
@@ -220,15 +217,11 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
     return RichText(
       text: TextSpan(
         text: '$title : ',
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-        ),
+        style: TextPrimaryContrastingStyles.titleStyle(context),
         children: [
           TextSpan(
             text: value ?? '',
-            style: const TextStyle(
-              fontWeight: FontWeight.w300,
-            ),
+            style: TextPrimaryContrastingStyles.bigStyle(context),
           ),
         ],
       ),

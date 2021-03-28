@@ -6,7 +6,9 @@
         "calDate": "20210315",
         "goldPurity": "C003001",
         "goldPriceType": "S",
-        "goldPrice": "260,500",
+        "minGoldPrice": "195000",
+        "maxGoldPrice": "195000",
+        "avgGoldPrice": "195000",
         "goldCurrency": "C001C001"
       },
       {
@@ -15,7 +17,9 @@
         "calDate": "20210313",
         "goldPurity": "C003001",
         "goldPriceType": "S",
-        "goldPrice": "261,000",
+        "minGoldPrice": "190000",
+        "maxGoldPrice": "190000",
+        "avgGoldPrice": "190000",
         "goldCurrency": "C001C001"
       },
       {
@@ -24,7 +28,9 @@
         "calDate": "20210312",
         "goldPurity": "C003001",
         "goldPriceType": "S",
-        "goldPrice": "260,000",
+        "minGoldPrice": "180000",
+        "maxGoldPrice": "180000",
+        "avgGoldPrice": "180000",
         "goldCurrency": "C001C001"
       }
     ]
