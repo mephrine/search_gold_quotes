@@ -1,12 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
 import 'package:search_gold_quotes/app/presentation/pages/intro/bloc/bloc.dart';
-import 'package:search_gold_quotes/app/presentation/style/TextStyles.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/logo_image_widget.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/lottie_gold_image_widget.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';

@@ -28,4 +28,7 @@ class Strings {
 
   static const confirm = '적용';
   static const cancel = '취소';
+
+  static const appUpdateAlertMessage =
+      '최신 버전이 출시되었습니다.\n스토어에서 업데이트 후 다시 접속해주세요.';
 }

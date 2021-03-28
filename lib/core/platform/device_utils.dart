@@ -10,8 +10,12 @@ class DeviceUtils {
       foundation.defaultTargetPlatform == foundation.TargetPlatform.android;
 
   static Future<String> get version async {
-    final packageInfo = await PackageInfo.fromPlatform();
-    return packageInfo.version;
+    try {
+      final packageInfo = await PackageInfo.fromPlatform();
+      return packageInfo.version;
+    } catch (exception) {
+      return '1.0.0';
+    }
   }
 
   static Size screenSize(BuildContext context) => MediaQuery.of(context).size;
