@@ -4,158 +4,130 @@
 // AutoRouteGenerator
 // **************************************************************************
 
-import 'package:auto_route/auto_route.dart' as _i1;
-import 'package:flutter/material.dart' as _i9;
+// ignore_for_file: public_member_api_docs
 
-import '../../../app/presentation/pages/intro/splash_page.dart' as _i2;
-import '../../../app/presentation/pages/main/main_page.dart' as _i3;
-import '../../../app/presentation/pages/main/video/video_player_page.dart'
-    as _i4;
-import '../../../app/presentation/pages/setting/open_source_license_page.dart'
-    as _i6;
-import '../../../app/presentation/pages/setting/setting_page.dart' as _i5;
-import '../../../app/presentation/pages/setting/theme_page.dart' as _i7;
-import '../../../app/presentation/pages/setting/version_info_page.dart' as _i8;
+import 'package:auto_route/auto_route.dart';
 
-class AppRouter extends _i1.RootStackRouter {
-  AppRouter();
+import '../../../app/presentation/pages/intro/splash_page.dart';
+import '../../../app/presentation/pages/main/main_page.dart';
+import '../../../app/presentation/pages/main/video/video_player_page.dart';
+import '../../../app/presentation/pages/setting/open_source_license_page.dart';
+import '../../../app/presentation/pages/setting/setting_page.dart';
+import '../../../app/presentation/pages/setting/theme_page.dart';
+import '../../../app/presentation/pages/setting/version_info_page.dart';
 
-  @override
-  final Map<String, _i1.PageFactory> pagesMap = {
-    SplashPage.name: (entry) {
-      return _i1.AdaptivePage(entry: entry, child: _i2.SplashPage());
-    },
-    MainPage.name: (entry) {
-      return _i1.AdaptivePage(entry: entry, child: _i3.MainPage());
-    },
-    VideoPlayerPage.name: (entry) {
-      var route = entry.routeData.as<VideoPlayerPage>();
-      return _i1.AdaptivePage(
-          entry: entry,
-          child: _i4.VideoPlayerPage(
-              youtubeIDList: route.youtubeIDList,
-              startIndex: route.startIndex));
-    },
-    SettingPage.name: (entry) {
-      return _i1.AdaptivePage(entry: entry, child: _i5.SettingPage());
-    },
-    OpenSourceLicensePage.name: (entry) {
-      var route = entry.routeData.as<OpenSourceLicensePage>();
-      return _i1.AdaptivePage(
-          entry: entry, child: _i6.OpenSourceLicensePage(title: route.title));
-    },
-    ThemePage.name: (entry) {
-      var route = entry.routeData.as<ThemePage>();
-      return _i1.AdaptivePage(
-          entry: entry, child: _i7.ThemePage(title: route.title));
-    },
-    VersionInfoPage.name: (entry) {
-      var route = entry.routeData.as<VersionInfoPage>();
-      return _i1.AdaptivePage(
-          entry: entry, child: _i8.VersionInfoPage(title: route.title));
-    }
+class AppRoute {
+  static const String splashPage = '/';
+  static const String mainPage = '/main-page';
+  static const String videoPlayerPage = '/video-player-page';
+  static const String settingPage = '/setting-page';
+  static const String openSourceLicensePage = '/open-source-license-page';
+  static const String themePage = '/theme-page';
+  static const String versionInfoPage = '/version-info-page';
+  static const all = <String>{
+    splashPage,
+    mainPage,
+    videoPlayerPage,
+    settingPage,
+    openSourceLicensePage,
+    themePage,
+    versionInfoPage,
   };
+}
 
+class AppRouter extends RouterBase {
   @override
-  List<_i1.RouteConfig> get routes => [
-        _i1.RouteConfig<SplashPage>(SplashPage.name,
-            path: '/', routeBuilder: (match) => SplashPage.fromMatch(match)),
-        _i1.RouteConfig<MainPage>(MainPage.name,
-            path: '/main-page',
-            routeBuilder: (match) => MainPage.fromMatch(match)),
-        _i1.RouteConfig<VideoPlayerPage>(VideoPlayerPage.name,
-            path: '/video-player-page',
-            routeBuilder: (match) => VideoPlayerPage.fromMatch(match)),
-        _i1.RouteConfig<SettingPage>(SettingPage.name,
-            path: '/setting-page',
-            routeBuilder: (match) => SettingPage.fromMatch(match)),
-        _i1.RouteConfig<OpenSourceLicensePage>(OpenSourceLicensePage.name,
-            path: '/open-source-license-page',
-            routeBuilder: (match) => OpenSourceLicensePage.fromMatch(match)),
-        _i1.RouteConfig<ThemePage>(ThemePage.name,
-            path: '/theme-page',
-            routeBuilder: (match) => ThemePage.fromMatch(match)),
-        _i1.RouteConfig<VersionInfoPage>(VersionInfoPage.name,
-            path: '/version-info-page',
-            routeBuilder: (match) => VersionInfoPage.fromMatch(match))
-      ];
+  List<RouteDef> get routes => _routes;
+  final _routes = <RouteDef>[
+    RouteDef(AppRoute.splashPage, page: SplashPage),
+    RouteDef(AppRoute.mainPage, page: MainPage),
+    RouteDef(AppRoute.videoPlayerPage, page: VideoPlayerPage),
+    RouteDef(AppRoute.settingPage, page: SettingPage),
+    RouteDef(AppRoute.openSourceLicensePage, page: OpenSourceLicensePage),
+    RouteDef(AppRoute.themePage, page: ThemePage),
+    RouteDef(AppRoute.versionInfoPage, page: VersionInfoPage),
+  ];
+  @override
+  Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
+  final _pagesMap = <Type, AutoRouteFactory>{
+    SplashPage: (data) {
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => SplashPage(),
+        settings: data,
+      );
+    },
+    MainPage: (data) {
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => MainPage(),
+        settings: data,
+      );
+    },
+    VideoPlayerPage: (data) {
+      final args = data.getArgs<VideoPlayerPageArguments>(nullOk: false);
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => VideoPlayerPage(
+          youtubeIDList: args.youtubeIDList,
+          startIndex: args.startIndex,
+        ),
+        settings: data,
+      );
+    },
+    SettingPage: (data) {
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => SettingPage(),
+        settings: data,
+      );
+    },
+    OpenSourceLicensePage: (data) {
+      final args = data.getArgs<OpenSourceLicensePageArguments>(nullOk: false);
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => OpenSourceLicensePage(title: args.title),
+        settings: data,
+      );
+    },
+    ThemePage: (data) {
+      final args = data.getArgs<ThemePageArguments>(nullOk: false);
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => ThemePage(title: args.title),
+        settings: data,
+      );
+    },
+    VersionInfoPage: (data) {
+      final args = data.getArgs<VersionInfoPageArguments>(nullOk: false);
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => VersionInfoPage(title: args.title),
+        settings: data,
+      );
+    },
+  };
 }
 
-class SplashPage extends _i1.PageRouteInfo {
-  const SplashPage() : super(name, path: '/');
+/// ************************************************************************
+/// Arguments holder classes
+/// *************************************************************************
 
-  SplashPage.fromMatch(_i1.RouteMatch match) : super.fromMatch(match);
-
-  static const String name = 'SplashPage';
-}
-
-class MainPage extends _i1.PageRouteInfo {
-  const MainPage() : super(name, path: '/main-page');
-
-  MainPage.fromMatch(_i1.RouteMatch match) : super.fromMatch(match);
-
-  static const String name = 'MainPage';
-}
-
-class VideoPlayerPage extends _i1.PageRouteInfo {
-  VideoPlayerPage(
-      {@_i9.required this.youtubeIDList, @_i9.required this.startIndex})
-      : super(name, path: '/video-player-page');
-
-  VideoPlayerPage.fromMatch(_i1.RouteMatch match)
-      : youtubeIDList = null,
-        startIndex = null,
-        super.fromMatch(match);
-
+/// VideoPlayerPage arguments holder class
+class VideoPlayerPageArguments {
   final List<String> youtubeIDList;
-
   final int startIndex;
-
-  static const String name = 'VideoPlayerPage';
+  VideoPlayerPageArguments(
+      {@required this.youtubeIDList, @required this.startIndex});
 }
 
-class SettingPage extends _i1.PageRouteInfo {
-  const SettingPage() : super(name, path: '/setting-page');
-
-  SettingPage.fromMatch(_i1.RouteMatch match) : super.fromMatch(match);
-
-  static const String name = 'SettingPage';
-}
-
-class OpenSourceLicensePage extends _i1.PageRouteInfo {
-  OpenSourceLicensePage({@_i9.required this.title})
-      : super(name, path: '/open-source-license-page');
-
-  OpenSourceLicensePage.fromMatch(_i1.RouteMatch match)
-      : title = null,
-        super.fromMatch(match);
-
+/// OpenSourceLicensePage arguments holder class
+class OpenSourceLicensePageArguments {
   final String title;
-
-  static const String name = 'OpenSourceLicensePage';
+  OpenSourceLicensePageArguments({@required this.title});
 }
 
-class ThemePage extends _i1.PageRouteInfo {
-  ThemePage({@_i9.required this.title}) : super(name, path: '/theme-page');
-
-  ThemePage.fromMatch(_i1.RouteMatch match)
-      : title = null,
-        super.fromMatch(match);
-
+/// ThemePage arguments holder class
+class ThemePageArguments {
   final String title;
-
-  static const String name = 'ThemePage';
+  ThemePageArguments({@required this.title});
 }
 
-class VersionInfoPage extends _i1.PageRouteInfo {
-  VersionInfoPage({@_i9.required this.title})
-      : super(name, path: '/version-info-page');
-
-  VersionInfoPage.fromMatch(_i1.RouteMatch match)
-      : title = null,
-        super.fromMatch(match);
-
+/// VersionInfoPage arguments holder class
+class VersionInfoPageArguments {
   final String title;
-
-  static const String name = 'VersionInfoPage';
+  VersionInfoPageArguments({@required this.title});
 }
