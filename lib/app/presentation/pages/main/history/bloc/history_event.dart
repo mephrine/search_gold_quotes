@@ -13,3 +13,14 @@ class GetSearchedHistoryList extends HistoryEvent {
       @required this.exchangeState,
       @required this.jewelryType});
 }
+
+class RefreshSearchedHistoryList extends HistoryEvent {
+  final Period period;
+  final ExchangeState exchangeState;
+  final JewelryType jewelryType;
+
+  RefreshSearchedHistoryList(
+      {@required this.period,
+      @required this.exchangeState,
+      @required this.jewelryType});
+}

@@ -42,14 +42,11 @@ class _ThemeViewState extends State<_ThemeView> {
       appBar: NavigationPushWidget(title: widget.title),
       body: ListView(
         children: [
-          _ListItemWidget(
-              title: Strings.titleThemeLight, routeAction: () {}, index: 0),
+          _ListItemWidget(title: Strings.titleThemeLight, index: 0),
           SeparatorWidget(),
-          _ListItemWidget(
-              title: Strings.titleThemeDark, routeAction: () {}, index: 1),
+          _ListItemWidget(title: Strings.titleThemeDark, index: 1),
           SeparatorWidget(),
-          _ListItemWidget(
-              title: Strings.titleThemeSystem, routeAction: () {}, index: 2),
+          _ListItemWidget(title: Strings.titleThemeSystem, index: 2),
         ],
         padding: EdgeInsets.fromLTRB(
             Dimens.margin, Dimens.spacing, Dimens.margin, Dimens.spacing),
@@ -60,14 +57,9 @@ class _ThemeViewState extends State<_ThemeView> {
 
 class _ListItemWidget extends StatefulWidget {
   final String title;
-  final Function routeAction;
   final int index;
 
-  _ListItemWidget(
-      {Key key,
-      @required this.title,
-      @required this.routeAction,
-      @required this.index})
+  _ListItemWidget({Key key, @required this.title, @required this.index})
       : super(key: key);
 
   @override
@@ -78,7 +70,8 @@ class __ListItemWidgetState extends State<_ListItemWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () => widget.routeAction(),
+        behavior: HitTestBehavior.translucent,
+        onTap: () => _changeTheme(widget.index),
         child: Container(
           height: 68,
           child: Row(
@@ -96,23 +89,27 @@ class __ListItemWidgetState extends State<_ListItemWidget> {
                     widget.index == themeService.getThemeMode().modeValue()
                         ? null
                         : (int value) {
-                            setState(() {
-                              switch (value) {
-                                case 0:
-                                  themeService.setLightMode();
-                                  break;
-                                case 1:
-                                  themeService.setDarkMode();
-                                  break;
-                                case 2:
-                                  themeService.setSystemMode();
-                                  break;
-                              }
-                            });
+                            _changeTheme(value);
                           },
               ),
             ],
           ),
         ));
+  }
+
+  void _changeTheme(int value) {
+    setState(() {
+      switch (value) {
+        case 0:
+          themeService.setLightMode();
+          break;
+        case 1:
+          themeService.setDarkMode();
+          break;
+        case 2:
+          themeService.setSystemMode();
+          break;
+      }
+    });
   }
 }
