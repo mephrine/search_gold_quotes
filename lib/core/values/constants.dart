@@ -5,4 +5,8 @@ class Constants {
   static const famousSayingURL = "/famousSaying";
   static const videoListURL = "/youtubeList";
   static const historyURL = "/goldPriceHistory";
+
+  static const appStoreId = '1509173637';
+  static const appStoreLink = "http://itunes.apple.com/app/id$appStoreId";
+  static const playStoreLink = "market://details?id=";
 }
