@@ -229,47 +229,57 @@ class HistoryListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      itemBuilder: (context, index) {
-        if (index == 0) {
-          return Column(
-            children: [
-              Container(
-                alignment: Alignment.centerLeft,
-                child: TextButton.icon(
-                    onPressed: () => _onPressedSortButton(context),
-                    icon: Icon(
-                      Icons.sort,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    label: Text(
-                        '${period.toSortTitleInScreen()}' +
-                            '${exchangeState.toSortTitleInScreen()}',
-                        style: TextPrimaryContrastingStyles.defaultStyle(
-                            context))),
-              ),
-              HistoryLineChart(
-                  historyList: historyList.historyList,
-                  maxPrice: maxPrice,
-                  middlePrice: middlePrice,
-                  minPrice: minPrice,
-                  chartTitle: jewelryType.toSortTitleInScreen())
-            ],
-          );
-        }
+    return RefreshIndicator(
+        child: ListView.separated(
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return Column(
+                children: [
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: TextButton.icon(
+                        onPressed: () => _onPressedSortButton(context),
+                        icon: Icon(
+                          Icons.sort,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        label: Text(
+                            '${period.toSortTitleInScreen()}' +
+                                '${exchangeState.toSortTitleInScreen()}',
+                            style: TextPrimaryContrastingStyles.defaultStyle(
+                                context))),
+                  ),
+                  HistoryLineChart(
+                      historyList: historyList.historyList,
+                      maxPrice: maxPrice,
+                      middlePrice: middlePrice,
+                      minPrice: minPrice,
+                      chartTitle: jewelryType.toSortTitleInScreen())
+                ],
+              );
+            }
 
-        return HistoryItemWidget(historyItem: historyList.historyList[index]);
-      },
-      separatorBuilder: (context, index) => index != 0
-          ? Divider(color: Theme.of(context).primaryColor)
-          : Container(
-              height: 30,
-            ),
-      itemCount: historyList.historyList.length,
-      shrinkWrap: true,
-      scrollDirection: Axis.vertical,
-      padding: const EdgeInsets.all(Dimens.margin),
-    );
+            return HistoryItemWidget(
+                historyItem: historyList.historyList[index]);
+          },
+          separatorBuilder: (context, index) => index != 0
+              ? Divider(color: Theme.of(context).primaryColor)
+              : Container(
+                  height: 30,
+                ),
+          itemCount: historyList.historyList.length,
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+          padding: const EdgeInsets.all(Dimens.margin),
+        ),
+        onRefresh: () async => _onRefresh(context));
+  }
+
+  Future<void> _onRefresh(BuildContext context) async {
+    context.read<HistoryBloc>().add(RefreshSearchedHistoryList(
+        exchangeState: exchangeState,
+        jewelryType: jewelryType,
+        period: period));
   }
 
   void _onPressedSortButton(BuildContext context) {

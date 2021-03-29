@@ -40,6 +40,20 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
               maxPrice: getMaxPrice(result),
               minPrice: getMinPrice(result),
               middlePrice: getMiddlePrice(result)));
+    } else if (event is RefreshSearchedHistoryList) {
+      final failureOrHistoryList = await useCase(Params(
+          jewelryType: event.jewelryType,
+          period: event.period,
+          exchangeState: event.exchangeState));
+      yield failureOrHistoryList.fold(
+          (failure) => Error(errorMessage: failureToErrorMessage(failure)),
+          (result) => Loaded(
+              period: event.period,
+              exchangeState: event.exchangeState,
+              historyList: result,
+              maxPrice: getMaxPrice(result),
+              minPrice: getMinPrice(result),
+              middlePrice: getMiddlePrice(result)));
     }
   }
 
