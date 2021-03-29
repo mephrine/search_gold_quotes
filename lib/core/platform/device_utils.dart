@@ -9,6 +9,15 @@ class DeviceUtils {
   static bool get isAndroid =>
       foundation.defaultTargetPlatform == foundation.TargetPlatform.android;
 
+  static Future<String> get packageName async {
+    try {
+      final packageInfo = await PackageInfo.fromPlatform();
+      return packageInfo.packageName;
+    } catch (exception) {
+      return '';
+    }
+  }
+
   static Future<String> get version async {
     try {
       final packageInfo = await PackageInfo.fromPlatform();

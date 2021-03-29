@@ -20,20 +20,3 @@ import 'package:search_gold_quotes/app/presentation/pages/setting/version_info_p
   ],
 )
 class $AppRouter {}
-// const String SplashPath = '/splash';
-// const String MainPath = '/main';
-// const String VideoPlayerPath = '/videoPlayer';
-// const String SettingPath = '/setting';
-// const String OpenSourceLicensePath = '/openSourceLicense';
-// const String ThemePath = '/theme';
-// const String VersionInfoPath = '/versionInfo';
-
-// enum Pages {
-//   Splash,
-//   Main,
-//   VideoPlayer,
-//   Setting,
-//   OpenSourceLicense,
-//   Theme,
-//   VersionInfo
-// }
