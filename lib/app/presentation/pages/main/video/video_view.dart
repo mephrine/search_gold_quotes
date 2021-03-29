@@ -152,6 +152,7 @@ class _VideoListWidgetState extends State<_VideoListWidget> {
         itemCount: widget.videoList.itemList.length,
         itemBuilder: (context, index) {
           return GestureDetector(
+            behavior: HitTestBehavior.translucent,
             child: VideoItemWidget(videoItem: widget.videoList.itemList[index]),
             onTap: () => _pushToVideoPlayerPage(context, index),
           );

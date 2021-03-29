@@ -79,6 +79,7 @@ class ListItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+        behavior: HitTestBehavior.translucent,
         onTap: () => routeAction(),
         child: Container(
           height: 68,
