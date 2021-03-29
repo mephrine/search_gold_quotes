@@ -34,6 +34,11 @@ class TextPrimaryContrastingStyles {
     fontSize: Dimens.fontTextSmall,
   );
 
+  static biggerStyle(BuildContext context) => TextStyle(
+      fontSize: Dimens.fontTextBigger,
+      color: Theme.of(context).primaryColorDark,
+      fontWeight: FontWeight.bold);
+
   static bigStyle(BuildContext context) => TextStyle(
       fontSize: Dimens.fontTextBig,
       color: Theme.of(context).primaryColorDark,

@@ -224,14 +224,17 @@ class FamousQuotesAnimationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TypewriterAnimatedTextKit(
-      speed: Duration(milliseconds: 2000),
-      repeatForever: true,
-      text: [famousQuotes],
-      textStyle: TextPrimaryContrastingStyles.titleStyle(context),
-      pause: Duration(milliseconds: 1000),
-      displayFullTextOnTap: false,
-      stopPauseOnTap: false,
+    return SizedBox(
+      height: 30,
+      child: ScaleAnimatedTextKit(
+        // speed: Duration(milliseconds: 300),
+        repeatForever: true,
+        text: famousQuotes.split(' '),
+        textStyle: TextPrimaryContrastingStyles.biggerStyle(context),
+        pause: Duration(milliseconds: 300),
+        displayFullTextOnTap: false,
+        stopPauseOnTap: false,
+      ),
     );
   }
 }
