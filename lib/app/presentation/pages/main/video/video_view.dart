@@ -206,10 +206,13 @@ class VideoItemWidget extends StatelessWidget {
                     VideoThumnailPlaceHolderWidget(),
               )
             : VideoThumnailPlaceHolderWidget(),
-        Text(videoItem.title,
-            textAlign: TextAlign.start,
-            maxLines: 2,
-            style: TextPrimaryContrastingStyles.titleStyle(context)),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: Dimens.spacing),
+          child: Text(videoItem.title,
+              textAlign: TextAlign.start,
+              maxLines: 2,
+              style: TextPrimaryContrastingStyles.titleStyle(context)),
+        ),
         Text(videoItem.subTitle,
             textAlign: TextAlign.start,
             maxLines: 2,
