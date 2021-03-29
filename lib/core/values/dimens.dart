@@ -9,6 +9,7 @@ class Dimens {
 
   static const double spacing = 8;
 
+  static const double fontTextBigger = 30.0;
   static const double fontTextTitle = 22.0;
   static const double fontTextBig = 18.0;
   static const double fontText = 16.0;
