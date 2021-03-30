@@ -45,7 +45,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     final currentVersion = await DeviceUtils.version;
 
     return Future.value(
-        currentVersionIsLatest(currentVersion, versionInfo.latestVersion));
+        !currentVersionIsLatest(currentVersion, versionInfo.latestVersion));
   }
 
   bool currentVersionIsLatest(String currentVersion, String latestVersion) {
