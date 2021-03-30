@@ -16,17 +16,15 @@ class Loaded extends InitialHistoryState {
   final Period period;
   final ExchangeState exchangeState;
   final HistoryJewelryList historyList;
-  final double maxPrice;
-  final double middlePrice;
-  final double minPrice;
+  final List<HistoryJewelry> chartList;
+  final List<double> sortedPriceList;
 
   Loaded(
       {@required this.period,
       @required this.exchangeState,
       @required this.historyList,
-      @required this.maxPrice,
-      @required this.middlePrice,
-      @required this.minPrice});
+      @required this.chartList,
+      @required this.sortedPriceList});
 }
 
 class Error extends InitialHistoryState {

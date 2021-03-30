@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -6,11 +5,9 @@ import 'package:search_gold_quotes/app/data/datasources/history_remote_data_sour
 import 'package:search_gold_quotes/app/data/models/history_jewelry_model.dart';
 import 'package:search_gold_quotes/app/data/repositories/history_repository_impl.dart';
 import 'package:search_gold_quotes/app/domain/usecases/get_searched_price_history.dart';
-import 'package:search_gold_quotes/core/error/exceptions.dart';
+
 import 'package:search_gold_quotes/core/error/failures.dart';
 import 'package:search_gold_quotes/core/platform/network_info.dart';
-
-import '../../../fixtures/fixture_reader.dart';
 
 class MockHistoryRemoteDataSource extends Mock
     implements HistoryRemoteDataSource {}

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:ffi';
+import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -37,9 +38,8 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
               period: event.period,
               exchangeState: event.exchangeState,
               historyList: result,
-              maxPrice: getMaxPrice(result),
-              minPrice: getMinPrice(result),
-              middlePrice: getMiddlePrice(result)));
+              chartList: chartList(result),
+              sortedPriceList: chartPriceList(result)));
     } else if (event is RefreshSearchedHistoryList) {
       final failureOrHistoryList = await useCase(Params(
           jewelryType: event.jewelryType,
@@ -51,25 +51,33 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
               period: event.period,
               exchangeState: event.exchangeState,
               historyList: result,
-              maxPrice: getMaxPrice(result),
-              minPrice: getMinPrice(result),
-              middlePrice: getMiddlePrice(result)));
+              chartList: chartList(result),
+              sortedPriceList: chartPriceList(result)));
     }
   }
 
-  double getMaxPrice(HistoryJewelryList historyList) => historyList.historyList
-      .map((item) => double.tryParse(item.price) ?? 0)
-      .reduce((current, next) => current > next ? current : next);
+  List<HistoryJewelry> chartList(HistoryJewelryList historyList) =>
+      historyList.historyList
+          .getRange(0, min(5, historyList.historyList.length))
+          .toList();
 
-  double getMinPrice(HistoryJewelryList historyList) => historyList.historyList
-      .map((item) => double.tryParse(item.price) ?? 0)
-      .reduce((current, next) => current < next ? current : next);
+  List<double> chartPriceList(HistoryJewelryList historyList) =>
+      chartList(historyList).map((item) => double.tryParse(item.price)).toList()
+        ..sort();
 
-  double getMiddlePrice(HistoryJewelryList historyList) {
-    final minPrice = getMinPrice(historyList);
-    final maxPrice = getMaxPrice(historyList);
-    return minPrice + (maxPrice - minPrice) ~/ 2.0;
-  }
+  // double getMaxPrice(HistoryJewelryList historyList) => chartList(historyList)
+  //     .map((item) => double.tryParse(item.price) ?? 0)
+  //     .reduce((current, next) => current > next ? current : next);
+
+  // double getMinPrice(HistoryJewelryList historyList) => chartList(historyList)
+  //     .map((item) => double.tryParse(item.price) ?? 0)
+  //     .reduce((current, next) => current < next ? current : next);
+
+  // double getMiddlePrice(HistoryJewelryList historyList) {
+  //   final minPrice = getMinPrice(historyList);
+  //   final maxPrice = getMaxPrice(historyList);
+  //   return minPrice + (maxPrice - minPrice) ~/ 2.0;
+  // }
 
   String failureToErrorMessage(Failure failure) {
     if (failure is ServerFailure) {

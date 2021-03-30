@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -122,14 +123,12 @@ class _HistoryListContainerState extends State<HistoryListContainer>
         return _LoadingListWidget();
       } else if (state is Loaded) {
         return HistoryListWidget(
-          jewelryType: widget.jewelryType,
-          period: state.period,
-          exchangeState: state.exchangeState,
-          historyList: state.historyList,
-          maxPrice: state.maxPrice,
-          middlePrice: state.middlePrice,
-          minPrice: state.minPrice,
-        );
+            jewelryType: widget.jewelryType,
+            period: state.period,
+            exchangeState: state.exchangeState,
+            historyList: state.historyList,
+            chartList: state.chartList,
+            sortedPriceList: state.sortedPriceList);
       } else if (state is Error) {
         return _ErrorWidget(errorMessage: state.errorMessage);
       }
@@ -186,7 +185,7 @@ class _LoadingListWidget extends StatelessWidget {
           return _LoadingListItemWidget();
         },
         separatorBuilder: (context, index) => Divider(),
-        itemCount: 10,
+        itemCount: 2,
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
         padding: const EdgeInsets.all(Dimens.margin),
@@ -202,7 +201,7 @@ class _LoadingListItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child:
-          Container(height: 30.0, width: double.infinity, color: Colors.white),
+          Container(height: 40.0, width: double.infinity, color: Colors.white),
     );
   }
 }
@@ -212,9 +211,8 @@ class HistoryListWidget extends StatelessWidget {
   final Period period;
   final ExchangeState exchangeState;
   final HistoryJewelryList historyList;
-  final double maxPrice;
-  final double minPrice;
-  final double middlePrice;
+  final List<HistoryJewelry> chartList;
+  final List<double> sortedPriceList;
 
   const HistoryListWidget(
       {Key key,
@@ -222,9 +220,8 @@ class HistoryListWidget extends StatelessWidget {
       @required this.period,
       @required this.exchangeState,
       @required this.historyList,
-      @required this.maxPrice,
-      @required this.minPrice,
-      @required this.middlePrice})
+      @required this.chartList,
+      @required this.sortedPriceList})
       : super(key: key);
 
   @override
@@ -250,10 +247,8 @@ class HistoryListWidget extends StatelessWidget {
                                 context))),
                   ),
                   HistoryLineChart(
-                      historyList: historyList.historyList,
-                      maxPrice: maxPrice,
-                      middlePrice: middlePrice,
-                      minPrice: minPrice,
+                      historyList: chartList,
+                      sortedPriceList: sortedPriceList,
                       chartTitle: jewelryType.toSortTitleInScreen())
                 ],
               );
@@ -380,16 +375,12 @@ class HistoryItemWidget extends StatelessWidget {
 
 class HistoryLineChart extends StatelessWidget {
   final List<HistoryJewelry> historyList;
-  final double maxPrice;
-  final double minPrice;
-  final double middlePrice;
+  final List<double> sortedPriceList;
   final String chartTitle;
 
   HistoryLineChart(
       {@required this.historyList,
-      @required this.maxPrice,
-      @required this.minPrice,
-      @required this.middlePrice,
+      @required this.sortedPriceList,
       @required this.chartTitle});
 
   @override
@@ -474,11 +465,9 @@ class HistoryLineChart extends StatelessWidget {
           getTitles: (value) {
             switch (value.toInt()) {
               case 1:
-                return '오늘';
-              case 7:
-                return '어제';
-              case 13:
-                return '그제';
+                return historyList.first.date.toDateFormat("MM-dd");
+              case 4:
+                return historyList.last.date.toDateFormat("MM-dd");
             }
             return '';
           },
@@ -490,16 +479,17 @@ class HistoryLineChart extends StatelessWidget {
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
-          getTitles: (value) {
-            if (value == maxPrice) {
-              return '${maxPrice.toInt().toNumberFormat()} 원';
-            } else if (value == middlePrice) {
-              return '${middlePrice.toInt().toNumberFormat()}원';
-            } else if (value == minPrice) {
-              return '${minPrice.toInt().toNumberFormat()}원';
-            }
-            return '';
-          },
+          getTitles: (value) => '${value.toInt().toNumberFormat()} 원'
+
+          // if (value == maxPrice) {
+          //   return '${maxPrice.toInt().toNumberFormat()} 원';
+          // } else if (value == middlePrice) {
+          //   return '${middlePrice.toInt().toNumberFormat()}원';
+          // } else if (value == minPrice) {
+          //   return '${minPrice.toInt().toNumberFormat()}원';
+          // }
+          // return '';
+          ,
           margin: 8,
           reservedSize: 80,
         ),
@@ -523,9 +513,9 @@ class HistoryLineChart extends StatelessWidget {
         ),
       ),
       minX: 0,
-      maxX: 14,
-      maxY: maxPrice,
-      minY: minPrice - 5000,
+      maxX: 4,
+      maxY: sortedPriceList.last,
+      minY: sortedPriceList.first,
       lineBarsData: linesBarData(historyList
           .map((item) => (double.tryParse(item.price) ?? 0.0))
           .toList()),
@@ -535,9 +525,11 @@ class HistoryLineChart extends StatelessWidget {
   List<LineChartBarData> linesBarData(List<double> priceList) {
     final LineChartBarData lineChartBarData = LineChartBarData(
       spots: [
-        FlSpot(1, priceList[0]),
-        FlSpot(7, priceList[1]),
-        FlSpot(13, priceList[2]),
+        FlSpot(0, priceList[0]),
+        FlSpot(1, priceList[1]),
+        FlSpot(2, priceList[2]),
+        FlSpot(3, priceList[3]),
+        FlSpot(4, priceList[4]),
       ],
       isCurved: true,
       colors: [
