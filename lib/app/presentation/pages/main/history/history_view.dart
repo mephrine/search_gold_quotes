@@ -417,17 +417,6 @@ class HistoryLineChart extends StatelessWidget {
                   height: 37,
                 ),
                 Text(
-                  '2021',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 16,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                Text(
                   chartTitle,
                   style: TextStyle(
                       color: Theme.of(context).primaryColor,
