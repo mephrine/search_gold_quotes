@@ -44,9 +44,11 @@ void main() {
           goldCurrency: 'C001C001'),
     ];
     final homeDataModel = HomeDataModel(
-        famousQuotes: 'Gold is God',
-        famousSayingWriter: 'aaa',
-        referenceSiteName: 'https://www.naver.com',
+        famousSayingData: FamousSayingDomain(
+          famousSaying: 'Gold is God',
+          famousSayingWriter: 'aaa',
+          referenceSiteName: "https://www.naver.com",
+        ),
         goldList: goldList);
     test('should get last home data when cache is exist', () async {
       // arrange

@@ -27,4 +27,8 @@ extension StringExtension on String {
       return this;
     }
   }
+
+  String toDateFormat(String format) {
+    return DateFormat(format).format(DateTime.parse(this));
+  }
 }

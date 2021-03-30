@@ -4,18 +4,26 @@ import 'package:meta/meta.dart';
 import 'home_gold.dart';
 
 class HomeData extends Equatable {
-  final String famousQuotes;
+  final List<HomeGold> goldList;
+  final FamousSayingData famousSayingData;
+
+  HomeData({@required this.famousSayingData, @required this.goldList});
+
+  @override
+  List<Object> get props => [famousSayingData, goldList];
+}
+
+class FamousSayingData extends Equatable {
+  final String famousSaying;
   final String famousSayingWriter;
   final String referenceSiteName;
-  final List<HomeGold> goldList;
 
-  HomeData(
-      {@required this.famousQuotes,
+  FamousSayingData(
+      {@required this.famousSaying,
       @required this.famousSayingWriter,
-      @required this.referenceSiteName,
-      @required this.goldList});
+      @required this.referenceSiteName});
 
   @override
   List<Object> get props =>
-      [famousQuotes, famousSayingWriter, referenceSiteName, goldList];
+      [famousSaying, famousSayingWriter, referenceSiteName];
 }

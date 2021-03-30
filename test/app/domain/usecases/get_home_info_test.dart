@@ -25,13 +25,14 @@ void main() {
         price: '100000',
         goldCurrency: 'C001C001');
     final homeInfo = HomeData(
-        famousQuotes: 'Gold is God',
-        famousSayingWriter: 'aaa',
-        referenceSiteName: "https://www.naver.com",
+        famousSayingData: FamousSayingData(
+            famousSaying: 'Gold is God',
+            famousSayingWriter: 'aaa',
+            referenceSiteName: "https://www.naver.com"),
         goldList: [gold]);
 
     test(
-        'should get price, referenceSite and famousQuotes for Information at home tab from the repository',
+        'should get price, referenceSite and famousSaying for Information at home tab from the repository',
         () async {
       // arrange
       when(mockHomeRepository.getHomeData())
@@ -44,5 +45,4 @@ void main() {
       verifyNoMoreInteractions(mockHomeRepository);
     });
   });
-  
 }

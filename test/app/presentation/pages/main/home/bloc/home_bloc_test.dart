@@ -27,9 +27,11 @@ void main() {
 
   group('HomeData 상태', () {
     final homeData = HomeData(
-        famousQuotes: 'Gold is God',
-        famousSayingWriter: 'aaa',
-        referenceSiteName: "https://www.naver.com",
+        famousSayingData: FamousSayingData(
+          famousSaying: 'Gold is God',
+          famousSayingWriter: 'aaa',
+          referenceSiteName: "https://www.naver.com",
+        ),
         goldList: [
           HomeGold(
               date: '2021-02-10',

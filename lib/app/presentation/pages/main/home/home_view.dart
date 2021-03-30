@@ -135,12 +135,12 @@ class _HomeLoadedWidget extends StatelessWidget {
           height: 20,
         ),
         FamousQuotesAnimationWidget(
-          famousQuotes: homeData.famousQuotes,
+          famousQuotes: homeData.famousSayingData.famousSaying,
         ),
         SizedBox(
           height: 20,
         ),
-        Text(homeData.referenceSiteName,
+        Text(homeData.famousSayingData.famousSayingWriter,
             style: TextPrimaryContrastingStyles.defaultStyle(context)),
         SizedBox(
           height: 30,
