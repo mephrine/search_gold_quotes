@@ -158,7 +158,10 @@ class _VideoListWidgetState extends State<_VideoListWidget> {
           );
         },
         separatorBuilder: (context, index) {
-          return Divider();
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: Dimens.spacing),
+            child: Divider(),
+          );
         },
       ),
       onRefresh: _onRefresh,
