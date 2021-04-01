@@ -49,7 +49,8 @@ class _HomeContainer extends State<HomeContainer> {
       if (state is Loading) {
         return _LoadingWidget();
       } else if (state is Loaded) {
-        return _HomeLoadedWidget(homeData: state.homeData);
+        return _HomeLoadedWidget(
+            homeData: state.homeData, sortedPriceList: state.sortedPriceList);
       } else if (state is Error) {
         return MessageDisplay(message: state.message);
       }
@@ -123,8 +124,9 @@ class _LoadingWidget extends StatelessWidget {
 
 class _HomeLoadedWidget extends StatelessWidget {
   final HomeData homeData;
+  final List<double> sortedPriceList;
 
-  _HomeLoadedWidget({@required this.homeData});
+  _HomeLoadedWidget({@required this.homeData, @required this.sortedPriceList});
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +148,10 @@ class _HomeLoadedWidget extends StatelessWidget {
           height: 30,
         ),
         Expanded(
-          child: TodayGoldLineChart(goldList: homeData.goldList),
+          child: TodayGoldLineChart(
+            goldList: homeData.goldList,
+            sortedPriceList: sortedPriceList,
+          ),
         ),
         SizedBox(
           height: 30,
@@ -241,8 +246,9 @@ class FamousQuotesAnimationWidget extends StatelessWidget {
 
 class TodayGoldLineChart extends StatefulWidget {
   final List<HomeGold> goldList;
+  final List<double> sortedPriceList;
 
-  TodayGoldLineChart({@required this.goldList});
+  TodayGoldLineChart({@required this.goldList, @required this.sortedPriceList});
 
   @override
   State<StatefulWidget> createState() => _TodayGoldLineChartState();
@@ -250,21 +256,11 @@ class TodayGoldLineChart extends StatefulWidget {
 
 class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
   bool isShowingMainData;
-  double maxPrice;
-  double minPrice;
-  double middlePrice;
 
   @override
   void initState() {
     super.initState();
     isShowingMainData = true;
-    maxPrice = widget.goldList
-        .map((item) => double.tryParse(item.price) ?? 0)
-        .reduce((current, next) => current > next ? current : next);
-    minPrice = widget.goldList
-        .map((item) => double.tryParse(item.price) ?? 0)
-        .reduce((current, next) => current < next ? current : next);
-    middlePrice = minPrice + (maxPrice - minPrice) ~/ 2.0;
   }
 
   @override
@@ -292,17 +288,6 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
                   height: 37,
                 ),
                 Text(
-                  '2021',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 16,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                Text(
                   '오늘의 시세',
                   style: TextStyle(
                       color: Theme.of(context).primaryColor,
@@ -319,7 +304,7 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
                     padding: const EdgeInsets.only(
                         right: Dimens.margin, left: Dimens.spacing),
                     child: LineChart(
-                      sampleData1(),
+                      mainChartData(),
                       swapAnimationDuration: const Duration(milliseconds: 250),
                     ),
                   ),
@@ -335,7 +320,7 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
     );
   }
 
-  LineChartData sampleData1() {
+  LineChartData mainChartData() {
     return LineChartData(
       lineTouchData: LineTouchData(
         touchTooltipData: LineTouchTooltipData(
@@ -377,12 +362,12 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
             fontSize: 16,
           ),
           getTitles: (value) {
-            if (value == maxPrice) {
-              return '${maxPrice.toInt().toNumberFormat()} 원';
-            } else if (value == middlePrice) {
-              return '${middlePrice.toInt().toNumberFormat()}원';
-            } else if (value == minPrice) {
-              return '${minPrice.toInt().toNumberFormat()}원';
+            if (value == widget.sortedPriceList[0]) {
+              return '${widget.sortedPriceList[0].toInt().toNumberFormatCurrenyWon()}';
+            } else if (value == widget.sortedPriceList[1]) {
+              return '${widget.sortedPriceList[1].toInt().toNumberFormatCurrenyWon()}';
+            } else if (value == widget.sortedPriceList[2]) {
+              return '${widget.sortedPriceList[2].toInt().toNumberFormatCurrenyWon()}';
             }
             return '';
           },
@@ -410,8 +395,8 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
       ),
       minX: 0,
       maxX: 14,
-      maxY: maxPrice,
-      minY: minPrice - 5000,
+      maxY: widget.sortedPriceList.first,
+      minY: widget.sortedPriceList.last,
       lineBarsData: linesBarData(widget.goldList
           .map((item) => (double.tryParse(item.price) ?? 0.0))
           .toList()),

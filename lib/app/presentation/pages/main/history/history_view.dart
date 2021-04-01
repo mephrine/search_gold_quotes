@@ -364,7 +364,7 @@ class HistoryItemWidget extends StatelessWidget {
             ),
           ),
           Text(
-            '${historyItem.price.toNumberFormat()}원',
+            '${historyItem.price.toNumberFormatCurrenyWon()}',
             style: TextPrimaryContrastingStyles.defaultStyle(context),
           )
         ],
@@ -479,7 +479,7 @@ class HistoryLineChart extends StatelessWidget {
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
-          getTitles: (value) => '${value.toInt().toNumberFormat()} 원'
+          getTitles: (value) => '${value.toInt().toNumberFormatCurrenyWon()}'
 
           // if (value == maxPrice) {
           //   return '${maxPrice.toInt().toNumberFormat()} 원';

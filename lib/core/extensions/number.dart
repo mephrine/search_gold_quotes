@@ -6,6 +6,8 @@ extension IntExtenstion on int {
         locale: 'ko_KR', name: '', decimalDigits: 0);
     return format.format(this ?? 0);
   }
+
+  String toNumberFormatCurrenyWon() => "${this.toNumberFormat()}원";
 }
 
 extension DoubleExtenstion on double {
@@ -14,6 +16,8 @@ extension DoubleExtenstion on double {
         locale: 'ko_KR', name: '', decimalDigits: 0);
     return format.format(this ?? 0);
   }
+
+  String toNumberFormatCurrenyWon() => "${this.toNumberFormat()}원";
 }
 
 extension StringExtension on String {
@@ -27,6 +31,8 @@ extension StringExtension on String {
       return this;
     }
   }
+
+  String toNumberFormatCurrenyWon() => "${this.toNumberFormat()}원";
 
   String toDateFormat(String format) {
     return DateFormat(format).format(DateTime.parse(this));
