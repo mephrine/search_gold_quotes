@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart' as dartz;
 import 'package:meta/meta.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,7 +10,8 @@ import 'package:search_gold_quotes/core/values/strings.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoPlayerPage extends StatelessWidget {
-  final List<String> youtubeIDList;
+  final List<dartz.Tuple2<String, String>> youtubeIDList;
+
   final int startIndex;
 
   VideoPlayerPage({@required this.youtubeIDList, @required this.startIndex});
@@ -27,7 +29,7 @@ class VideoPlayerPage extends StatelessWidget {
 /// Homepage
 // ignore: must_be_immutable
 class _VideoPlayerView extends StatefulWidget {
-  final List<String> youtubeIDList;
+  final List<dartz.Tuple2<String, String>> youtubeIDList;
   int index;
 
   _VideoPlayerView({@required this.youtubeIDList, @required this.index});
@@ -52,7 +54,7 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
   void initState() {
     super.initState();
     _controller = YoutubePlayerController(
-      initialVideoId: widget.youtubeIDList[widget.index],
+      initialVideoId: widget.youtubeIDList[widget.index].value2,
       flags: const YoutubePlayerFlags(
         mute: false,
         autoPlay: true,
@@ -108,9 +110,7 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
           const SizedBox(width: 8.0),
           Expanded(
             child: Text(
-              _controller.metadata.title == null
-                  ? Strings.titleVideo
-                  : _controller.metadata.title,
+              widget.youtubeIDList[widget.index].value1,
               style: TextPrimaryContrastingStyles.titleStyle(context),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
@@ -253,11 +253,11 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
 
   String _nextVideoID() {
     widget.index = (widget.index + 1) % widget.youtubeIDList.length;
-    return widget.youtubeIDList[widget.index];
+    return widget.youtubeIDList[widget.index].value2;
   }
 
   String _prevVideoID() {
     widget.index = (widget.index - 1) % widget.youtubeIDList.length;
-    return widget.youtubeIDList[widget.index];
+    return widget.youtubeIDList[widget.index].value2;
   }
 }

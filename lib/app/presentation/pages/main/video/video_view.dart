@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dartz/dartz.dart' as dartz;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -171,8 +172,9 @@ class _VideoListWidgetState extends State<_VideoListWidget> {
   void _pushToVideoPlayerPage(BuildContext context, int index) {
     context.rootNavigator.push(AppRoute.videoPlayerPage,
         arguments: VideoPlayerPageArguments(
-            youtubeIDList:
-                widget.videoList.itemList.map((item) => item.linkURL).toList(),
+            youtubeIDList: widget.videoList.itemList
+                .map((item) => dartz.Tuple2(item.title, item.linkURL))
+                .toList(),
             startIndex: index));
   }
 
