@@ -345,11 +345,11 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
           getTitles: (value) {
             switch (value.toInt()) {
               case 1:
-                return '오늘';
+                return widget.goldList[0].day;
               case 7:
-                return '어제';
+                return widget.goldList[1].day;
               case 13:
-                return '그제';
+                return widget.goldList[2].day;
             }
             return '';
           },
