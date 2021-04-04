@@ -13,8 +13,10 @@ import 'package:search_gold_quotes/app/domain/usecases/get_searched_price_histor
 import 'package:search_gold_quotes/app/presentation/style/TextStyles.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/navigation_main_scrollable_widget.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
+import 'package:search_gold_quotes/core/presentation/utils/chart_utils.dart';
 import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
 import 'package:search_gold_quotes/core/values/colors.dart';
+import 'package:search_gold_quotes/core/values/date_format_type.dart';
 import 'package:search_gold_quotes/core/values/dimens.dart';
 import 'package:search_gold_quotes/core/values/strings.dart';
 import 'package:shimmer/shimmer.dart';
@@ -255,7 +257,7 @@ class HistoryListWidget extends StatelessWidget {
             }
 
             return HistoryItemWidget(
-                historyItem: historyList.historyList[index]);
+                historyItem: historyList.historyList[index - 1]);
           },
           separatorBuilder: (context, index) => index != 0
               ? Divider(color: Theme.of(context).primaryColor)
@@ -387,7 +389,7 @@ class HistoryLineChart extends StatelessWidget {
   Widget build(BuildContext context) {
     ThemeNotifier themeService = Provider.of<ThemeNotifier>(context);
     return AspectRatio(
-      aspectRatio: 1.23,
+      aspectRatio: 1,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(18)),
@@ -411,13 +413,13 @@ class HistoryLineChart extends StatelessWidget {
                   chartTitle,
                   style: TextStyle(
                       color: Theme.of(context).primaryColor,
-                      fontSize: 32,
+                      fontSize: Dimens.fontTextBigger,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 2),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(
-                  height: 37,
+                  height: 20,
                 ),
                 Expanded(
                   child: Padding(
@@ -464,10 +466,12 @@ class HistoryLineChart extends StatelessWidget {
           margin: 10,
           getTitles: (value) {
             switch (value.toInt()) {
-              case 1:
-                return historyList.first.date.toDateFormat("MM-dd");
-              case 4:
-                return historyList.last.date.toDateFormat("MM-dd");
+              case 2:
+                return historyList.first.date
+                    .toDateFormat(DateFormatType.chartBottomDateFormat);
+              case 10:
+                return historyList.last.date
+                    .toDateFormat(DateFormatType.chartBottomDateFormat);
             }
             return '';
           },
@@ -479,19 +483,15 @@ class HistoryLineChart extends StatelessWidget {
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
-          getTitles: (value) => '${value.toInt().toNumberFormatCurrenyWon()}'
-
-          // if (value == maxPrice) {
-          //   return '${maxPrice.toInt().toNumberFormat()} 원';
-          // } else if (value == middlePrice) {
-          //   return '${middlePrice.toInt().toNumberFormat()}원';
-          // } else if (value == minPrice) {
-          //   return '${minPrice.toInt().toNumberFormat()}원';
-          // }
-          // return '';
-          ,
-          margin: 8,
-          reservedSize: 80,
+          getTitles: (value) {
+            if (value == sortedPriceList.last ||
+                value == sortedPriceList.first) {
+              return '${value.toInt().toNumberFormatCurrenyWon()}';
+            }
+            return '';
+          },
+          margin: 12,
+          reservedSize: 90,
         ),
       ),
       borderData: FlBorderData(
@@ -513,23 +513,37 @@ class HistoryLineChart extends StatelessWidget {
         ),
       ),
       minX: 0,
-      maxX: 4,
-      maxY: sortedPriceList.last,
-      minY: sortedPriceList.first,
+      maxX: 12,
+      maxY: sortedPriceList.last +
+          ChartUtils.getEfficientInterval(
+              sortedPriceList.last, sortedPriceList.first),
+      minY: sortedPriceList.first -
+          ChartUtils.getEfficientInterval(
+              sortedPriceList.last, sortedPriceList.first),
       lineBarsData: linesBarData(historyList
           .map((item) => (double.tryParse(item.price) ?? 0.0))
           .toList()),
     );
   }
 
+  int getStandardDeviation(List<double> doubles) {
+    final average =
+        doubles.reduce((value, element) => value + element) / doubles.length;
+    final variable = doubles
+            .map((number) => sqrt(pow(number - average, 2)))
+            .reduce((value, element) => value + element) /
+        doubles.length;
+    return variable.round();
+  }
+
   List<LineChartBarData> linesBarData(List<double> priceList) {
     final LineChartBarData lineChartBarData = LineChartBarData(
       spots: [
-        FlSpot(0, priceList[0]),
-        FlSpot(1, priceList[1]),
-        FlSpot(2, priceList[2]),
-        FlSpot(3, priceList[3]),
-        FlSpot(4, priceList[4]),
+        FlSpot(2, priceList[0]),
+        FlSpot(4, priceList[1]),
+        FlSpot(6, priceList[2]),
+        FlSpot(8, priceList[3]),
+        FlSpot(10, priceList[4]),
       ],
       isCurved: true,
       colors: [

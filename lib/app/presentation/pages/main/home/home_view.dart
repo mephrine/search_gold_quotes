@@ -12,8 +12,10 @@ import 'package:search_gold_quotes/app/presentation/style/TextStyles.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/message_display.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/navigation_main_widget.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
+import 'package:search_gold_quotes/core/presentation/utils/chart_utils.dart';
 import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
 import 'package:search_gold_quotes/core/values/colors.dart';
+import 'package:search_gold_quotes/core/values/date_format_type.dart';
 import 'package:search_gold_quotes/core/values/dimens.dart';
 import 'package:search_gold_quotes/core/values/strings.dart';
 import 'package:search_gold_quotes/core/extensions/number.dart';
@@ -345,11 +347,14 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
           getTitles: (value) {
             switch (value.toInt()) {
               case 1:
-                return widget.goldList[0].day;
+                return widget.goldList[0].date
+                    .toDateFormat(DateFormatType.chartBottomDateFormat);
               case 7:
-                return widget.goldList[1].day;
+                return widget.goldList[1].date
+                    .toDateFormat(DateFormatType.chartBottomDateFormat);
               case 13:
-                return widget.goldList[2].day;
+                return widget.goldList[2].date
+                    .toDateFormat(DateFormatType.chartBottomDateFormat);
             }
             return '';
           },
@@ -395,8 +400,10 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
       ),
       minX: 0,
       maxX: 14,
-      maxY: widget.sortedPriceList.first,
-      minY: widget.sortedPriceList.last,
+      maxY: widget.sortedPriceList.last,
+      minY: widget.sortedPriceList.first -
+          ChartUtils.getEfficientInterval(
+              widget.sortedPriceList.last, widget.sortedPriceList.first),
       lineBarsData: linesBarData(widget.goldList
           .map((item) => (double.tryParse(item.price) ?? 0.0))
           .toList()),
