@@ -138,7 +138,7 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
       builder: (context, player) => Scaffold(
         key: _scaffoldKey,
         appBar: NavigationPushWidget(
-          title: _controller.metadata.title,
+          title: widget.youtubeIDList[widget.index].value1,
         ),
         body: ListView(
           children: [
@@ -150,7 +150,7 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
                 children: [
                   _space,
                   _text(Strings.videoPlayerTitleDescription,
-                      _videoMetaData.title),
+                      widget.youtubeIDList[widget.index].value1),
                   _space,
                   _text(Strings.videoPlayerChannelDescription,
                       _videoMetaData.author),
