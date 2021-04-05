@@ -129,11 +129,12 @@ class _HistoryListContainerState extends State<HistoryListContainer>
             period: state.period,
             exchangeState: state.exchangeState,
             historyList: state.historyList,
-            chartList: state.chartList,
+            chartList: state.chartList.reversed.toList(),
             sortedPriceList: state.sortedPriceList);
       } else if (state is Error) {
         return _ErrorWidget(errorMessage: state.errorMessage);
       }
+      return Container();
     });
   }
 
@@ -269,7 +270,7 @@ class HistoryListWidget extends StatelessWidget {
           scrollDirection: Axis.vertical,
           padding: const EdgeInsets.all(Dimens.margin),
         ),
-        onRefresh: () async => _onRefresh(context));
+        onRefresh: () async => _onRefresh);
   }
 
   Future<void> _onRefresh(BuildContext context) async {

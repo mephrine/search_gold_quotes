@@ -31,13 +31,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final homeInfo = await getHomeInfo(NoParams());
       yield homeInfo.fold(
           (failure) => Error(message: failureToErrorMessage(failure)),
-          (homeInfo) => Loaded(homeData: homeInfo,
-           sortedPriceList: sortedPriceList(homeInfo.goldList)));
+          (homeInfo) => Loaded(
+              homeData: homeInfo,
+              sortedPriceList: sortedPriceList(homeInfo.goldList)));
     }
   }
 
-  List<double> sortedPriceList(List<HomeGold> goldList) => goldList
-      .map((item) => double.tryParse(item.price) ?? 0).toList()..sort();
+  List<double> sortedPriceList(List<HomeGold> goldList) =>
+      goldList.map((item) => double.tryParse(item.price) ?? 0).toList()
+        ..sort()
+        ..reversed;
 
   String failureToErrorMessage(Failure failure) {
     if (failure is ServerFailure) {

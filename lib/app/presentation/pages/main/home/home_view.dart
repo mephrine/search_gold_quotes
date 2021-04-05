@@ -151,7 +151,7 @@ class _HomeLoadedWidget extends StatelessWidget {
         ),
         Expanded(
           child: TodayGoldLineChart(
-            goldList: homeData.goldList,
+            goldList: homeData.goldList.reversed.toList(),
             sortedPriceList: sortedPriceList,
           ),
         ),
@@ -160,7 +160,8 @@ class _HomeLoadedWidget extends StatelessWidget {
         ),
         Positioned(
           bottom: 0.0,
-          child: TodayGoldPriceWidget(goldList: homeData.goldList),
+          child: TodayGoldPriceWidget(
+              goldList: homeData.goldList.reversed.toList()),
         ),
       ]),
     );
@@ -204,15 +205,15 @@ class _TodayGoldPriceItemWidgetState extends State<TodayGoldPriceItemWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(widget.homeGold.day,
-            style: TextStyle(
-                fontSize: Dimens.fontTextBig,
-                color: Colors.redAccent,
-                fontWeight: FontWeight.bold)),
+        // Text(widget.homeGold.day,
+        //     style: TextStyle(
+        //         fontSize: Dimens.fontTextBig,
+        //         color: Colors.redAccent,
+        //         fontWeight: FontWeight.bold)),
         Text(widget.homeGold.date,
             style: TextStyle(
                 fontSize: Dimens.fontTextSmall,
-                color: Theme.of(context).primaryColorDark,
+                color: Colors.redAccent,
                 fontWeight: FontWeight.bold)),
         Text(widget.homeGold.price.toNumberFormat(),
             style: TextStyle(
