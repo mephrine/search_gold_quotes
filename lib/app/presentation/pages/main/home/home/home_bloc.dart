@@ -38,9 +38,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   List<double> sortedPriceList(List<HomeGold> goldList) =>
-      goldList.map((item) => double.tryParse(item.price) ?? 0).toList()
-        ..sort()
-        ..reversed;
+      goldList.map((item) => double.tryParse(item.price) ?? 0).toList()..sort();
 
   String failureToErrorMessage(Failure failure) {
     if (failure is ServerFailure) {
