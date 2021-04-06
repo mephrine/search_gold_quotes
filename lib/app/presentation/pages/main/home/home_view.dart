@@ -144,7 +144,7 @@ class _HomeLoadedWidget extends StatelessWidget {
         SizedBox(
           height: 20,
         ),
-        Text(homeData.famousSayingData.famousSayingWriter,
+        Text('-${homeData.famousSayingData.famousSayingWriter}-',
             style: TextPrimaryContrastingStyles.defaultStyle(context)),
         SizedBox(
           height: 30,
@@ -233,12 +233,15 @@ class FamousQuotesAnimationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 30,
-      child: ScaleAnimatedTextKit(
+      height: 40,
+      child: AnimatedTextKit(
         // speed: Duration(milliseconds: 300),
         repeatForever: true,
-        text: famousQuotes.split(' '),
-        textStyle: TextPrimaryContrastingStyles.biggerStyle(context),
+        animatedTexts: famousQuotes
+            .split(' ')
+            .map((element) => TypewriterAnimatedText(element,
+                textStyle: TextPrimaryContrastingStyles.biggerStyle(context)))
+            .toList(),
         pause: Duration(milliseconds: 300),
         displayFullTextOnTap: false,
         stopPauseOnTap: false,

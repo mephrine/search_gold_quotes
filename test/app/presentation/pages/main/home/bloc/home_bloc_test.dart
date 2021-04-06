@@ -58,7 +58,12 @@ void main() {
       bloc.add(GetHomeData());
 
       // assert
-      final expected = [Loading(), Loaded(homeData: homeData)];
+      final expected = [
+        Loading(),
+        Loaded(
+            homeData: homeData,
+            sortedPriceList: bloc.sortedPriceList(homeData.goldList))
+      ];
       expectLater(bloc, emitsInOrder(expected));
     });
 
