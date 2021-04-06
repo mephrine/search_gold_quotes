@@ -57,7 +57,15 @@ void main() {
           exchangeState: ExchangeState.buy,
           jewelryType: JewelryType.gold));
 
-      final expected = [Loading(), Loaded(historyList: historyList)];
+      final expected = [
+        Loading(),
+        Loaded(
+            historyList: historyList,
+            chartList: bloc.chartList(historyList),
+            exchangeState: ExchangeState.buy,
+            period: Period.daily,
+            sortedPriceList: bloc.chartPriceList(historyList))
+      ];
 
       expectLater(bloc, emitsInOrder(expected));
     });

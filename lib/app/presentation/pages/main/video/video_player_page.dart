@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart' as dartz;
 import 'package:meta/meta.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,7 +10,8 @@ import 'package:search_gold_quotes/core/values/strings.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoPlayerPage extends StatelessWidget {
-  final List<String> youtubeIDList;
+  final List<dartz.Tuple2<String, String>> youtubeIDList;
+
   final int startIndex;
 
   VideoPlayerPage({@required this.youtubeIDList, @required this.startIndex});
@@ -27,7 +29,7 @@ class VideoPlayerPage extends StatelessWidget {
 /// Homepage
 // ignore: must_be_immutable
 class _VideoPlayerView extends StatefulWidget {
-  final List<String> youtubeIDList;
+  final List<dartz.Tuple2<String, String>> youtubeIDList;
   int index;
 
   _VideoPlayerView({@required this.youtubeIDList, @required this.index});
@@ -44,7 +46,6 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
 
   PlayerState _playerState;
   YoutubeMetaData _videoMetaData;
-  double _volume = 100;
   bool _muted = false;
   bool _isPlayerReady = false;
 
@@ -52,7 +53,7 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
   void initState() {
     super.initState();
     _controller = YoutubePlayerController(
-      initialVideoId: widget.youtubeIDList[widget.index],
+      initialVideoId: widget.youtubeIDList[widget.index].value2,
       flags: const YoutubePlayerFlags(
         mute: false,
         autoPlay: true,
@@ -108,23 +109,11 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
           const SizedBox(width: 8.0),
           Expanded(
             child: Text(
-              _controller.metadata.title == null
-                  ? Strings.titleVideo
-                  : _controller.metadata.title,
+              widget.youtubeIDList[widget.index].value1,
               style: TextPrimaryContrastingStyles.titleStyle(context),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),
-          ),
-          IconButton(
-            icon: Icon(
-              Icons.settings,
-              color: Theme.of(context).primaryColor,
-              size: 25.0,
-            ),
-            onPressed: () {
-              print('Settings Tapped!');
-            },
           ),
         ],
         onReady: () {
@@ -132,13 +121,13 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
         },
         onEnded: (data) {
           _controller.load(_nextVideoID());
-          _showSnackBar('Next Video Started!');
+          _showSnackBar(Strings.played_next_video);
         },
       ),
       builder: (context, player) => Scaffold(
         key: _scaffoldKey,
         appBar: NavigationPushWidget(
-          title: _controller.metadata.title,
+          title: widget.youtubeIDList[widget.index].value1,
         ),
         body: ListView(
           children: [
@@ -150,7 +139,7 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
                 children: [
                   _space,
                   _text(Strings.videoPlayerTitleDescription,
-                      _videoMetaData.title),
+                      widget.youtubeIDList[widget.index].value1),
                   _space,
                   _text(Strings.videoPlayerChannelDescription,
                       _videoMetaData.author),
@@ -253,11 +242,11 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
 
   String _nextVideoID() {
     widget.index = (widget.index + 1) % widget.youtubeIDList.length;
-    return widget.youtubeIDList[widget.index];
+    return widget.youtubeIDList[widget.index].value2;
   }
 
   String _prevVideoID() {
     widget.index = (widget.index - 1) % widget.youtubeIDList.length;
-    return widget.youtubeIDList[widget.index];
+    return widget.youtubeIDList[widget.index].value2;
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +13,10 @@ import 'package:search_gold_quotes/app/domain/usecases/get_searched_price_histor
 import 'package:search_gold_quotes/app/presentation/style/TextStyles.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/navigation_main_scrollable_widget.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
+import 'package:search_gold_quotes/core/presentation/utils/chart_utils.dart';
 import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
 import 'package:search_gold_quotes/core/values/colors.dart';
+import 'package:search_gold_quotes/core/values/date_format_type.dart';
 import 'package:search_gold_quotes/core/values/dimens.dart';
 import 'package:search_gold_quotes/core/values/strings.dart';
 import 'package:shimmer/shimmer.dart';
@@ -122,17 +125,16 @@ class _HistoryListContainerState extends State<HistoryListContainer>
         return _LoadingListWidget();
       } else if (state is Loaded) {
         return HistoryListWidget(
-          jewelryType: widget.jewelryType,
-          period: state.period,
-          exchangeState: state.exchangeState,
-          historyList: state.historyList,
-          maxPrice: state.maxPrice,
-          middlePrice: state.middlePrice,
-          minPrice: state.minPrice,
-        );
+            jewelryType: widget.jewelryType,
+            period: state.period,
+            exchangeState: state.exchangeState,
+            historyList: state.historyList,
+            chartList: state.chartList.reversed.toList(),
+            sortedPriceList: state.sortedPriceList);
       } else if (state is Error) {
         return _ErrorWidget(errorMessage: state.errorMessage);
       }
+      return Container();
     });
   }
 
@@ -186,7 +188,7 @@ class _LoadingListWidget extends StatelessWidget {
           return _LoadingListItemWidget();
         },
         separatorBuilder: (context, index) => Divider(),
-        itemCount: 10,
+        itemCount: 2,
         shrinkWrap: true,
         scrollDirection: Axis.vertical,
         padding: const EdgeInsets.all(Dimens.margin),
@@ -202,7 +204,7 @@ class _LoadingListItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child:
-          Container(height: 30.0, width: double.infinity, color: Colors.white),
+          Container(height: 40.0, width: double.infinity, color: Colors.white),
     );
   }
 }
@@ -212,9 +214,8 @@ class HistoryListWidget extends StatelessWidget {
   final Period period;
   final ExchangeState exchangeState;
   final HistoryJewelryList historyList;
-  final double maxPrice;
-  final double minPrice;
-  final double middlePrice;
+  final List<HistoryJewelry> chartList;
+  final List<double> sortedPriceList;
 
   const HistoryListWidget(
       {Key key,
@@ -222,9 +223,8 @@ class HistoryListWidget extends StatelessWidget {
       @required this.period,
       @required this.exchangeState,
       @required this.historyList,
-      @required this.maxPrice,
-      @required this.minPrice,
-      @required this.middlePrice})
+      @required this.chartList,
+      @required this.sortedPriceList})
       : super(key: key);
 
   @override
@@ -250,17 +250,15 @@ class HistoryListWidget extends StatelessWidget {
                                 context))),
                   ),
                   HistoryLineChart(
-                      historyList: historyList.historyList,
-                      maxPrice: maxPrice,
-                      middlePrice: middlePrice,
-                      minPrice: minPrice,
+                      historyList: chartList,
+                      sortedPriceList: sortedPriceList,
                       chartTitle: jewelryType.toSortTitleInScreen())
                 ],
               );
             }
 
             return HistoryItemWidget(
-                historyItem: historyList.historyList[index]);
+                historyItem: historyList.historyList[index - 1]);
           },
           separatorBuilder: (context, index) => index != 0
               ? Divider(color: Theme.of(context).primaryColor)
@@ -272,7 +270,7 @@ class HistoryListWidget extends StatelessWidget {
           scrollDirection: Axis.vertical,
           padding: const EdgeInsets.all(Dimens.margin),
         ),
-        onRefresh: () async => _onRefresh(context));
+        onRefresh: () async => _onRefresh);
   }
 
   Future<void> _onRefresh(BuildContext context) async {
@@ -369,7 +367,7 @@ class HistoryItemWidget extends StatelessWidget {
             ),
           ),
           Text(
-            '${historyItem.price.toNumberFormat()}원',
+            '${historyItem.price.toNumberFormatCurrenyWon()}',
             style: TextPrimaryContrastingStyles.defaultStyle(context),
           )
         ],
@@ -380,23 +378,19 @@ class HistoryItemWidget extends StatelessWidget {
 
 class HistoryLineChart extends StatelessWidget {
   final List<HistoryJewelry> historyList;
-  final double maxPrice;
-  final double minPrice;
-  final double middlePrice;
+  final List<double> sortedPriceList;
   final String chartTitle;
 
   HistoryLineChart(
       {@required this.historyList,
-      @required this.maxPrice,
-      @required this.minPrice,
-      @required this.middlePrice,
+      @required this.sortedPriceList,
       @required this.chartTitle});
 
   @override
   Widget build(BuildContext context) {
     ThemeNotifier themeService = Provider.of<ThemeNotifier>(context);
     return AspectRatio(
-      aspectRatio: 1.23,
+      aspectRatio: 1,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(18)),
@@ -417,27 +411,16 @@ class HistoryLineChart extends StatelessWidget {
                   height: 37,
                 ),
                 Text(
-                  '2021',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 16,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                Text(
                   chartTitle,
                   style: TextStyle(
                       color: Theme.of(context).primaryColor,
-                      fontSize: 32,
+                      fontSize: Dimens.fontTextBigger,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 2),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(
-                  height: 37,
+                  height: 20,
                 ),
                 Expanded(
                   child: Padding(
@@ -484,12 +467,12 @@ class HistoryLineChart extends StatelessWidget {
           margin: 10,
           getTitles: (value) {
             switch (value.toInt()) {
-              case 1:
-                return '오늘';
-              case 7:
-                return '어제';
-              case 13:
-                return '그제';
+              case 2:
+                return historyList.first.date
+                    .toDateFormat(DateFormatType.chartBottomDateFormat);
+              case 10:
+                return historyList.last.date
+                    .toDateFormat(DateFormatType.chartBottomDateFormat);
             }
             return '';
           },
@@ -502,17 +485,14 @@ class HistoryLineChart extends StatelessWidget {
             fontSize: 16,
           ),
           getTitles: (value) {
-            if (value == maxPrice) {
-              return '${maxPrice.toInt().toNumberFormat()} 원';
-            } else if (value == middlePrice) {
-              return '${middlePrice.toInt().toNumberFormat()}원';
-            } else if (value == minPrice) {
-              return '${minPrice.toInt().toNumberFormat()}원';
+            if (value == sortedPriceList.last ||
+                value == sortedPriceList.first) {
+              return '${value.toInt().toNumberFormatCurrenyWon()}';
             }
             return '';
           },
-          margin: 8,
-          reservedSize: 80,
+          margin: 12,
+          reservedSize: 90,
         ),
       ),
       borderData: FlBorderData(
@@ -534,21 +514,37 @@ class HistoryLineChart extends StatelessWidget {
         ),
       ),
       minX: 0,
-      maxX: 14,
-      maxY: maxPrice,
-      minY: minPrice - 5000,
+      maxX: 12,
+      maxY: sortedPriceList.last +
+          ChartUtils.getEfficientInterval(
+              sortedPriceList.last, sortedPriceList.first),
+      minY: sortedPriceList.first -
+          ChartUtils.getEfficientInterval(
+              sortedPriceList.last, sortedPriceList.first),
       lineBarsData: linesBarData(historyList
           .map((item) => (double.tryParse(item.price) ?? 0.0))
           .toList()),
     );
   }
 
+  int getStandardDeviation(List<double> doubles) {
+    final average =
+        doubles.reduce((value, element) => value + element) / doubles.length;
+    final variable = doubles
+            .map((number) => sqrt(pow(number - average, 2)))
+            .reduce((value, element) => value + element) /
+        doubles.length;
+    return variable.round();
+  }
+
   List<LineChartBarData> linesBarData(List<double> priceList) {
     final LineChartBarData lineChartBarData = LineChartBarData(
       spots: [
-        FlSpot(1, priceList[0]),
-        FlSpot(7, priceList[1]),
-        FlSpot(13, priceList[2]),
+        FlSpot(2, priceList[0]),
+        FlSpot(4, priceList[1]),
+        FlSpot(6, priceList[2]),
+        FlSpot(8, priceList[3]),
+        FlSpot(10, priceList[4]),
       ],
       isCurved: true,
       colors: [

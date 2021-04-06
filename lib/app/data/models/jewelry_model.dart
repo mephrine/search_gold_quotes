@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 import 'package:search_gold_quotes/app/domain/entities/home_gold.dart';
 
@@ -24,7 +25,7 @@ class JewelryModel extends HomeGold {
       [jewelryType, date, goldPurity, goldPriceType, price];
 
   static String _dateToDay(String date) {
-    if (date == '2021-02-10') {
+    if (date == DateFormat('yyyy-MM-dd').format(DateTime.now().toLocal())) {
       return '오늘';
     }
     return '과거';
@@ -36,7 +37,7 @@ class JewelryModel extends HomeGold {
         goldDate: jsonMap['goldDate'],
         goldPurity: jsonMap['goldPurity'],
         goldPriceType: jsonMap['goldPriceType'],
-        goldPrice: jsonMap['goldPrice'],
+        goldPrice: jsonMap['avgGoldPrice'],
         goldCurrency: jsonMap['goldCurrency']);
   }
 
@@ -46,7 +47,7 @@ class JewelryModel extends HomeGold {
       "goldDate": date,
       "goldPurity": goldPurity,
       "goldPriceType": goldPriceType,
-      "goldPrice": price,
+      "avgGoldPrice": price,
       "goldCurrency": goldCurrency
     };
   }

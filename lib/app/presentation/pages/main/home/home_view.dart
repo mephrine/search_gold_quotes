@@ -12,8 +12,10 @@ import 'package:search_gold_quotes/app/presentation/style/TextStyles.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/message_display.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/navigation_main_widget.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
+import 'package:search_gold_quotes/core/presentation/utils/chart_utils.dart';
 import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
 import 'package:search_gold_quotes/core/values/colors.dart';
+import 'package:search_gold_quotes/core/values/date_format_type.dart';
 import 'package:search_gold_quotes/core/values/dimens.dart';
 import 'package:search_gold_quotes/core/values/strings.dart';
 import 'package:search_gold_quotes/core/extensions/number.dart';
@@ -49,7 +51,8 @@ class _HomeContainer extends State<HomeContainer> {
       if (state is Loading) {
         return _LoadingWidget();
       } else if (state is Loaded) {
-        return _HomeLoadedWidget(homeData: state.homeData);
+        return _HomeLoadedWidget(
+            homeData: state.homeData, sortedPriceList: state.sortedPriceList);
       } else if (state is Error) {
         return MessageDisplay(message: state.message);
       }
@@ -123,8 +126,9 @@ class _LoadingWidget extends StatelessWidget {
 
 class _HomeLoadedWidget extends StatelessWidget {
   final HomeData homeData;
+  final List<double> sortedPriceList;
 
-  _HomeLoadedWidget({@required this.homeData});
+  _HomeLoadedWidget({@required this.homeData, @required this.sortedPriceList});
 
   @override
   Widget build(BuildContext context) {
@@ -135,25 +139,29 @@ class _HomeLoadedWidget extends StatelessWidget {
           height: 20,
         ),
         FamousQuotesAnimationWidget(
-          famousQuotes: homeData.famousQuotes,
+          famousQuotes: homeData.famousSayingData.famousSaying,
         ),
         SizedBox(
           height: 20,
         ),
-        Text(homeData.referenceSiteName,
+        Text('-${homeData.famousSayingData.famousSayingWriter}-',
             style: TextPrimaryContrastingStyles.defaultStyle(context)),
         SizedBox(
           height: 30,
         ),
         Expanded(
-          child: TodayGoldLineChart(goldList: homeData.goldList),
+          child: TodayGoldLineChart(
+            goldList: homeData.goldList.reversed.toList(),
+            sortedPriceList: sortedPriceList,
+          ),
         ),
         SizedBox(
           height: 30,
         ),
         Positioned(
           bottom: 0.0,
-          child: TodayGoldPriceWidget(goldList: homeData.goldList),
+          child: TodayGoldPriceWidget(
+              goldList: homeData.goldList.reversed.toList()),
         ),
       ]),
     );
@@ -197,15 +205,15 @@ class _TodayGoldPriceItemWidgetState extends State<TodayGoldPriceItemWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(widget.homeGold.day,
-            style: TextStyle(
-                fontSize: Dimens.fontTextBig,
-                color: Colors.redAccent,
-                fontWeight: FontWeight.bold)),
+        // Text(widget.homeGold.day,
+        //     style: TextStyle(
+        //         fontSize: Dimens.fontTextBig,
+        //         color: Colors.redAccent,
+        //         fontWeight: FontWeight.bold)),
         Text(widget.homeGold.date,
             style: TextStyle(
                 fontSize: Dimens.fontTextSmall,
-                color: Theme.of(context).primaryColorDark,
+                color: Colors.redAccent,
                 fontWeight: FontWeight.bold)),
         Text(widget.homeGold.price.toNumberFormat(),
             style: TextStyle(
@@ -225,12 +233,15 @@ class FamousQuotesAnimationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 30,
-      child: ScaleAnimatedTextKit(
+      height: 40,
+      child: AnimatedTextKit(
         // speed: Duration(milliseconds: 300),
         repeatForever: true,
-        text: famousQuotes.split(' '),
-        textStyle: TextPrimaryContrastingStyles.biggerStyle(context),
+        animatedTexts: famousQuotes
+            .split(' ')
+            .map((element) => TypewriterAnimatedText(element,
+                textStyle: TextPrimaryContrastingStyles.biggerStyle(context)))
+            .toList(),
         pause: Duration(milliseconds: 300),
         displayFullTextOnTap: false,
         stopPauseOnTap: false,
@@ -241,8 +252,9 @@ class FamousQuotesAnimationWidget extends StatelessWidget {
 
 class TodayGoldLineChart extends StatefulWidget {
   final List<HomeGold> goldList;
+  final List<double> sortedPriceList;
 
-  TodayGoldLineChart({@required this.goldList});
+  TodayGoldLineChart({@required this.goldList, @required this.sortedPriceList});
 
   @override
   State<StatefulWidget> createState() => _TodayGoldLineChartState();
@@ -250,21 +262,11 @@ class TodayGoldLineChart extends StatefulWidget {
 
 class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
   bool isShowingMainData;
-  double maxPrice;
-  double minPrice;
-  double middlePrice;
 
   @override
   void initState() {
     super.initState();
     isShowingMainData = true;
-    maxPrice = widget.goldList
-        .map((item) => double.tryParse(item.price) ?? 0)
-        .reduce((current, next) => current > next ? current : next);
-    minPrice = widget.goldList
-        .map((item) => double.tryParse(item.price) ?? 0)
-        .reduce((current, next) => current < next ? current : next);
-    middlePrice = minPrice + (maxPrice - minPrice) ~/ 2.0;
   }
 
   @override
@@ -292,17 +294,6 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
                   height: 37,
                 ),
                 Text(
-                  '2021',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 16,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                Text(
                   '오늘의 시세',
                   style: TextStyle(
                       color: Theme.of(context).primaryColor,
@@ -319,7 +310,7 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
                     padding: const EdgeInsets.only(
                         right: Dimens.margin, left: Dimens.spacing),
                     child: LineChart(
-                      sampleData1(),
+                      mainChartData(),
                       swapAnimationDuration: const Duration(milliseconds: 250),
                     ),
                   ),
@@ -335,7 +326,7 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
     );
   }
 
-  LineChartData sampleData1() {
+  LineChartData mainChartData() {
     return LineChartData(
       lineTouchData: LineTouchData(
         touchTooltipData: LineTouchTooltipData(
@@ -360,11 +351,14 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
           getTitles: (value) {
             switch (value.toInt()) {
               case 1:
-                return '오늘';
+                return widget.goldList[0].date
+                    .toDateFormat(DateFormatType.chartBottomDateFormat);
               case 7:
-                return '어제';
+                return widget.goldList[1].date
+                    .toDateFormat(DateFormatType.chartBottomDateFormat);
               case 13:
-                return '그제';
+                return widget.goldList[2].date
+                    .toDateFormat(DateFormatType.chartBottomDateFormat);
             }
             return '';
           },
@@ -377,12 +371,12 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
             fontSize: 16,
           ),
           getTitles: (value) {
-            if (value == maxPrice) {
-              return '${maxPrice.toInt().toNumberFormat()} 원';
-            } else if (value == middlePrice) {
-              return '${middlePrice.toInt().toNumberFormat()}원';
-            } else if (value == minPrice) {
-              return '${minPrice.toInt().toNumberFormat()}원';
+            if (value == widget.sortedPriceList[0]) {
+              return '${widget.sortedPriceList[0].toInt().toNumberFormatCurrenyWon()}';
+            } else if (value == widget.sortedPriceList[1]) {
+              return '${widget.sortedPriceList[1].toInt().toNumberFormatCurrenyWon()}';
+            } else if (value == widget.sortedPriceList[2]) {
+              return '${widget.sortedPriceList[2].toInt().toNumberFormatCurrenyWon()}';
             }
             return '';
           },
@@ -410,8 +404,10 @@ class _TodayGoldLineChartState extends State<TodayGoldLineChart> {
       ),
       minX: 0,
       maxX: 14,
-      maxY: maxPrice,
-      minY: minPrice - 5000,
+      maxY: widget.sortedPriceList.last,
+      minY: widget.sortedPriceList.first -
+          ChartUtils.getEfficientInterval(
+              widget.sortedPriceList.last, widget.sortedPriceList.first),
       lineBarsData: linesBarData(widget.goldList
           .map((item) => (double.tryParse(item.price) ?? 0.0))
           .toList()),

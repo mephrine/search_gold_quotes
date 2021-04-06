@@ -1,4 +1,3 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:search_gold_quotes/app/domain/entities/home_data.dart';
 
@@ -6,15 +5,9 @@ import 'jewelry_model.dart';
 
 class HomeDataModel extends HomeData {
   HomeDataModel(
-      {@required String famousQuotes,
-      @required String famousSayingWriter,
-      @required String referenceSiteName,
-      @required List<JewelryModel> goldList})
-      : super(
-            famousQuotes: famousQuotes,
-            famousSayingWriter: famousSayingWriter,
-            referenceSiteName: referenceSiteName,
-            goldList: goldList);
+      {@required List<JewelryModel> goldList,
+      @required FamousSayingDomain famousSayingData})
+      : super(famousSayingData: famousSayingData, goldList: goldList);
 
   // List<HomeGold> toHomeGoldList(List<JewelryModel> JewelryModelList) {
   //   List<JewelryModel> _goldList = List<JewelryModel>.from(JewelryModelList.map((item) => JewelryModel.fromJson(item)));
@@ -29,13 +22,12 @@ class HomeDataModel extends HomeData {
   factory HomeDataModel.fromJson(Map<String, dynamic> jsonMap) {
     try {
       final Map<String, dynamic> data = jsonMap['data'];
-      Iterable iterator = data['goldList'];
+      Iterable iterator = data['goldPriceDomain'];
       List<JewelryModel> _goldList = List<JewelryModel>.from(
           iterator.map((item) => JewelryModel.fromJson(item)));
       return HomeDataModel(
-          famousQuotes: data['famousSaying'],
-          famousSayingWriter: data['famousSayingWriter'],
-          referenceSiteName: data['referenceSiteName'],
+          famousSayingData:
+              FamousSayingDomain.fromJson(data['famousSayingDomain']),
           goldList: _goldList);
     } catch (e) {
       return HomeDataModel.empty();
@@ -45,9 +37,7 @@ class HomeDataModel extends HomeData {
   Map<String, dynamic> toJson() {
     return {
       "data": {
-        "famousSaying": famousQuotes,
-        "famousSayingWriter": famousSayingWriter,
-        "referenceSiteName": referenceSiteName,
+        "famousSayingDomain": (famousSayingData as FamousSayingDomain).toJson(),
         "goldList":
             (goldList as List<JewelryModel>).map((item) => item.toJson())
       }
@@ -55,10 +45,40 @@ class HomeDataModel extends HomeData {
   }
 
   factory HomeDataModel.empty() {
-    return HomeDataModel(
-        famousQuotes: "",
-        famousSayingWriter: '',
-        referenceSiteName: "",
-        goldList: []);
+    return HomeDataModel(famousSayingData: null, goldList: []);
   }
+}
+
+class FamousSayingDomain extends FamousSayingData {
+  FamousSayingDomain({
+    @required String famousSaying,
+    @required String famousSayingWriter,
+    @required String referenceSiteName,
+  }) : super(
+            famousSaying: famousSaying,
+            famousSayingWriter: famousSayingWriter,
+            referenceSiteName: referenceSiteName);
+
+  factory FamousSayingDomain.fromJson(Map<String, dynamic> jsonMap) {
+    try {
+      return FamousSayingDomain(
+        famousSaying: jsonMap['famousSaying'],
+        famousSayingWriter: jsonMap['famousSayingWriter'],
+        referenceSiteName: jsonMap['referenceSiteName'],
+      );
+    } catch (e) {
+      return FamousSayingDomain.empty();
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "famousSaying": famousSaying,
+      "famousSayingWriter": famousSayingWriter,
+      "referenceSiteName": referenceSiteName
+    };
+  }
+
+  factory FamousSayingDomain.empty() => FamousSayingDomain(
+      famousSaying: "", famousSayingWriter: "", referenceSiteName: "");
 }

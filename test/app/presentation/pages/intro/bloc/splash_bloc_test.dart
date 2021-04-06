@@ -99,7 +99,17 @@ void main() {
   group('버전 비교', () {
     test('currentVersion이 높은 경우 true를 반환해야한다.', () async {
       final currentVersion = '1.0.1';
-      final latestVersion = '1.0.0';
+      final latestVersion = '1.0';
+
+      final result =
+          splashBloc.currentVersionIsLatest(currentVersion, latestVersion);
+
+      expect(result, true);
+    });
+
+    test('currentVersion이 높은 경우 true를 반환해야한다.', () async {
+      final currentVersion = '1.0.1';
+      final latestVersion = '1.0';
 
       final result =
           splashBloc.currentVersionIsLatest(currentVersion, latestVersion);

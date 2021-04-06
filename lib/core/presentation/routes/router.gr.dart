@@ -7,6 +7,7 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:auto_route/auto_route.dart';
+import 'package:dartz/dartz.dart';
 
 import '../../../app/presentation/pages/intro/splash_page.dart';
 import '../../../app/presentation/pages/main/main_page.dart';
@@ -108,7 +109,7 @@ class AppRouter extends RouterBase {
 
 /// VideoPlayerPage arguments holder class
 class VideoPlayerPageArguments {
-  final List<String> youtubeIDList;
+  final List<Tuple2<String, String>> youtubeIDList;
   final int startIndex;
   VideoPlayerPageArguments(
       {@required this.youtubeIDList, @required this.startIndex});

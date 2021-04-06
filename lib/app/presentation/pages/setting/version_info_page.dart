@@ -42,7 +42,6 @@ class _VersionInfoViewState extends State<_VersionInfoView> {
 
   @override
   Widget build(BuildContext context) {
-//versionInfoProvider.loadVersionInfo();
     return Scaffold(
         appBar: NavigationPushWidget(title: widget.title),
         body: ChangeNotifierProvider(
