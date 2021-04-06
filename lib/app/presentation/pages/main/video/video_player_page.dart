@@ -46,7 +46,6 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
 
   PlayerState _playerState;
   YoutubeMetaData _videoMetaData;
-  double _volume = 100;
   bool _muted = false;
   bool _isPlayerReady = false;
 
@@ -116,23 +115,13 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
               maxLines: 1,
             ),
           ),
-          IconButton(
-            icon: Icon(
-              Icons.settings,
-              color: Theme.of(context).primaryColor,
-              size: 25.0,
-            ),
-            onPressed: () {
-              print('Settings Tapped!');
-            },
-          ),
         ],
         onReady: () {
           _isPlayerReady = true;
         },
         onEnded: (data) {
           _controller.load(_nextVideoID());
-          _showSnackBar('Next Video Started!');
+          _showSnackBar(Strings.played_next_video);
         },
       ),
       builder: (context, player) => Scaffold(

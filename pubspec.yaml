@@ -70,7 +70,7 @@ dependencies:
   intl: ^0.17.0
 
   ### Others
-  youtube_player_flutter: ^7.0.0+7
+  youtube_player_flutter: ^8.0.0
   webview_flutter: ^2.0.2
   url_launcher: ^6.0.3
   json_annotation: ^3.1.1
