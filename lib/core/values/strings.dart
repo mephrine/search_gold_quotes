@@ -31,4 +31,6 @@ class Strings {
 
   static const appUpdateAlertMessage =
       '최신 버전이 출시되었습니다.\n스토어에서 업데이트 후 다시 접속해주세요.';
+
+  static const played_next_video = '다음 영상이 실행되었습니다.';
 }
