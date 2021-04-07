@@ -13,4 +13,5 @@ class InputConverter {
   }
 }
 
+// ignore: must_be_immutable
 class InvalidInputFailure extends Failure {}

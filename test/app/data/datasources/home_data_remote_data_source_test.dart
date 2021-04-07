@@ -53,9 +53,6 @@ void main() {
         ),
         goldList: goldList);
 
-    HomeDataModel testHomeDataModel;
-    setUp(() {});
-
     test('should return home data when the request code is 200', () async {
       // arrange
       when(httpClient.get(any)).thenAnswer((_) async => Response(

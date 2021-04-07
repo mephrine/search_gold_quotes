@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 import 'package:search_gold_quotes/app/data/models/version_info_model.dart';

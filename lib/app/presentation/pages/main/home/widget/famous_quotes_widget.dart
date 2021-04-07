@@ -29,7 +29,7 @@ class FamousQuotesWidget extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
-          Text('-${writer}-',
+          Text('-$writer-',
               style: TextPrimaryContrastingStyles.defaultStyle(context)),
         ],
       ),

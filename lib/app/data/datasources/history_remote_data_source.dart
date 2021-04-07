@@ -3,7 +3,6 @@ import 'package:meta/meta.dart';
 import 'package:search_gold_quotes/app/data/models/history_jewelry_model.dart';
 import 'package:search_gold_quotes/app/domain/usecases/get_searched_price_history.dart';
 import 'package:search_gold_quotes/core/error/exceptions.dart';
-import 'package:search_gold_quotes/core/error/failures.dart';
 import 'package:search_gold_quotes/core/values/constants.dart';
 
 abstract class HistoryRemoteDataSource {

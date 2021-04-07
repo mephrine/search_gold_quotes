@@ -8,7 +8,6 @@ import 'package:search_gold_quotes/app/data/datasources/home_data_remote_data_so
 import 'package:search_gold_quotes/app/data/models/jewelry_model.dart';
 import 'package:search_gold_quotes/app/data/models/home_data_model.dart';
 import 'package:search_gold_quotes/app/data/repositories/home_repository_impl.dart';
-import 'package:search_gold_quotes/app/domain/entities/home_data.dart';
 import 'package:search_gold_quotes/core/error/exceptions.dart';
 import 'package:search_gold_quotes/core/error/failures.dart';
 import 'package:search_gold_quotes/core/platform/network_info.dart';

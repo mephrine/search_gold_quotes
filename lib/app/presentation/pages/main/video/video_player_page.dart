@@ -44,7 +44,6 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
   TextEditingController _idController;
   TextEditingController _seekToController;
 
-  PlayerState _playerState;
   YoutubeMetaData _videoMetaData;
   bool _muted = false;
   bool _isPlayerReady = false;
@@ -67,13 +66,11 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
     _idController = TextEditingController();
     _seekToController = TextEditingController();
     _videoMetaData = const YoutubeMetaData();
-    _playerState = PlayerState.unknown;
   }
 
   void listener() {
     if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
       setState(() {
-        _playerState = _controller.value.playerState;
         _videoMetaData = _controller.metadata;
       });
     }
@@ -220,6 +217,7 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
   Widget get _space => const SizedBox(height: 10);
 
   void _showSnackBar(String message) {
+    // ignore: deprecated_member_use
     _scaffoldKey.currentState.showSnackBar(
       SnackBar(
         content: Text(

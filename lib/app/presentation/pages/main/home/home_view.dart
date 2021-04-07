@@ -3,7 +3,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:search_gold_quotes/app/domain/entities/home_data.dart';
-import 'package:search_gold_quotes/app/domain/entities/home_gold.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/home/home/home_bloc.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/home/widget/famous_quotes_widget.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/home/widget/home_loading_widget.dart';
@@ -12,7 +11,6 @@ import 'package:search_gold_quotes/app/presentation/pages/main/home/widget/today
 import 'package:search_gold_quotes/app/presentation/widgets/message_display.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/navigation_main_widget.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
-import 'package:search_gold_quotes/core/values/dimens.dart';
 import 'package:search_gold_quotes/core/values/strings.dart';
 
 class HomeView extends StatelessWidget {

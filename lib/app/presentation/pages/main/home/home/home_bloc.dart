@@ -21,7 +21,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         getHomeInfo = homeInfo,
         super(Empty());
 
-  @override
   HomeState get initialState => Empty();
 
   @override

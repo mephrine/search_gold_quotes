@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'dart:math';
 
 import 'package:bloc/bloc.dart';
@@ -21,7 +20,6 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
         useCase = getHistoryUseCase,
         super(Empty());
 
-  @override
   HistoryState get initialState => Empty();
 
   @override

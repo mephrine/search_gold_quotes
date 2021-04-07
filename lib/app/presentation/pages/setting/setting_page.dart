@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:search_gold_quotes/app/presentation/style/TextStyles.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/navigation_push_widget.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/separator_widget.dart';
-import 'package:search_gold_quotes/core/di/injection_container.dart';
 import 'package:search_gold_quotes/core/presentation/routes/router.gr.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:search_gold_quotes/core/theme/theme_notifier.dart';

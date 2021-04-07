@@ -7,7 +7,6 @@ import 'package:search_gold_quotes/app/presentation/widgets/lottie_gold_image_wi
 import 'package:search_gold_quotes/app/presentation/widgets/navigation_push_widget.dart';
 import 'package:search_gold_quotes/core/platform/device_utils.dart';
 import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
-import 'package:search_gold_quotes/core/values/strings.dart';
 
 class VersionInfoPage extends StatelessWidget {
   final String title;

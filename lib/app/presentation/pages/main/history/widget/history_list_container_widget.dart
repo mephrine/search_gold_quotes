@@ -17,23 +17,24 @@ class HistoryListContainerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
         create: (_) => container<HistoryBloc>(),
-        child: HistoryListContainer(
+        child: _HistoryListContainer(
           key: key,
           jewelryType: jewelryType,
         ));
   }
 }
 
-class HistoryListContainer extends StatefulWidget {
+class _HistoryListContainer extends StatefulWidget {
   final JewelryType jewelryType;
 
-  HistoryListContainer({Key key, @required this.jewelryType}) : super(key: key);
+  _HistoryListContainer({Key key, @required this.jewelryType})
+      : super(key: key);
 
   @override
   _HistoryListContainerState createState() => _HistoryListContainerState();
 }
 
-class _HistoryListContainerState extends State<HistoryListContainer>
+class _HistoryListContainerState extends State<_HistoryListContainer>
     with AutomaticKeepAliveClientMixin {
   @override
   void initState() {
@@ -42,6 +43,7 @@ class _HistoryListContainerState extends State<HistoryListContainer>
   }
 
   @override
+  // ignore: must_call_super
   Widget build(BuildContext context) {
     return BlocBuilder<HistoryBloc, HistoryState>(builder: (bloc, state) {
       if (state is Loading) {

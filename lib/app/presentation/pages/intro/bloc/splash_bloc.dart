@@ -20,7 +20,6 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
         getVersionInfo = versionInfo,
         super(Empty());
 
-  @override
   SplashState get initialState => Empty();
 
   @override

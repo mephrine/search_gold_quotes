@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:search_gold_quotes/core/presentation/routes/router.gr.dart';
 import 'package:search_gold_quotes/core/values/colors.dart';
 import 'package:search_gold_quotes/core/values/dimens.dart';
 
@@ -28,9 +27,4 @@ class NavigationPushWidget extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
-
-  @override
-  bool shouldFullyObstruct(BuildContext context) {
-    return true;
-  }
 }

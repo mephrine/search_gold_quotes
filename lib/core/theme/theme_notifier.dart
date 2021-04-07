@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:search_gold_quotes/core/platform/device_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';

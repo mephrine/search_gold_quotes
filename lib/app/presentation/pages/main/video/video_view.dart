@@ -53,6 +53,7 @@ class _VideoContainerState extends State<_VideoContainer> {
             } else if (state is Error) {
               return MessageDisplay(message: state.message);
             }
+            return Container();
           },
         ));
   }

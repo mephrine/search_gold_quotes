@@ -1,7 +1,8 @@
 import 'package:equatable/equatable.dart';
 
+// ignore: must_be_immutable
 abstract class Failure extends Equatable {
-  List<dynamic> properties = const<dynamic>[];
+  List<dynamic> properties = const <dynamic>[];
   Failure([this.properties]);
 
   @override
@@ -10,6 +11,11 @@ abstract class Failure extends Equatable {
   }
 }
 
+// ignore: must_be_immutable
 class ServerFailure extends Failure {}
+
+// ignore: must_be_immutable
 class CacheFailure extends Failure {}
+
+// ignore: must_be_immutable
 class ParseFailure extends Failure {}

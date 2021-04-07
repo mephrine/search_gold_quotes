@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:search_gold_quotes/app/data/models/history_jewelry_model.dart';
 import 'package:search_gold_quotes/app/domain/entities/history_jewelry.dart';
 import 'package:search_gold_quotes/app/domain/repositories/history_repository.dart';
 import 'package:search_gold_quotes/app/domain/usecases/get_searched_price_history.dart';

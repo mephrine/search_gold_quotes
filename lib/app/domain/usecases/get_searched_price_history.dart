@@ -63,6 +63,8 @@ extension PeriodParams on Period {
         return Strings.sortPeriodMontly;
       case Period.yearly:
         return Strings.sortPeriodYearly;
+      default:
+        return '';
     }
   }
 }
@@ -80,6 +82,8 @@ extension ExchangeStateParams on ExchangeState {
         return Strings.sortExchangeStateBuy;
       case ExchangeState.sell:
         return Strings.sortExchangeStateSell;
+      default:
+        return '';
     }
   }
 }
@@ -99,6 +103,8 @@ extension JewelryTypeParams on JewelryType {
         return Strings.jewelryPlatinum;
       case JewelryType.silver:
         return Strings.jewelrySilver;
+      default:
+        return '';
     }
   }
 }
