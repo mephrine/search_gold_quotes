@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:search_gold_quotes/app/domain/entities/home_data.dart';
 import 'package:search_gold_quotes/app/domain/entities/home_gold.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/home/home/home_bloc.dart';
+import 'package:search_gold_quotes/app/presentation/pages/main/home/widget/famous_quotes_animation_widget.dart';
+import 'package:search_gold_quotes/app/presentation/pages/main/home/widget/home_loading_widget.dart';
 import 'package:search_gold_quotes/app/presentation/style/TextStyles.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/message_display.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/navigation_main_widget.dart';
@@ -49,7 +51,7 @@ class _HomeContainer extends State<HomeContainer> {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(builder: (bloc, state) {
       if (state is Loading) {
-        return _LoadingWidget();
+        return LoadingWidget();
       } else if (state is Loaded) {
         return _HomeLoadedWidget(
             homeData: state.homeData, sortedPriceList: state.sortedPriceList);
@@ -64,63 +66,6 @@ class _HomeContainer extends State<HomeContainer> {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       BlocProvider.of<HomeBloc>(context, listen: false).add(GetHomeData());
     });
-  }
-}
-
-class _LoadingWidget extends StatelessWidget {
-  const _LoadingWidget({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Shimmer.fromColors(
-        baseColor: Colors.grey[300],
-        highlightColor: Colors.grey[100],
-        enabled: true,
-        child: Padding(
-          padding: const EdgeInsets.only(right: 16.0, left: 16.0),
-          child: Column(children: [
-            SizedBox(
-              height: 20,
-            ),
-            Container(
-              color: Colors.white,
-              width: double.infinity,
-              height: 20,
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Container(
-              color: Colors.white,
-              width: double.infinity,
-              height: 14,
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Expanded(
-              child: Container(
-                color: Colors.white,
-                width: double.infinity,
-                height: double.infinity,
-              ),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Positioned(
-                bottom: 0.0,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      0.0, 0.0, 0.0, Dimens.mainTabBarCurveMargin),
-                  child: Container(
-                    color: Colors.white,
-                    width: double.infinity,
-                    height: 100,
-                  ),
-                )),
-          ]),
-        ));
   }
 }
 
@@ -140,12 +85,8 @@ class _HomeLoadedWidget extends StatelessWidget {
         ),
         FamousQuotesAnimationWidget(
           famousQuotes: homeData.famousSayingData.famousSaying,
+          writer: homeData.famousSayingData.famousSayingWriter,
         ),
-        SizedBox(
-          height: 20,
-        ),
-        Text('-${homeData.famousSayingData.famousSayingWriter}-',
-            style: TextPrimaryContrastingStyles.defaultStyle(context)),
         SizedBox(
           height: 30,
         ),
@@ -221,31 +162,6 @@ class _TodayGoldPriceItemWidgetState extends State<TodayGoldPriceItemWidget> {
                 color: Theme.of(context).primaryColorDark,
                 fontWeight: FontWeight.bold)),
       ],
-    );
-  }
-}
-
-class FamousQuotesAnimationWidget extends StatelessWidget {
-  final String famousQuotes;
-
-  FamousQuotesAnimationWidget({@required this.famousQuotes});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 40,
-      child: AnimatedTextKit(
-        // speed: Duration(milliseconds: 300),
-        repeatForever: true,
-        animatedTexts: famousQuotes
-            .split(' ')
-            .map((element) => TypewriterAnimatedText(element,
-                textStyle: TextPrimaryContrastingStyles.biggerStyle(context)))
-            .toList(),
-        pause: Duration(milliseconds: 300),
-        displayFullTextOnTap: false,
-        stopPauseOnTap: false,
-      ),
     );
   }
 }

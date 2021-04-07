@@ -21,7 +21,7 @@ import 'package:search_gold_quotes/app/domain/usecases/get_video_list.dart';
 import 'package:search_gold_quotes/app/presentation/pages/intro/bloc/bloc.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/history/bloc/history_bloc.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/home/home/home_bloc.dart';
-import 'package:search_gold_quotes/app/presentation/pages/main/video/video/video_bloc.dart';
+import 'package:search_gold_quotes/app/presentation/pages/main/video/bloc/video_bloc.dart';
 import 'package:search_gold_quotes/core/platform/network_info.dart';
 import 'package:search_gold_quotes/core/presentation/utils/input_converter.dart';
 import 'package:search_gold_quotes/core/theme/theme_notifier.dart';

@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:search_gold_quotes/app/domain/entities/video_items.dart';
 import 'package:search_gold_quotes/app/domain/usecases/get_video_list.dart';
-import 'package:search_gold_quotes/app/presentation/pages/main/video/video/video_bloc.dart';
+import 'package:search_gold_quotes/app/presentation/pages/main/video/bloc/video_bloc.dart';
 import 'package:search_gold_quotes/core/error/failures.dart';
 import 'package:search_gold_quotes/core/usecases/no_params.dart';
 import 'package:search_gold_quotes/core/error/error_messages.dart';
@@ -54,37 +54,30 @@ void main() {
       verify(usecase(NoParams()));
     });
 
-    test('GetVideoList usecase 성공 했을 때, 상태 변화는 [Loading, Loaded] 로 변화되어야 한다.', () async {
-        // arrange
+    test('GetVideoList usecase 성공 했을 때, 상태 변화는 [Loading, Loaded] 로 변화되어야 한다.',
+        () async {
+      // arrange
       when(usecase(any)).thenAnswer((_) async => Right(videoList));
-        // act
+      // act
       bloc.add(GetVideoListOnLoaded());
 
-        // assert
-      final expected = [
-        Loading(),
-        Loaded(videoList: videoList)
-      ];
+      // assert
+      final expected = [Loading(), Loaded(videoList: videoList)];
 
       expectLater(bloc, emitsInOrder(expected));
-     });
+    });
 
-
-    test('GetVideoList usecase 에러가 발생했을 때, 상태 변화는 [Loading, Error]로 변화되어야 한다.', () async {
-        // arrange
-      when(usecase(any))
-          .thenAnswer((_) async => Left(ServerFailure()));
-        // act
+    test('GetVideoList usecase 에러가 발생했을 때, 상태 변화는 [Loading, Error]로 변화되어야 한다.',
+        () async {
+      // arrange
+      when(usecase(any)).thenAnswer((_) async => Left(ServerFailure()));
+      // act
       bloc.add(GetVideoListOnLoaded());
 
-        // assert
-      final expected = [
-        Loading(),
-        Error(message: SERVER_FAILURE_MESSAGE)
-      ];
+      // assert
+      final expected = [Loading(), Error(message: SERVER_FAILURE_MESSAGE)];
 
       expectLater(bloc, emitsInOrder(expected));
-
-     });
+    });
   });
 }
