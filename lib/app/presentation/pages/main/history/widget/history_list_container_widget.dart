@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:search_gold_quotes/app/domain/usecases/get_searched_price_history.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/history/bloc/history_bloc.dart';
+import 'package:search_gold_quotes/app/presentation/pages/main/history/widget/history_error_widget.dart';
+import 'package:search_gold_quotes/app/presentation/pages/main/history/widget/history_list_loading_widget.dart';
+import 'package:search_gold_quotes/app/presentation/pages/main/history/widget/history_list_widget.dart';
 import 'package:search_gold_quotes/core/di/injection_container.dart';
 
 class HistoryListContainerWidget extends StatelessWidget {
@@ -41,7 +45,7 @@ class _HistoryListContainerState extends State<HistoryListContainer>
   Widget build(BuildContext context) {
     return BlocBuilder<HistoryBloc, HistoryState>(builder: (bloc, state) {
       if (state is Loading) {
-        return _LoadingListWidget();
+        return HistoryListLoadingWidget();
       } else if (state is Loaded) {
         return HistoryListWidget(
             jewelryType: widget.jewelryType,
@@ -51,7 +55,7 @@ class _HistoryListContainerState extends State<HistoryListContainer>
             chartList: state.chartList.reversed.toList(),
             sortedPriceList: state.sortedPriceList);
       } else if (state is Error) {
-        return _ErrorWidget(errorMessage: state.errorMessage);
+        return HistoryErrorWidget(errorMessage: state.errorMessage);
       }
       return Container();
     });

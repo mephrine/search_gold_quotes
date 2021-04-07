@@ -2,10 +2,11 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:search_gold_quotes/app/presentation/style/TextStyles.dart';
 
-class FamousQuotesAnimationWidget extends StatelessWidget {
+class FamousQuotesWidget extends StatelessWidget {
   final String famousQuotes;
+  final String writer;
 
-  FamousQuotesAnimationWidget({@required this.famousQuotes});
+  FamousQuotesWidget({@required this.famousQuotes, @required this.writer});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class FamousQuotesAnimationWidget extends StatelessWidget {
           SizedBox(
             height: 20,
           ),
-          Text('-${homeData.famousSayingData.famousSayingWriter}-',
+          Text('-${writer}-',
               style: TextPrimaryContrastingStyles.defaultStyle(context)),
         ],
       ),

@@ -6,7 +6,7 @@ import 'package:retrofit/http.dart';
 import 'package:search_gold_quotes/app/data/models/home_data_model.dart';
 import 'package:search_gold_quotes/core/error/exceptions.dart';
 import 'package:search_gold_quotes/core/values/constants.dart';
-import 'package:search_gold_quotes/core/extensions/dio_response.dart';
+import 'package:search_gold_quotes/core/extensions/dio_response_extension.dart';
 
 abstract class HomeDataRemoteDataSource {
   @GET("/api/appVersion")
