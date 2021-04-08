@@ -1,4 +1,4 @@
-package com.example.search_gold_quotes
+package com.youngyoung.goldnawa
 
 import io.flutter.embedding.android.FlutterActivity
 

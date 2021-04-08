@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.search_gold_quotes">
+    package="com.youngyoung.goldnawa">
    <application
-        android:label="search_gold_quotes"
+        android:label="골드나와"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
