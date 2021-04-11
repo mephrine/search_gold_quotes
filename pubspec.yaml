@@ -78,9 +78,9 @@ dependencies:
   retrofit: ^2.0.0-beta1
 
 
-dependency_overrides:
-  flutter_inappwebview: ^5.3.2
-  sqflite: ^2.0.0+3
+# dependency_overrides:
+  # flutter_inappwebview: ^5.3.2
+  # sqflite: ^2.0.0+3
 #   source_gen: ^0.9.6
 #   logging: ^0.11.0
 #   crypto: ^2.1.5
