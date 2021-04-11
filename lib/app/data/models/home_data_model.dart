@@ -38,7 +38,7 @@ class HomeDataModel extends HomeData {
     return {
       "data": {
         "famousSayingDomain": (famousSayingData as FamousSayingDomain).toJson(),
-        "goldList":
+        "goldPriceDomain":
             (goldList as List<JewelryModel>).map((item) => item.toJson())
       }
     };
