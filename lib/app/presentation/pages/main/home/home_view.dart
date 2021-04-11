@@ -78,7 +78,7 @@ class _HomeLoadedWidget extends StatelessWidget {
           writer: homeData.famousSayingData.famousSayingWriter,
         ),
         SizedBox(
-          height: 30,
+          height: 20,
         ),
         Expanded(
           child: TodayGoldLineChart(
@@ -87,7 +87,7 @@ class _HomeLoadedWidget extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 30,
+          height: 20,
         ),
         Positioned(
           bottom: 0.0,

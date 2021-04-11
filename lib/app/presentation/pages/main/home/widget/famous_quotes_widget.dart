@@ -10,29 +10,35 @@ class FamousQuotesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FittedBox(
-      child: Column(
-        children: [
-          AnimatedTextKit(
+    return Column(
+      children: [
+        SizedBox(
+          height: 70,
+          child: AnimatedTextKit(
             // speed: Duration(milliseconds: 300),
             repeatForever: true,
-            animatedTexts: famousQuotes
-                .split(' ')
-                .map((element) => TypewriterAnimatedText(element,
-                    textStyle:
-                        TextPrimaryContrastingStyles.biggerStyle(context)))
-                .toList(),
-            pause: Duration(milliseconds: 300),
+            animatedTexts: [
+              TyperAnimatedText(famousQuotes,
+                  textStyle: TextPrimaryContrastingStyles.biggerStyle(context),
+                  textAlign: TextAlign.center),
+            ],
+            // famousQuotes
+            //     .split(' ')
+            //     .map((element) => TypewriterAnimatedText(element,
+            //         textStyle:
+            //             TextPrimaryContrastingStyles.biggerStyle(context)))
+            //     .toList(),
+            pause: Duration(milliseconds: 3000),
             displayFullTextOnTap: false,
             stopPauseOnTap: false,
           ),
-          SizedBox(
-            height: 20,
-          ),
-          Text('-$writer-',
-              style: TextPrimaryContrastingStyles.defaultStyle(context)),
-        ],
-      ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Text('-$writer-',
+            style: TextPrimaryContrastingStyles.defaultStyle(context)),
+      ],
     );
   }
 }
