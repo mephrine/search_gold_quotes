@@ -49,7 +49,7 @@ class HistoryLineChart extends StatelessWidget {
                   chartTitle,
                   style: TextStyle(
                       color: Theme.of(context).primaryColor,
-                      fontSize: Dimens.fontTextBigger,
+                      fontSize: Dimens.fontTextBiggest,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 2),
                   textAlign: TextAlign.center,
