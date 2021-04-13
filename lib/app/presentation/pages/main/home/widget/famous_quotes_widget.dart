@@ -14,23 +14,28 @@ class FamousQuotesWidget extends StatelessWidget {
       children: [
         SizedBox(
           height: 70,
-          child: AnimatedTextKit(
-            // speed: Duration(milliseconds: 300),
-            repeatForever: true,
-            animatedTexts: [
-              TyperAnimatedText(famousQuotes,
-                  textStyle: TextPrimaryContrastingStyles.biggerStyle(context),
-                  textAlign: TextAlign.center),
+          child: Wrap(
+            children: [
+              AnimatedTextKit(
+                // speed: Duration(milliseconds: 300),
+                repeatForever: true,
+                animatedTexts: [
+                  TyperAnimatedText(famousQuotes.replaceAll('\\n', ' '),
+                      textStyle:
+                          TextPrimaryContrastingStyles.biggerStyle(context),
+                      textAlign: TextAlign.center),
+                ],
+                // famousQuotes
+                //     .split(' ')
+                //     .map((element) => TypewriterAnimatedText(element,
+                //         textStyle:
+                //             TextPrimaryContrastingStyles.biggerStyle(context)))
+                //     .toList(),
+                pause: Duration(milliseconds: 3000),
+                displayFullTextOnTap: false,
+                stopPauseOnTap: false,
+              )
             ],
-            // famousQuotes
-            //     .split(' ')
-            //     .map((element) => TypewriterAnimatedText(element,
-            //         textStyle:
-            //             TextPrimaryContrastingStyles.biggerStyle(context)))
-            //     .toList(),
-            pause: Duration(milliseconds: 3000),
-            displayFullTextOnTap: false,
-            stopPauseOnTap: false,
           ),
         ),
         SizedBox(
