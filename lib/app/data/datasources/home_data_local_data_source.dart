@@ -10,7 +10,7 @@ abstract class HomeDataLocalDataSource {
   Future<void> cacheHomeData(HomeDataModel homeDataModel);
 }
 
-const String CACHED_MAIN_DATA = "CACHED_MAIN_DATA";
+const String CACHED_MAIN_DATA = 'CACHED_MAIN_DATA';
 
 class HomeDataLocalDataSourceImpl implements HomeDataLocalDataSource {
   final SharedPreferences sharedPreferences;
@@ -28,7 +28,7 @@ class HomeDataLocalDataSourceImpl implements HomeDataLocalDataSource {
 
   @override
   Future<void> cacheHomeData(HomeDataModel homeDataModel) async {
-    final jsonString = json.encode(homeDataModel).toString();
+    final jsonString = json.encode(homeDataModel.toJson().toString());
     return await sharedPreferences.setString(CACHED_MAIN_DATA, jsonString);
   }
 }

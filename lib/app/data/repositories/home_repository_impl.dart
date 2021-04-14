@@ -20,11 +20,11 @@ class HomeRepositoryImpl extends HomeRepository {
 
   @override
   Future<Either<Failure, HomeData>> getHomeData() async {
-    bool isConnected = await networkInfo.isConnected;
+    var isConnected = await networkInfo.isConnected;
     if (isConnected) {
       try {
         final homeDataModel = await remoteDataSource.getHomeData();
-        localDataSource.cacheHomeData(homeDataModel);
+        await localDataSource.cacheHomeData(homeDataModel);
         return Right(homeDataModel);
       } on ServerException {
         return Left(ServerFailure());
