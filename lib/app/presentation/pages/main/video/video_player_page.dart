@@ -86,19 +86,117 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
   @override
   void dispose() {
     _controller.dispose();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     _idController.dispose();
     _seekToController.dispose();
     super.dispose();
   }
 
+  Future<bool> _willPopCallback() async {
+    // await showDialog or Show add banners or whatever
+    // then
+    return true; // return true if the route to be popped
+  }
+
   @override
   Widget build(BuildContext context) {
-    return YoutubePlayerBuilder(
-      onExitFullScreen: () {
-        // The player forces portraitUp after exiting fullscreen. This overrides the behaviour.
-        SystemChrome.setPreferredOrientations(DeviceOrientation.values);
-      },
-      player: YoutubePlayer(
+    YoutubePlayer player = youtubePlayer();
+    return WillPopScope(
+      onWillPop: _willPopCallback,
+      child: OrientationBuilder(
+          builder: (BuildContext context, Orientation orientation) {
+        if (orientation == Orientation.landscape) {
+          return landScapeScaffold(player);
+        } else {
+          return portraitScalffold(player);
+        }
+      }),
+    );
+    //   YoutubePlayerBuilder(
+    //     onExitFullScreen: () {
+    //       // The player forces portraitUp after exiting fullscreen. This overrides the behaviour.
+    //       SystemChrome.setPreferredOrientations(DeviceOrientation.values);
+    //     },
+    //     player: youtubePlayer(),
+    //     builder: (context, player) => Scaffold(
+    //       key: _scaffoldKey,
+    //       appBar: NavigationPushWidget(
+    //         title: widget.youtubeIDList[widget.index].value1,
+    //       ),
+    //       body: ListView(
+    //         children: [
+    //           player,
+    //           Padding(
+    //             padding: const EdgeInsets.all(8.0),
+    //             child: Column(
+    //               crossAxisAlignment: CrossAxisAlignment.stretch,
+    //               children: [
+    //                 _space,
+    //                 _text(Strings.videoPlayerTitleDescription,
+    //                     widget.youtubeIDList[widget.index].value1),
+    //                 _space,
+    //                 _text(Strings.videoPlayerChannelDescription,
+    //                     _videoMetaData.author),
+    //                 _space,
+    //                 Row(
+    //                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //                   children: [
+    //                     IconButton(
+    //                       icon: const Icon(Icons.skip_previous),
+    //                       onPressed: _isPlayerReady
+    //                           ? () => _controller.load(_prevVideoID())
+    //                           : null,
+    //                     ),
+    //                     IconButton(
+    //                       icon: Icon(
+    //                         _controller.value.isPlaying
+    //                             ? Icons.pause
+    //                             : Icons.play_arrow,
+    //                       ),
+    //                       onPressed: _isPlayerReady
+    //                           ? () {
+    //                               _controller.value.isPlaying
+    //                                   ? _controller.pause()
+    //                                   : _controller.play();
+    //                               setState(() {});
+    //                             }
+    //                           : null,
+    //                     ),
+    //                     IconButton(
+    //                       icon: Icon(_muted ? Icons.volume_off : Icons.volume_up),
+    //                       onPressed: _isPlayerReady
+    //                           ? () {
+    //                               _muted
+    //                                   ? _controller.unMute()
+    //                                   : _controller.mute();
+    //                               setState(() {
+    //                                 _muted = !_muted;
+    //                               });
+    //                             }
+    //                           : null,
+    //                     ),
+    //                     FullScreenButton(
+    //                       controller: _controller,
+    //                       color: Theme.of(context).primaryColor,
+    //                     ),
+    //                     IconButton(
+    //                       icon: const Icon(Icons.skip_next),
+    //                       onPressed: _isPlayerReady
+    //                           ? () => _controller.load(_nextVideoID())
+    //                           : null,
+    //                     ),
+    //                   ],
+    //                 ),
+    //               ],
+    //             ),
+    //           ),
+    //         ],
+    //       ),
+    //     ),
+    //   );
+  }
+
+  YoutubePlayer youtubePlayer() => YoutubePlayer(
         controller: _controller,
         showVideoProgressIndicator: true,
         progressIndicatorColor: Theme.of(context).accentColor,
@@ -120,8 +218,9 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
           _controller.load(_nextVideoID());
           _showSnackBar(Strings.played_next_video);
         },
-      ),
-      builder: (context, player) => Scaffold(
+      );
+
+  Scaffold portraitScalffold(YoutubePlayer player) => Scaffold(
         key: _scaffoldKey,
         appBar: NavigationPushWidget(
           title: widget.youtubeIDList[widget.index].value1,
@@ -195,9 +294,20 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
             ),
           ],
         ),
-      ),
-    );
-  }
+      );
+
+  Scaffold landScapeScaffold(YoutubePlayer player) => Scaffold(
+        body: Container(
+          color: Colors.black,
+          child: Align(
+            alignment: Alignment.center,
+            child: FittedBox(
+              fit: BoxFit.fill,
+              child: player,
+            ),
+          ),
+        ),
+      );
 
   Widget _text(String title, String value) {
     return RichText(

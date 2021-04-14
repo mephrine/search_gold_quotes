@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/video/bloc/video_bloc.dart';
@@ -17,7 +16,8 @@ class VideoView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (_) => container<VideoBloc>(), child: _VideoContainer());
+        create: (_) => container<VideoBloc>()..add(GetVideoListOnLoaded()),
+        child: _VideoContainer());
   }
 }
 
@@ -32,7 +32,6 @@ class _VideoContainerState extends State<_VideoContainer> {
   @override
   void initState() {
     super.initState();
-    _dispatchVideoData();
   }
 
   @override
@@ -56,12 +55,5 @@ class _VideoContainerState extends State<_VideoContainer> {
             return Container();
           },
         ));
-  }
-
-  void _dispatchVideoData() {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      BlocProvider.of<VideoBloc>(context, listen: false)
-          .add(GetVideoListOnLoaded());
-    });
   }
 }

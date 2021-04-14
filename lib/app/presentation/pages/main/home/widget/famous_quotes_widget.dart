@@ -12,31 +12,29 @@ class FamousQuotesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
-          height: 70,
-          child: Wrap(
-            children: [
-              AnimatedTextKit(
-                // speed: Duration(milliseconds: 300),
-                repeatForever: true,
-                animatedTexts: [
-                  TyperAnimatedText(famousQuotes.replaceAll('\\n', ' '),
-                      textStyle:
-                          TextPrimaryContrastingStyles.biggerStyle(context),
-                      textAlign: TextAlign.center),
-                ],
-                // famousQuotes
-                //     .split(' ')
-                //     .map((element) => TypewriterAnimatedText(element,
-                //         textStyle:
-                //             TextPrimaryContrastingStyles.biggerStyle(context)))
-                //     .toList(),
-                pause: Duration(milliseconds: 3000),
-                displayFullTextOnTap: false,
-                stopPauseOnTap: false,
-              )
-            ],
-          ),
+        Wrap(
+          children: [
+            AnimatedTextKit(
+              // speed: Duration(milliseconds: 300),
+              repeatForever: false,
+              animatedTexts: [
+                TyperAnimatedText(famousQuotes.replaceAll('\\n', ' '),
+                    textStyle:
+                        TextPrimaryContrastingStyles.biggerStyle(context),
+                    textAlign: TextAlign.center),
+              ],
+              // famousQuotes
+              //     .split(' ')
+              //     .map((element) => TypewriterAnimatedText(element,
+              //         textStyle:
+              //             TextPrimaryContrastingStyles.biggerStyle(context)))
+              //     .toList(),
+
+              displayFullTextOnTap: false,
+              stopPauseOnTap: false,
+              totalRepeatCount: 1,
+            )
+          ],
         ),
         SizedBox(
           height: 10,
