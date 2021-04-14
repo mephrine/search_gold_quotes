@@ -3,11 +3,13 @@ import 'package:meta/meta.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:search_gold_quotes/app/presentation/pages/main/video/widget/video_meta_data_widget.dart';
+import 'package:search_gold_quotes/app/presentation/pages/main/video/widget/video_player_button_bar_widget.dart';
 import 'package:search_gold_quotes/app/presentation/style/TextStyles.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/navigation_push_widget.dart';
 import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
 import 'package:search_gold_quotes/core/values/strings.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class VideoPlayerPage extends StatelessWidget {
   final List<dartz.Tuple2<String, String>> youtubeIDList;
@@ -30,7 +32,7 @@ class VideoPlayerPage extends StatelessWidget {
 // ignore: must_be_immutable
 class _VideoPlayerView extends StatefulWidget {
   final List<dartz.Tuple2<String, String>> youtubeIDList;
-  int index;
+  final int index;
 
   _VideoPlayerView({@required this.youtubeIDList, @required this.index});
 
@@ -41,40 +43,44 @@ class _VideoPlayerView extends StatefulWidget {
 class _VideoPlayerViewState extends State<_VideoPlayerView> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   YoutubePlayerController _controller;
-  TextEditingController _idController;
-  TextEditingController _seekToController;
-
-  YoutubeMetaData _videoMetaData;
-  bool _muted = false;
-  bool _isPlayerReady = false;
 
   @override
   void initState() {
     super.initState();
     _controller = YoutubePlayerController(
       initialVideoId: widget.youtubeIDList[widget.index].value2,
-      flags: const YoutubePlayerFlags(
+      params: const YoutubePlayerParams(
         mute: false,
         autoPlay: true,
-        disableDragSeek: false,
         loop: false,
-        isLive: false,
-        forceHD: false,
         enableCaption: true,
+        showControls: true,
+        showFullscreenButton: true,
+        desktopMode: true,
+        privacyEnhanced: true,
+        useHybridComposition: true,
       ),
-    )..addListener(listener);
-    _idController = TextEditingController();
-    _seekToController = TextEditingController();
-    _videoMetaData = const YoutubeMetaData();
+    );
+    _controller.onEnterFullscreen = () {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.landscapeRight,
+      ]);
+    };
+    _controller.onExitFullscreen = () {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+      ]);
+    };
   }
 
-  void listener() {
-    if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
-      setState(() {
-        _videoMetaData = _controller.metadata;
-      });
-    }
-  }
+  // void listener() {
+  //   if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
+  //     setState(() {
+  //       _videoMetaData = _controller.metadata;
+  //     });
+  //   }
+  // }
 
   @override
   void deactivate() {
@@ -85,60 +91,23 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller.close();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    _idController.dispose();
-    _seekToController.dispose();
-    super.dispose();
-  }
 
-  Future<bool> _willPopCallback() async {
-    // await showDialog or Show add banners or whatever
-    // then
-    return true; // return true if the route to be popped
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    YoutubePlayer player = youtubePlayer();
-    return WillPopScope(
-      onWillPop: _willPopCallback,
-      child: OrientationBuilder(
-          builder: (BuildContext context, Orientation orientation) {
-        if (orientation == Orientation.landscape) {
-          return landScapeScaffold(player);
-        } else {
-          return portraitScalffold(player);
-        }
-      }),
+    const player = YoutubePlayerIFrame();
+    return YoutubePlayerControllerProvider(
+      // Passing controller to widgets below.
+      controller: _controller,
+      child: portraitScalffold(player),
     );
   }
 
-  YoutubePlayer youtubePlayer() => YoutubePlayer(
-        controller: _controller,
-        showVideoProgressIndicator: true,
-        progressIndicatorColor: Theme.of(context).accentColor,
-        topActions: <Widget>[
-          const SizedBox(width: 8.0),
-          Expanded(
-            child: Text(
-              widget.youtubeIDList[widget.index].value1,
-              style: TextPrimaryContrastingStyles.titleStyle(context),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
-          ),
-        ],
-        onReady: () {
-          _isPlayerReady = true;
-        },
-        onEnded: (data) {
-          _controller.load(_nextVideoID());
-          _showSnackBar(Strings.played_next_video);
-        },
-      );
-
-  Scaffold portraitScalffold(YoutubePlayer player) => Scaffold(
+  Widget portraitScalffold(YoutubePlayerIFrame player) => Scaffold(
         key: _scaffoldKey,
         appBar: NavigationPushWidget(
           title: widget.youtubeIDList[widget.index].value1,
@@ -152,61 +121,12 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   _space,
-                  _text(Strings.videoPlayerTitleDescription,
-                      widget.youtubeIDList[widget.index].value1),
+                  VideoMetaDataWidget(),
                   _space,
-                  _text(Strings.videoPlayerChannelDescription,
-                      _videoMetaData.author),
-                  _space,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.skip_previous),
-                        onPressed: _isPlayerReady
-                            ? () => _controller.load(_prevVideoID())
-                            : null,
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          _controller.value.isPlaying
-                              ? Icons.pause
-                              : Icons.play_arrow,
-                        ),
-                        onPressed: _isPlayerReady
-                            ? () {
-                                _controller.value.isPlaying
-                                    ? _controller.pause()
-                                    : _controller.play();
-                                setState(() {});
-                              }
-                            : null,
-                      ),
-                      IconButton(
-                        icon: Icon(_muted ? Icons.volume_off : Icons.volume_up),
-                        onPressed: _isPlayerReady
-                            ? () {
-                                _muted
-                                    ? _controller.unMute()
-                                    : _controller.mute();
-                                setState(() {
-                                  _muted = !_muted;
-                                });
-                              }
-                            : null,
-                      ),
-                      FullScreenButton(
-                        controller: _controller,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.skip_next),
-                        onPressed: _isPlayerReady
-                            ? () => _controller.load(_nextVideoID())
-                            : null,
-                      ),
-                    ],
-                  ),
+                  VideoPlayPauseButtonBarWidget(
+                      youtubeIdList:
+                          widget.youtubeIDList.map((e) => e.value2).toList(),
+                      index: widget.index)
                 ],
               ),
             ),
@@ -214,65 +134,5 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
         ),
       );
 
-  Scaffold landScapeScaffold(YoutubePlayer player) => Scaffold(
-        body: Container(
-          color: Colors.black,
-          child: Align(
-            alignment: Alignment.center,
-            child: FittedBox(
-              fit: BoxFit.fill,
-              child: player,
-            ),
-          ),
-        ),
-      );
-
-  Widget _text(String title, String value) {
-    return RichText(
-      text: TextSpan(
-        text: '$title : ',
-        style: TextPrimaryContrastingStyles.titleStyle(context),
-        children: [
-          TextSpan(
-            text: value ?? '',
-            style: TextPrimaryContrastingStyles.bigStyle(context),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget get _space => const SizedBox(height: 10);
-
-  void _showSnackBar(String message) {
-    // ignore: deprecated_member_use
-    _scaffoldKey.currentState.showSnackBar(
-      SnackBar(
-        content: Text(
-          message,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontWeight: FontWeight.w300,
-            fontSize: 16.0,
-          ),
-        ),
-        backgroundColor: Colors.blueAccent,
-        behavior: SnackBarBehavior.floating,
-        elevation: 1.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0),
-        ),
-      ),
-    );
-  }
-
-  String _nextVideoID() {
-    widget.index = (widget.index + 1) % widget.youtubeIDList.length;
-    return widget.youtubeIDList[widget.index].value2;
-  }
-
-  String _prevVideoID() {
-    widget.index = (widget.index - 1) % widget.youtubeIDList.length;
-    return widget.youtubeIDList[widget.index].value2;
-  }
 }
