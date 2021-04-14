@@ -60,9 +60,7 @@ class _SplashView extends State<SplashView> {
   }
 
   void _dispatchVersion(BuildContext context) {
-    SchedulerBinding.instance.addPostFrameCallback((_) =>
-        BlocProvider.of<SplashBloc>(context, listen: false)
-            .add(GetVersionInfoForUpdate()));
+    context.read<SplashBloc>().add(GetVersionInfoForUpdate());
   }
 
   void _showErrorAlert() {

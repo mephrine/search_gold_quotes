@@ -16,7 +16,11 @@ class HistoryListContainerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (_) => container<HistoryBloc>(),
+        create: (_) => container<HistoryBloc>()
+          ..add(GetSearchedHistoryList(
+              period: Period.daily,
+              exchangeState: ExchangeState.buy,
+              jewelryType: jewelryType)),
         child: _HistoryListContainer(
           key: key,
           jewelryType: jewelryType,
@@ -39,7 +43,6 @@ class _HistoryListContainerState extends State<_HistoryListContainer>
   @override
   void initState() {
     super.initState();
-    _dispatchInitHistoryData();
   }
 
   @override
@@ -60,15 +63,6 @@ class _HistoryListContainerState extends State<_HistoryListContainer>
         return HistoryErrorWidget(errorMessage: state.errorMessage);
       }
       return Container();
-    });
-  }
-
-  void _dispatchInitHistoryData() {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      context.read<HistoryBloc>().add(GetSearchedHistoryList(
-          period: Period.daily,
-          exchangeState: ExchangeState.buy,
-          jewelryType: widget.jewelryType));
     });
   }
 

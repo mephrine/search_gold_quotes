@@ -17,7 +17,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (_) => container<HomeBloc>(),
+        create: (_) => container<HomeBloc>()..add(GetHomeData()),
         child: Scaffold(
           appBar: NavigationMainWidget(title: Strings.titleHome),
           body: HomeContainer(),
@@ -34,7 +34,6 @@ class _HomeContainer extends State<HomeContainer> {
   @override
   void initState() {
     super.initState();
-    _dispatchHomeData();
   }
 
   @override
@@ -49,12 +48,6 @@ class _HomeContainer extends State<HomeContainer> {
         return MessageDisplay(message: state.message);
       }
       return Container();
-    });
-  }
-
-  void _dispatchHomeData() {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      BlocProvider.of<HomeBloc>(context, listen: false).add(GetHomeData());
     });
   }
 }
