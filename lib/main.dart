@@ -10,7 +10,7 @@ import 'core/theme/theme_notifier.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // 비동기로 진행 시, 반드시 추가해야함.
   await di.init();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) => runApp(Main()));
 }
 
@@ -22,7 +22,7 @@ class Main extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => di.container<ThemeNotifier>(),
       child: Builder(builder: (context) {
-        ThemeNotifier themeService = Provider.of<ThemeNotifier>(context);
+        var themeService = Provider.of<ThemeNotifier>(context);
         return MaterialApp(
           theme: themeService.getTheme(),
           debugShowCheckedModeBanner: false,
