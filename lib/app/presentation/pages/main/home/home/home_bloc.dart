@@ -27,7 +27,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
     if (event is GetHomeData) {
       yield Loading();
-      await Future.delayed(Duration(seconds: 2));
       final homeInfo = await getHomeInfo(NoParams());
       yield homeInfo.fold(
           (failure) => Error(message: failureToErrorMessage(failure)),
