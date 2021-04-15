@@ -43,17 +43,15 @@ class LoadingWidget extends StatelessWidget {
             SizedBox(
               height: 30,
             ),
-            Positioned(
-                bottom: 0.0,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      0.0, 0.0, 0.0, Dimens.mainTabBarCurveMargin),
-                  child: Container(
-                    color: Colors.white,
-                    width: double.infinity,
-                    height: 100,
-                  ),
-                )),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                  0.0, 0.0, 0.0, Dimens.mainTabBarCurveMargin),
+              child: Container(
+                color: Colors.white,
+                width: double.infinity,
+                height: 100,
+              ),
+            ),
           ]),
         ));
   }

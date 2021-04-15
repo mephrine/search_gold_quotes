@@ -82,11 +82,7 @@ class _HomeLoadedWidget extends StatelessWidget {
         SizedBox(
           height: 20,
         ),
-        Positioned(
-          bottom: 0.0,
-          child: TodayGoldPriceWidget(
-              goldList: homeData.goldList.reversed.toList()),
-        ),
+        TodayGoldPriceWidget(goldList: homeData.goldList.reversed.toList()),
       ]),
     );
   }
