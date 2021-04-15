@@ -57,12 +57,21 @@ class _VideoListWidgetState extends State<VideoListWidget> {
   }
 
   void _pushToVideoPlayerPage(BuildContext context, int index) {
-    context.rootNavigator.push(AppRoute.videoPlayerPage,
-        arguments: VideoPlayerPageArguments(
-            youtubeIDList: widget.videoList.itemList
-                .map((item) => dartz.Tuple2(item.title, item.linkURL))
-                .toList(),
-            startIndex: index));
+    if (DeviceUtils.isAndroid) {
+      context.rootNavigator.push(AppRoute.videoPlayerPage,
+          arguments: VideoPlayerPageArguments(
+              youtubeIDList: widget.videoList.itemList
+                  .map((item) => dartz.Tuple2(item.title, item.linkURL))
+                  .toList(),
+              startIndex: index));
+    } else {
+      context.rootNavigator.push(AppRoute.videoPlayerIosPage,
+          arguments: VideoPlayerIosPageArguments(
+              youtubeIDList: widget.videoList.itemList
+                  .map((item) => dartz.Tuple2(item.title, item.linkURL))
+                  .toList(),
+              startIndex: index));
+    }
   }
 
   Future<void> _onRefresh() async {

@@ -11,6 +11,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../../app/presentation/pages/intro/splash_page.dart';
 import '../../../app/presentation/pages/main/main_page.dart';
+import '../../../app/presentation/pages/main/video/video_player_ios_page.dart';
 import '../../../app/presentation/pages/main/video/video_player_page.dart';
 import '../../../app/presentation/pages/setting/open_source_license_page.dart';
 import '../../../app/presentation/pages/setting/setting_page.dart';
@@ -21,6 +22,7 @@ class AppRoute {
   static const String splashPage = '/';
   static const String mainPage = '/main-page';
   static const String videoPlayerPage = '/video-player-page';
+  static const String videoPlayerIosPage = '/video-player-ios-page';
   static const String settingPage = '/setting-page';
   static const String openSourceLicensePage = '/open-source-license-page';
   static const String themePage = '/theme-page';
@@ -29,6 +31,7 @@ class AppRoute {
     splashPage,
     mainPage,
     videoPlayerPage,
+    videoPlayerIosPage,
     settingPage,
     openSourceLicensePage,
     themePage,
@@ -43,6 +46,7 @@ class AppRouter extends RouterBase {
     RouteDef(AppRoute.splashPage, page: SplashPage),
     RouteDef(AppRoute.mainPage, page: MainPage),
     RouteDef(AppRoute.videoPlayerPage, page: VideoPlayerPage),
+    RouteDef(AppRoute.videoPlayerIosPage, page: VideoPlayerIosPage),
     RouteDef(AppRoute.settingPage, page: SettingPage),
     RouteDef(AppRoute.openSourceLicensePage, page: OpenSourceLicensePage),
     RouteDef(AppRoute.themePage, page: ThemePage),
@@ -67,6 +71,16 @@ class AppRouter extends RouterBase {
       final args = data.getArgs<VideoPlayerPageArguments>(nullOk: false);
       return buildAdaptivePageRoute<dynamic>(
         builder: (context) => VideoPlayerPage(
+          youtubeIDList: args.youtubeIDList,
+          startIndex: args.startIndex,
+        ),
+        settings: data,
+      );
+    },
+    VideoPlayerIosPage: (data) {
+      final args = data.getArgs<VideoPlayerIosPageArguments>(nullOk: false);
+      return buildAdaptivePageRoute<dynamic>(
+        builder: (context) => VideoPlayerIosPage(
           youtubeIDList: args.youtubeIDList,
           startIndex: args.startIndex,
         ),
@@ -112,6 +126,14 @@ class VideoPlayerPageArguments {
   final List<Tuple2<String, String>> youtubeIDList;
   final int startIndex;
   VideoPlayerPageArguments(
+      {@required this.youtubeIDList, @required this.startIndex});
+}
+
+/// VideoPlayerIosPage arguments holder class
+class VideoPlayerIosPageArguments {
+  final List<Tuple2<String, String>> youtubeIDList;
+  final int startIndex;
+  VideoPlayerIosPageArguments(
       {@required this.youtubeIDList, @required this.startIndex});
 }
 

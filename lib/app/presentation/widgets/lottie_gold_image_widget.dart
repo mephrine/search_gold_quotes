@@ -1,24 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-class LottieGoldImageWidget extends StatelessWidget {
+class LottieGoldImageWidget extends StatefulWidget {
   final Function onLoaded;
-
   const LottieGoldImageWidget({Key key, @required this.onLoaded})
       : super(key: key);
+
+  @override
+  _LottieGoldImageWidgetState createState() => _LottieGoldImageWidgetState();
+}
+
+class _LottieGoldImageWidgetState extends State<LottieGoldImageWidget>
+    with TickerProviderStateMixin {
+  AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Lottie.asset('assets/gold.json',
         height: 200,
-        // controller: _controller,
-        onLoaded: (_) => onLoaded()
-        // Configure the AnimationController with the duration of the
-        // Lottie file and start the animation.
-        // _controller
-        //   ..duration = composition.duration
-        //   ..forward();
-        // },
-        );
+        controller: _controller,
+        onLoaded: (composition) => {
+              _controller
+                ..duration = composition.duration
+                ..forward(),
+              Future.delayed(Duration(seconds: 2), () => widget.onLoaded()),
+            });
   }
 }

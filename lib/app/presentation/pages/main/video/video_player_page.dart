@@ -5,10 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/video/widget/video_meta_data_widget.dart';
 import 'package:search_gold_quotes/app/presentation/pages/main/video/widget/video_player_button_bar_widget.dart';
-import 'package:search_gold_quotes/app/presentation/style/TextStyles.dart';
 import 'package:search_gold_quotes/app/presentation/widgets/navigation_push_widget.dart';
 import 'package:search_gold_quotes/core/theme/theme_notifier.dart';
-import 'package:search_gold_quotes/core/values/strings.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class VideoPlayerPage extends StatelessWidget {
@@ -51,7 +49,7 @@ class _VideoPlayerViewState extends State<_VideoPlayerView> {
       initialVideoId: widget.youtubeIDList[widget.index].value2,
       params: const YoutubePlayerParams(
         mute: false,
-        autoPlay: true,
+        autoPlay: false,
         loop: false,
         enableCaption: true,
         showControls: true,
