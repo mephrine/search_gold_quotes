@@ -40,7 +40,7 @@ class _SplashView extends State<SplashView> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              LottieGoldImageWidget(onLoaded: () => _dispatchVersion(context)),
+              LottieGoldImageWidget(onLoaded: () async => _dispatchVersion(context)),
               LogoImageWidget(),
             ],
           ),
@@ -59,7 +59,7 @@ class _SplashView extends State<SplashView> {
     });
   }
 
-  void _dispatchVersion(BuildContext context) {
+  void _dispatchVersion(BuildContext context) async {
     context.read<SplashBloc>().add(GetVersionInfoForUpdate());
   }
 

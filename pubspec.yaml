@@ -54,7 +54,7 @@ dependencies:
   flutter_picker: ^1.1.5
   convex_bottom_bar: ^2.7.1
   tab_indicator_styler: ^1.0.0
-  animated_text_kit: ^3.1.2
+  # animated_text_kit: ^3.1.2
   shimmer: ^1.1.2
   lottie: ^1.0.1
   cached_network_image: ^3.0.0
