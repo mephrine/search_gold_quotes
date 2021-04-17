@@ -35,7 +35,7 @@ class _LottieGoldImageWidgetState extends State<LottieGoldImageWidget>
               _controller
                 ..duration = composition.duration
                 ..forward(),
-              Future.delayed(Duration(seconds: 2), () => widget.onLoaded()),
+              Future.delayed(Duration(seconds: 1), () => widget.onLoaded()),
             });
   }
 }
